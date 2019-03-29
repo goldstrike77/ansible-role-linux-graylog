@@ -1,0 +1,11 @@
+---
+- name: Allow Graylog service port
+  firewalld:
+    port: '{{ item.value }}/tcp'
+    zone: 'public'
+    permanent: 'true'
+    immediate: 'true'
+    state: 'enabled'
+  loop: '{{ graylog_port_arg|dict2items }}'
+  when:
+    - ansible_distribution_major_version|int > 6

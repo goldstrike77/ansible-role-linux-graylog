@@ -1,0 +1,17 @@
+---
+- name: Add Graylog YUM repositories
+  yum_repository:
+    name: '{{ graylog_repo_name }}'
+    description: '{{ graylog_repo_name }} YUM repository'
+    file: '{{ graylog_repo_name }}'
+    baseurl: '{{ graylog_repo_url }}'
+    gpgcheck: 'no'
+    timeout: '60'
+
+- name: Install the Graylog packages
+  yum:
+    name: '{{ item }}'
+    state: 'present'
+    validate_certs: 'no'
+    disable_gpg_check: 'yes'
+  loop: '{{ dependent_packages|flatten(levels=1) }}'

@@ -1,2 +1,43 @@
 ---
-# defaults file for ansible-role-linux-graylog
+# General parameters #
+#graylog_cluster: 'default'
+graylog_version: '3' # Specify the Graylog version.
+graylog_selinux: 'false' # SELinux security policy.
+graylog_path: '/data' # This directory is used to store Graylog server state.
+graylog_es_hosts: # List of Elasticsearch hosts Graylog should connect to.
+  - '10.101.4.42'
+  - '10.101.4.43'
+  - '10.101.4.44'
+graylog_es_port: '9200' # The Elasticsearch node RESTful API port.
+
+# Listen port #
+graylog_port_arg:
+  api: '9000' # WEB / API network communication ports.
+
+# System Variables #
+graylog_arg:
+  password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap' # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
+  root_username: 'admin' # The default root username.
+  root_password_sha2: 'password' # A SHA2 hash of a password for root user.
+  root_email: 'somebody@domain.com' # The email address of the root user.
+  root_timezone: 'PRC' # The time zone setting of the root user.
+  http_enable_cors: true # Enable CORS headers for HTTP interface.
+  http_enable_gzip: true # This compresses API responses and therefore helps to reduce overall round trip times.
+  http_max_header_size: '8192' # The maximum size of the HTTP request headers in bytes.
+  http_enable_tls: false # Secures the communication with the HTTP interface with TLS.
+  allow_leading_wildcard_searches: false # Allow searches with leading wildcards.
+  allow_highlighting: false # Allow searches to be highlighted.
+
+# Elasticsearch Variables #
+graylog_es_arg:
+  connect_timeout: '10s' # Maximum amount of time to wait for successfull connection to Elasticsearch HTTP port.
+  socket_timeout: '60s' # Maximum amount of time to wait for reading back a response from an Elasticsearch server.
+  idle_timeout: '-1s' # Maximum idle time for an Elasticsearch connection.
+  max_total_connections: '20' # Maximum number of total connections to Elasticsearch.
+  max_total_connections_per_route: '2' # Maximum number of total connections per Elasticsearch route.
+  max_retries: '2' # Maximum number of times Graylog will retry failed requests to Elasticsearch.
+  discovery_enabled: false # Enable automatic Elasticsearch node discovery through Nodes Info.
+  discovery_filter: '' # Filter for including/excluding Elasticsearch nodes to their custom attributes.
+  discovery_frequency: '30s' # Frequency of the Elasticsearch node discovery.
+  compression_enabled: false # Enable payload compression for Elasticsearch requests.
+  disable_version_check: true # Disable checking the version of Elasticsearch for being compatible with Graylog release.

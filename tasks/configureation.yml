@@ -1,0 +1,26 @@
+---
+- name: Creating Graylog folder
+  file:
+    dest: '{{ graylog_path }}/graylog'
+    state: directory
+    owner: graylog
+    group: graylog
+    mode: 0755
+
+- name: Graylog http certificate file transfer
+  copy:
+    src: 'ssl/'
+    dest: '/etc/graylog/server/ssl'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+  register: cert_update
+
+- name: Graylog Server Configuration
+  lineinfile:
+    state: 'present'
+    dest: '/etc/graylog/server/server.conf'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  loop: "{{ graylog_conf_parameter|flatten(levels=1) }}"
+  register: conf_update
