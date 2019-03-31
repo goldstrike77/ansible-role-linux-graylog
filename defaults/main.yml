@@ -95,7 +95,7 @@ graylog_arg:
 graylog_es_arg:
   connect_timeout: '10s' # Maximum amount of time to wait for successfull connection to Elasticsearch HTTP port.
   socket_timeout: '60s' # Maximum amount of time to wait for reading back a response from an Elasticsearch server.
-  idle_timeout: '-1s' # Maximum idle time for an Elasticsearch connection.
+  idle_timeout: '600s' # Maximum idle time for an Elasticsearch connection.
   max_total_connections: '20' # Maximum number of total connections to Elasticsearch.
   max_total_connections_per_route: '2' # Maximum number of total connections per Elasticsearch route.
   max_retries: '2' # Maximum number of times Graylog will retry failed requests to Elasticsearch.
