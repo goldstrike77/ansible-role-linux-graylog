@@ -21,3 +21,9 @@
 
 - name: Force the handler to run immediately
   meta: flush_handlers
+
+- name: Ensure MTA service is enabled
+  systemd:
+    name: 'postfix.service'
+    enabled: 'yes'
+    state: 'started'

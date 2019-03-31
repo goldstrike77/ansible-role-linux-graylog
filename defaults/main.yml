@@ -6,14 +6,10 @@ graylog_selinux: 'false' # SELinux security policy.
 graylog_path: '/data' # This directory is used to store Graylog server state.
 graylog_es_heap_size: '2G' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_es_hosts: # List of Elasticsearch hosts Graylog should connect to.
-  - '1.1.1.1'
-  - '1.1.1.2'
-  - '1.1.1.3'
+  - 'localhost'
 graylog_es_port: '9200' # The Elasticsearch node RESTful API port.
 graylog_mongodb_hosts: # List of MongoDB hosts Graylog should connect to.
-  - '1.1.1.1'
-  - '1.1.1.2'
-  - '1.1.1.3'
+  - 'localhost'
 graylog_mongodb_port: '27017' # The MongoDB instance port.
 
 # Listen port #
@@ -21,19 +17,18 @@ graylog_port_arg:
   api: '9000' # WEB / API network communication ports.
 
 # Service Mesh #
-consul_is_register: false
-consul_exporter_token: '00000000-0000-0000-0000-000000000000'
-consul_clients:
-  - '1.1.1.1'
-  - '1.1.1.2'
-consul_http_port: '8500'
+consul_is_register: false # Whether register a client service with consul.
+consul_exporter_token: '00000000-0000-0000-0000-000000000000' # Consul client ACL token.
+consul_clients: # List of consul clients.
+  - 'localhost'
+consul_http_port: '8500' # The consul HTTP API port.
 
 # Email Variables #
 graylog_mail_arg:
-  transport_email_enabled: false
-  transport_email_hostname: 'localhost'
-  transport_email_port: '25'
-  transport_email_use_auth: false
+  transport_email_enabled: false # Enable mail for alert.
+  transport_email_hostname: 'localhost' # The SMTP host address.
+  transport_email_port: '25' # The SMTP host communication port.
+  transport_email_use_auth: false # Enable SMTP Authentication.
   transport_email_use_tls: false # Enable SMTP with STARTTLS for encrypted connections.
   transport_email_use_ssl: false # Enable SMTP over SSL (SMTPS) for encrypted connections.
 
@@ -71,7 +66,7 @@ graylog_arg:
   message_journal_segment_age: '1h' # Controls the period of time which Graylog will force the log to roll even
   message_journal_segment_size: '100mb' # The segment size of message journal.
   async_eventbus_processors: '{{ ansible_processor_vcpus | int }}' # Number of threads used exclusively for dispatching internal events.
-  alert_check_interval:  '60' # Length of the interval in seconds in which the alert conditions for all streams should be checked and alarms are being sent.
+  alert_check_interval: '60' # Length of the interval in seconds in which the alert conditions for all streams should be checked and alarms are being sent.
   mongodb_max_connections: '1000' # The maximum connections your MongoDB server can handle from a single client.
   http_connect_timeout: '5s' # The default connect timeout for outgoing HTTP connections.
   http_read_timeout: '10s' # The default read timeout for outgoing HTTP connections.
