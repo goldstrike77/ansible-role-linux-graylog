@@ -54,13 +54,8 @@ graylog_arg:
   index_ranges_cleanup_interval: '1h' # Time interval for index range information cleanups.
   output_batch_size: '10000' # Batch size for the Elasticsearch output.
   output_flush_interval: '1' # Flush interval (in seconds) for the Elasticsearch output.
-  output_fault_count_threshold: '5' # Define after how many faults an output will not be tried again.
-  output_fault_penalty_seconds: '30' # Define tried faults interval (in seconds).
   processbuffer_processors: '{{ ansible_processor_vcpus | int }}' # The number of parallel running processors.
   outputbuffer_processors: '{{ ansible_processor_vcpus | int }}' # Raise this number if your buffers are filling up.
-  outputbuffer_processor_keep_alive_time: '5000' # the maximum time in milliseconds that excess idle threads will wait for new tasks before terminating.
-  outputbuffer_processor_threads_core_pool_size: '3' # The number of threads to keep in the pool.
-  outputbuffer_processor_threads_max_pool_size: '30' # The maximum number of threads to allow in the pool.
   udp_recvbuffer_sizes: '2097152' # UDP receive buffer size for all message inputs.
   processor_wait_strategy: 'blocking' # Wait strategy describing how buffer processors wait on a cursor sequence
   ring_size: '65536' # Size of internal ring buffers.
@@ -76,16 +71,8 @@ graylog_arg:
   message_journal_segment_age: '1h' # Controls the period of time which Graylog will force the log to roll even
   message_journal_segment_size: '100mb' # The segment size of message journal.
   async_eventbus_processors: '{{ ansible_processor_vcpus | int }}' # Number of threads used exclusively for dispatching internal events.
-  lb_recognition_period_seconds: '3' # How many seconds to wait between marking node as DEAD for possible load balancers and starting the actual shutdown process.
-  lb_throttle_threshold_percentage: '95' # Journal usage percentage that triggers requesting throttling for this server node from load balancers.
-  stream_processing_timeout: '2000' # The limits of execution time (in milliseconds) for each stream.
-  stream_processing_max_faults: '3' # The number of execution faults for each stream.
   alert_check_interval:  '60' # Length of the interval in seconds in which the alert conditions for all streams should be checked and alarms are being sent.
-  output_module_timeout: '10000' # Time in milliseconds to wait for all message outputs to finish writing a single message.
-  stale_master_timeout: '2000' # Time in milliseconds after which a detected stale master node is being rechecked on startup.
-  shutdown_timeout: '30000' # Time in milliseconds which Graylog is waiting for all threads to stop on shutdown.
   mongodb_max_connections: '1000' # The maximum connections your MongoDB server can handle from a single client.
-  mongodb_threads_allowed_to_block_multiplier: '5' # Number of threads allowed to be blocked by MongoDB connections multiplier.
   http_connect_timeout: '5s' # The default connect timeout for outgoing HTTP connections.
   http_read_timeout: '10s' # The default read timeout for outgoing HTTP connections.
   http_write_timeout: '10s' # The default write timeout for outgoing HTTP connections.
