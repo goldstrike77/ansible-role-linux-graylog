@@ -16,7 +16,16 @@
     mode: 0644
   register: cert_update
 
-- name: Graylog Server Configuration
+- name: Graylog system configuration
+  template:
+    src: 'graylog-server.j2'
+    dest: '/etc/sysconfig/graylog-server'
+    owner: root
+    group: root
+    mode: 0644
+  register: sys_update
+
+- name: Graylog server configuration
   lineinfile:
     state: 'present'
     dest: '/etc/graylog/server/server.conf'

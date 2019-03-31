@@ -13,3 +13,11 @@
 
 - name: Configuration the Graylog
   include: 'configureation.yml'
+
+- name: Reload the Graylog service
+  shell: echo ''
+  notify: 'Ensure graylog service is enabled'
+  when: cert_update|changed or sys_update|changed or conf_update|changed
+
+- name: Force the handler to run immediately
+  meta: flush_handlers

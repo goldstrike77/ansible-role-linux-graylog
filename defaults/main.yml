@@ -4,15 +4,38 @@
 graylog_version: '3' # Specify the Graylog version.
 graylog_selinux: 'false' # SELinux security policy.
 graylog_path: '/data' # This directory is used to store Graylog server state.
+graylog_es_heap_size: '2G' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_es_hosts: # List of Elasticsearch hosts Graylog should connect to.
-  - '10.101.4.42'
-  - '10.101.4.43'
-  - '10.101.4.44'
+  - '1.1.1.1'
+  - '1.1.1.2'
+  - '1.1.1.3'
 graylog_es_port: '9200' # The Elasticsearch node RESTful API port.
+graylog_mongodb_hosts: # List of MongoDB hosts Graylog should connect to.
+  - '1.1.1.1'
+  - '1.1.1.2'
+  - '1.1.1.3'
+graylog_mongodb_port: '27017' # The MongoDB instance port.
 
 # Listen port #
 graylog_port_arg:
   api: '9000' # WEB / API network communication ports.
+
+# Service Mesh #
+consul_is_register: false
+consul_exporter_token: '00000000-0000-0000-0000-000000000000'
+consul_clients:
+  - '1.1.1.1'
+  - '1.1.1.2'
+consul_http_port: '8500'
+
+# Email Variables #
+graylog_mail_arg:
+  transport_email_enabled: false
+  transport_email_hostname: 'localhost'
+  transport_email_port: '25'
+  transport_email_use_auth: false
+  transport_email_use_tls: false # Enable SMTP with STARTTLS for encrypted connections.
+  transport_email_use_ssl: false # Enable SMTP over SSL (SMTPS) for encrypted connections.
 
 # System Variables #
 graylog_arg:
@@ -27,6 +50,46 @@ graylog_arg:
   http_enable_tls: false # Secures the communication with the HTTP interface with TLS.
   allow_leading_wildcard_searches: false # Allow searches with leading wildcards.
   allow_highlighting: false # Allow searches to be highlighted.
+  http_thread_pool_size: '{{ (ansible_processor_vcpus * 6) | int }}' # The size of the thread pool used exclusively for serving the HTTP interface.
+  index_ranges_cleanup_interval: '1h' # Time interval for index range information cleanups.
+  output_batch_size: '10000' # Batch size for the Elasticsearch output.
+  output_flush_interval: '1' # Flush interval (in seconds) for the Elasticsearch output.
+  output_fault_count_threshold: '5' # Define after how many faults an output will not be tried again.
+  output_fault_penalty_seconds: '30' # Define tried faults interval (in seconds).
+  processbuffer_processors: '{{ ansible_processor_vcpus | int }}' # The number of parallel running processors.
+  outputbuffer_processors: '{{ ansible_processor_vcpus | int }}' # Raise this number if your buffers are filling up.
+  outputbuffer_processor_keep_alive_time: '5000' # the maximum time in milliseconds that excess idle threads will wait for new tasks before terminating.
+  outputbuffer_processor_threads_core_pool_size: '3' # The number of threads to keep in the pool.
+  outputbuffer_processor_threads_max_pool_size: '30' # The maximum number of threads to allow in the pool.
+  udp_recvbuffer_sizes: '2097152' # UDP receive buffer size for all message inputs.
+  processor_wait_strategy: 'blocking' # Wait strategy describing how buffer processors wait on a cursor sequence
+  ring_size: '65536' # Size of internal ring buffers.
+  inputbuffer_ring_size: '65536' # Size of input ring buffers.
+  inputbuffer_processors: '{{ ansible_processor_vcpus | int }}' #  The number processors of input ring buffers.
+  inputbuffer_wait_strategy: 'blocking' # Wait strategy describing how buffer processors wait on a input sequence.
+  message_journal_enabled: true # Enable the disk based message journal.
+  message_journal_dir: '{{ graylog_path }}/graylog/journal' # The directory which will be used to store the message journal.
+  message_journal_max_age: '12h' # The maximum hours for journal hold messages before they could be written.
+  message_journal_max_size: '5gb' # # The maximum size for journal hold messages before they could be written.
+  message_journal_flush_age: '1m' # Specify a time interval at which we will force an fsync of data written to the log.
+  message_journal_flush_interval: '1000000' # Specify an interval at which we will force an fsync of data written to the log.
+  message_journal_segment_age: '1h' # Controls the period of time which Graylog will force the log to roll even
+  message_journal_segment_size: '100mb' # The segment size of message journal.
+  async_eventbus_processors: '{{ ansible_processor_vcpus | int }}' # Number of threads used exclusively for dispatching internal events.
+  lb_recognition_period_seconds: '3' # How many seconds to wait between marking node as DEAD for possible load balancers and starting the actual shutdown process.
+  lb_throttle_threshold_percentage: '95' # Journal usage percentage that triggers requesting throttling for this server node from load balancers.
+  stream_processing_timeout: '2000' # The limits of execution time (in milliseconds) for each stream.
+  stream_processing_max_faults: '3' # The number of execution faults for each stream.
+  alert_check_interval:  '60' # Length of the interval in seconds in which the alert conditions for all streams should be checked and alarms are being sent.
+  output_module_timeout: '10000' # Time in milliseconds to wait for all message outputs to finish writing a single message.
+  stale_master_timeout: '2000' # Time in milliseconds after which a detected stale master node is being rechecked on startup.
+  shutdown_timeout: '30000' # Time in milliseconds which Graylog is waiting for all threads to stop on shutdown.
+  mongodb_max_connections: '1000' # The maximum connections your MongoDB server can handle from a single client.
+  mongodb_threads_allowed_to_block_multiplier: '5' # Number of threads allowed to be blocked by MongoDB connections multiplier.
+  http_connect_timeout: '5s' # The default connect timeout for outgoing HTTP connections.
+  http_read_timeout: '10s' # The default read timeout for outgoing HTTP connections.
+  http_write_timeout: '10s' # The default write timeout for outgoing HTTP connections.
+  disable_sigar: true # Disable the use of SIGAR for collecting system stats.
 
 # Elasticsearch Variables #
 graylog_es_arg:
