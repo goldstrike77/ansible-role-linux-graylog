@@ -40,3 +40,7 @@ graylog_conf_parameter:
   - { regexp: '^allow_leading_wildcard_searches ', line: 'allow_leading_wildcard_searches = {{ graylog_arg.allow_leading_wildcard_searches | bool | to_json }}' }
   - { regexp: '^elasticsearch_hosts ', line: 'elasticsearch_hosts = http://{{ graylog_es_hosts | list | join(":" + graylog_es_port + ",http://") }}:{{ graylog_es_port }}' }
   - { regexp: '^allow_highlighting ', line: 'allow_highlighting = {{ graylog_arg.allow_highlighting | bool | to_json }}' }
+
+  - { regexp: '^elasticsearch_request_timeout ', line: 'elasticsearch_request_timeout = {{ graylog_es_arg.request_timeout }}' }
+  - { regexp: '^elasticsearch_index_optimization_timeout ', line: 'elasticsearch_index_optimization_timeout = {{ graylog_es_arg.index_optimization_timeout }}' }
+  - { regexp: '^elasticsearch_index_optimization_jobs ', line: 'elasticsearch_index_optimization_jobs = {{ graylog_es_arg.index_optimization_jobs }}' }

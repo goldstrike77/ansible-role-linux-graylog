@@ -41,3 +41,6 @@ graylog_es_arg:
   discovery_frequency: '30s' # Frequency of the Elasticsearch node discovery.
   compression_enabled: false # Enable payload compression for Elasticsearch requests.
   disable_version_check: true # Disable checking the version of Elasticsearch for being compatible with Graylog release.
+  request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
+  index_optimization_timeout: '1h' # Global timeout for index optimization requests.
+  index_optimization_jobs: '20' # Maximum number of concurrently running index optimization jobs.
