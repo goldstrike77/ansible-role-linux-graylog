@@ -12,10 +12,10 @@ graylog_servers: "\
 graylog_conf_parameter:
   - { regexp: '^is_master ', line: 'is_master = {% if graylog_servers[0] in ansible_default_ipv4.address %}true{% else %}false{% endif %}' }
   - { regexp: '^password_secret ', line: 'password_secret = {{ graylog_arg.password_secret }}' }
-  - { regexp: '^root_username ', line: 'root_username = {{ graylog_arg.root_username }}' }
-  - { regexp: '^root_password_sha2 ', line: 'root_password_sha2 = {{ graylog_arg.root_password_sha2 | password_hash("sha256") }}' }
-  - { regexp: '^root_email ', line: 'root_email = "{{ graylog_arg.root_email }}"' }
-  - { regexp: '^root_timezone ', line: 'root_timezone = {{ graylog_arg.root_timezone }}' }
+  - { regexp: '^root_username ', line: 'root_username = {{ graylog_root_username }}' }
+  - { regexp: '^root_password_sha2 ', line: 'root_password_sha2 = {{ graylog_root_password_sha2.stdout }}' }
+  - { regexp: '^root_email ', line: 'root_email = "{{ graylog_root_email }}"' }
+  - { regexp: '^root_timezone ', line: 'root_timezone = {{ graylog_root_timezone }}' }
   - { regexp: '^data_dir ', line: 'data_dir = {{ graylog_path }}/graylog' }
   - { regexp: '^http_bind_address ', line: 'http_bind_address = {{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}' }
   - { regexp: '^http_publish_uri ', line: 'http_publish_uri = http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/' }
@@ -64,7 +64,7 @@ graylog_conf_parameter:
   - { regexp: '^message_journal_segment_size ', line: 'message_journal_segment_size = {{ graylog_arg.message_journal_segment_size }}' }
   - { regexp: '^async_eventbus_processors ', line: 'async_eventbus_processors = {{ graylog_arg.async_eventbus_processors }}' }
   - { regexp: '^alert_check_interval ', line: 'alert_check_interval = {{ graylog_arg.alert_check_interval }}' }
-  - { regexp: '^mongodb_uri ', line: 'mongodb_uri = mongodb://{{ graylog_mongodb_hosts | list | join(",") }}:{{ graylog_mongodb_port }}/graylog' }
+  - { regexp: '^mongodb_uri ', line: 'mongodb_uri = {% if graylog_mongodb_user is defined %}mongodb://{{ graylog_mongodb_user }}:{{ graylog_mongodb_pass }}@{{ graylog_mongodb_hosts | list | join(",") }}:{{ graylog_mongodb_port }}/graylog{% else %}mongodb://{{ graylog_mongodb_hosts | list | join(",") }}:{{ graylog_mongodb_port }}/graylog{% endif %}' }
   - { regexp: '^mongodb_max_connections ', line: 'mongodb_max_connections = {{ graylog_arg.mongodb_max_connections }}' }
   - { regexp: '^http_connect_timeout ', line: 'http_connect_timeout = {{ graylog_arg.http_connect_timeout }}' }
   - { regexp: '^http_read_timeout ', line: 'http_read_timeout = {{ graylog_arg.http_read_timeout }}' }

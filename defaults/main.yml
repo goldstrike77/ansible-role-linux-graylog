@@ -1,16 +1,22 @@
 ---
 # General parameters #
 #graylog_cluster: 'default'
-graylog_version: '3' # Specify the Graylog version.
-graylog_selinux: 'false' # SELinux security policy.
-graylog_path: '/data' # This directory is used to store Graylog server state.
 graylog_es_heap_size: '2G' # Specify the maximum memory allocation pool for a Java virtual machine.
+graylog_path: '/data' # This directory is used to store Graylog server state.
+graylog_root_email: 'somebody@domain.com' # The email address of the root user.
+graylog_root_password: 'password' # A SHA2 hash of a password for root user.
+graylog_root_timezone: 'PRC' # The time zone setting of the root user.
+graylog_root_username: 'admin' # The default root username.
+graylog_selinux: 'false' # SELinux security policy.
+graylog_version: '3' # Specify the Graylog version.
 graylog_es_hosts: # List of Elasticsearch hosts Graylog should connect to.
   - 'localhost'
 graylog_es_port: '9200' # The Elasticsearch node RESTful API port.
 graylog_mongodb_hosts: # List of MongoDB hosts Graylog should connect to.
   - 'localhost'
 graylog_mongodb_port: '27017' # The MongoDB instance port.
+#graylog_mongodb_user: 'graylog' # MongoDB authenticated user.
+#graylog_mongodb_pass: 'password' # MongoDB authenticated password.
 
 # Listen port #
 graylog_port_arg:
@@ -67,10 +73,6 @@ graylog_arg:
   processbuffer_processors: '{{ ansible_processor_vcpus | int }}' # The number of parallel running processors.
   processor_wait_strategy: 'blocking' # Wait strategy describing how buffer processors wait on a cursor sequence
   ring_size: '65536' # Size of internal ring buffers.
-  root_email: 'somebody@domain.com' # The email address of the root user.
-  root_password_sha2: 'password' # A SHA2 hash of a password for root user.
-  root_timezone: 'PRC' # The time zone setting of the root user.
-  root_username: 'admin' # The default root username.
   udp_recvbuffer_sizes: '2097152' # UDP receive buffer size for all message inputs.
 
 # Elasticsearch Variables #

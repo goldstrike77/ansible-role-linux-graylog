@@ -17,10 +17,13 @@
 - name: Reload the Graylog service
   shell: echo ''
   notify: 'Ensure graylog service is enabled'
-  when: cert_update|changed or sys_update|changed or conf_update|changed
+  when: cert_update|changed or sys_update|changed or conf_update|changed or geo_update|changed
 
 - name: Force the handler to run immediately
   meta: flush_handlers
+
+- name: Create inputs
+  include: 'inputs.yml'
 
 - name: Ensure MTA service is enabled
   systemd:

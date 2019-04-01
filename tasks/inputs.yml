@@ -1,0 +1,16 @@
+---
+- name: Create graylog global udp inputs
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs'
+    method: 'POST'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    body: '{"title":"Syslog GELF","type":"org.graylog2.inputs.gelf.udp.GELFUDPInput","configuration":{"bind_address":"0.0.0.0","port":12201,"recv_buffer_size":2097152,"override_source":null,"decompress_size_limit":8388608,"number_worker_threads":{{ ansible_processor_vcpus | int }}},"global":true}'
+    force_basic_auth: 'yes'
+    status_code: '201'
+    body_format: 'json'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  when: graylog_servers[0] in ansible_default_ipv4.address

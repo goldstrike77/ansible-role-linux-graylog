@@ -1,4 +1,11 @@
 ---
+- name: Generate root password
+  shell: "echo -n {{ graylog_root_password }} | shasum -a 256|awk '{ print $0 }'|cut -d ' ' -f 1"
+  register: graylog_root_password_sha2
+  changed_when: false
+  failed_when: false
+  no_log: true
+
 - name: Creating Graylog folder
   file:
     dest: '{{ graylog_path }}/graylog'
@@ -14,6 +21,7 @@
     owner: 'root'
     group: 'root'
     mode: 0644
+  no_log: true
   register: cert_update
 
 - name: Graylog system configuration
@@ -32,4 +40,22 @@
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
   loop: "{{ graylog_conf_parameter|flatten(levels=1) }}"
+  no_log: true
   register: conf_update
+
+- name: Geolocation database download
+  unarchive:
+    src: 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz'
+    dest: '/etc/graylog/server'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+    extra_opts: [--strip-components=1]  
+    exclude:
+      - 'COPYRIGHT.txt'
+      - 'LICENSE.txt'
+      - 'README.txt'
+    remote_src: yes
+    validate_certs: 'no'
+  register: geo_update
+  ignore_errors: true
