@@ -14,10 +14,12 @@
 - name: Configuration the Graylog
   include: 'configureation.yml'
 
-- name: Reload the Graylog service
+- name: Reload the Master node Graylog service
   shell: echo ''
   notify: 'Ensure graylog service is enabled'
-  when: cert_update|changed or sys_update|changed or conf_update|changed or geo_update|changed or plugin_update|changed
+  when:
+    - graylog_servers[0] in ansible_default_ipv4.address
+    - cert_update|changed or sys_update|changed or conf_update|changed or geo_update|changed or plugin_update|changed
 
 - name: Force the handler to run immediately
   meta: flush_handlers
@@ -25,6 +27,16 @@
 - name: Create Graylog global inputs
   include: 'inputs.yml'
   when: graylog_servers[0] in ansible_default_ipv4.address
+
+- name: Reload the Other node Graylog service
+  shell: echo ''
+  notify: 'Ensure graylog service is enabled'
+  when:
+    - graylog_servers[0] not in ansible_default_ipv4.address
+    - cert_update|changed or sys_update|changed or conf_update|changed or geo_update|changed or plugin_update|changed
+
+- name: Force the handler to run immediately
+  meta: flush_handlers
 
 - name: Ensure MTA service is enabled
   systemd:
