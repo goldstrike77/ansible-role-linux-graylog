@@ -9,3 +9,14 @@
   loop: '{{ graylog_port_arg|dict2items }}'
   when:
     - ansible_distribution_major_version|int > 6
+
+- name: Allow Graylog inputs port
+  firewalld:
+    port: "{{ item.port }}/{{ item.type.split('.')[1] }}"
+    zone: 'public'
+    permanent: 'true'
+    immediate: 'true'
+    state: 'enabled'
+  loop: '{{ graylog_inputs_arg }}'
+  when:
+    - ansible_distribution_major_version|int > 6
