@@ -46,7 +46,7 @@
   when:
     - graylog_current_inputs.json.total > 0
 
-- name: Create graylog global udp inputs
+- name: Create graylog global inputs
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs'
     method: 'POST'
