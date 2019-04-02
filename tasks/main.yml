@@ -22,8 +22,9 @@
 - name: Force the handler to run immediately
   meta: flush_handlers
 
-- name: Create inputs
+- name: Create Graylog global inputs
   include: 'inputs.yml'
+  when: graylog_servers[0] in ansible_default_ipv4.address
 
 - name: Ensure MTA service is enabled
   systemd:

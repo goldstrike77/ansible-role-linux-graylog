@@ -91,3 +91,12 @@ graylog_es_arg:
   max_total_connections_per_route: '2' # Maximum number of total connections per Elasticsearch route.
   request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
   socket_timeout: '60s' # Maximum amount of time to wait for reading back a response from an Elasticsearch server.
+
+# Inputs Variables #
+graylog_inputs_arg: # Define the global inputs parameters.
+  - title: 'GELF UDP'
+    type: 'gelf.udp.GELFUDPInput'
+    port: '12201'
+  - title: 'Syslog UDP'
+    type: 'syslog.udp.SyslogUDPInput'
+    port: '1514'

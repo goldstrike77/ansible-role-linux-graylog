@@ -1,11 +1,58 @@
 ---
+- name: Waiting for Graylog master node ready
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus'
+    method: 'GET'
+    return_content: 'yes'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  register: graylog_node_status
+  until: graylog_node_status.content.find("ALIVE") != -1
+  retries: 12
+  delay: 5
+
+- name: Query Graylog exists inputs
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs'
+    method: 'GET'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    force_basic_auth: 'yes'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  register: graylog_current_inputs
+  no_log: true
+
+- name: Gather Graylog exists inputs variables
+  set_fact:
+    graylog_inputId: "{{ graylog_current_inputs | json_query('json.inputs[*].id') }}"
+
+- name: Erase Graylog current inputs
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs/{{ item }}'
+    method: 'DELETE'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    force_basic_auth: 'yes'
+    status_code: '204'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  loop: "{{ graylog_inputId|flatten(levels=1) }}"
+  no_log: true
+  when:
+    - graylog_current_inputs.json.total > 0
+
 - name: Create graylog global udp inputs
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs'
     method: 'POST'
     user: '{{ graylog_root_username }}'
     password: '{{ graylog_root_password }}'
-    body: '{"title":"Syslog GELF","type":"org.graylog2.inputs.gelf.udp.GELFUDPInput","configuration":{"bind_address":"0.0.0.0","port":12201,"recv_buffer_size":2097152,"override_source":null,"decompress_size_limit":8388608,"number_worker_threads":{{ ansible_processor_vcpus | int }}},"global":true}'
+    body: '{"title":"{{ item.title }}","type":"org.graylog2.inputs.{{ item.type }}","configuration":{"bind_address":"0.0.0.0","port":{{ item.port }},"recv_buffer_size":2097152,"override_source":null,"decompress_size_limit":8388608,"number_worker_threads":{{ ansible_processor_vcpus | int }}},"global":true}'
     force_basic_auth: 'yes'
     status_code: '201'
     body_format: 'json'
@@ -13,4 +60,5 @@
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
   environment:
     no_proxy: '{{ ansible_default_ipv4.address }}'
-  when: graylog_servers[0] in ansible_default_ipv4.address
+  loop: '{{ graylog_inputs_arg }}'
+  no_log: true
