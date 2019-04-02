@@ -24,6 +24,16 @@
   no_log: true
   register: cert_update
 
+- name: Graylog plugin file transfer
+  copy:
+    src: 'plugin/'
+    dest: '/usr/share/graylog-server/plugin'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+  no_log: true
+  register: plugin_update
+
 - name: Graylog system configuration
   template:
     src: 'graylog-server.j2'
