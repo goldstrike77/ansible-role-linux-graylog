@@ -8,7 +8,7 @@ graylog_root_password: 'password' # A SHA2 hash of a password for root user.
 graylog_root_timezone: 'PRC' # The time zone setting of the root user.
 graylog_root_username: 'admin' # The default root username.
 graylog_selinux: 'false' # SELinux security policy.
-graylog_version: '3' # Specify the Graylog version.
+graylog_version: '3.0' # Specify the Graylog version.
 graylog_es_hosts: # List of Elasticsearch hosts Graylog should connect to.
   - 'localhost'
 graylog_es_port: '9200' # The Elasticsearch node RESTful API port.
@@ -44,6 +44,7 @@ graylog_arg:
   allow_highlighting: false # Allow searches to be highlighted.
   allow_leading_wildcard_searches: false # Allow searches with leading wildcards.
   async_eventbus_processors: '{{ ansible_processor_vcpus | int }}' # Number of threads used exclusively for dispatching internal events.
+  versionchecks: false # Software version check
   disable_sigar: true # Disable the use of SIGAR for collecting system stats.
   http_connect_timeout: '5s' # The default connect timeout for outgoing HTTP connections.
   http_enable_cors: true # Enable CORS headers for HTTP interface.

@@ -1,10 +1,10 @@
 ---
 graylog_repo_name: 'graylog'
-graylog_repo_url: "http://packages.graylog2.org/repo/el/stable/{{ graylog_version }}.0/$basearch/"
+graylog_repo_url: "http://packages.graylog2.org/repo/el/stable/{{ graylog_version }}/$basearch/"
 
 dependent_packages:
-  - 'graylog-integrations-plugins-{{ graylog_version }}*'
-  - 'graylog-server-{{ graylog_version }}*'
+#  - 'graylog-integrations-plugins'
+  - 'graylog-server'
   - 'java-1.8.0-openjdk-headless'
   - 'policycoreutils-python'
   - 'pwgen'

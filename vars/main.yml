@@ -19,6 +19,7 @@ graylog_conf_parameter:
   - { regexp: '^data_dir ', line: 'data_dir = {{ graylog_path }}/graylog' }
   - { regexp: '^http_bind_address ', line: 'http_bind_address = {{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}' }
   - { regexp: '^http_publish_uri ', line: 'http_publish_uri = http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/' }
+  - { regexp: '^versionchecks ', line: 'versionchecks = {{ graylog_arg.versionchecks | bool | to_json }}' }
   - { regexp: '^http_enable_cors ', line: 'http_enable_cors = {{ graylog_arg.http_enable_cors | bool | to_json }}' }
   - { regexp: '^http_enable_gzip ', line: 'http_enable_gzip = {{ graylog_arg.http_enable_gzip | bool | to_json }}' }
   - { regexp: '^http_max_header_size ', line: 'http_max_header_size = {{ graylog_arg.http_max_header_size }}' }
