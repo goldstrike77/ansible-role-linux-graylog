@@ -23,6 +23,7 @@ graylog_port_arg:
   api: '9000' # WEB / API network communication ports.
 
 # Service Mesh #
+environments: 'SIT' # Define the service environment.
 consul_is_register: false # Whether register a client service with consul.
 consul_exporter_token: '00000000-0000-0000-0000-000000000000' # Consul client ACL token.
 consul_clients: # List of consul clients.
