@@ -11,11 +11,6 @@
   retries: 24
   delay: 5
 
-- name: Graylog prometheus exporter user password generator
-  set_fact:
-    graylog_exporter_user_passwd: "{{ lookup('password', '' + ansible_host + ' length=12 chars=ascii_letters,digits') }}"
-  no_log: true
-
 - name: Search Graylog prometheus exporter user if exists
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus'
