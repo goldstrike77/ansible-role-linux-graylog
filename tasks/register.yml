@@ -1,4 +1,16 @@
 ---
+- name: Waiting for Graylog node ready
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus'
+    method: 'GET'
+    return_content: 'yes'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  register: graylog_node_status
+  until: graylog_node_status.content.find("ALIVE") != -1
+  retries: 24
+  delay: 5
+
 - name: Get Graylog prometheus exporter user token
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus/tokens'
