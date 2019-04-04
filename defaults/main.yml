@@ -88,10 +88,18 @@ graylog_es_arg:
   idle_timeout: '600s' # Maximum idle time for an Elasticsearch connection.
   index_optimization_jobs: '20' # Maximum number of concurrently running index optimization jobs.
   index_optimization_timeout: '1h' # Global timeout for index optimization requests.
+  max_docs_per_index: '20000000' # Maximum number of documents in an Elasticsearch index before a new index is being created
+  max_number_of_indices: '20' # How many indices do you want to keep.
   max_retries: '2' # Maximum number of times Graylog will retry failed requests to Elasticsearch.
+  max_size_per_index: '1073741824' # Maximum size in bytes per Elasticsearch index on disk before a new index is being created.
+  max_time_per_index: '1d' # Maximum time before a new Elasticsearch index is being created.
   max_total_connections: '20' # Maximum number of total connections to Elasticsearch.
   max_total_connections_per_route: '2' # Maximum number of total connections per Elasticsearch route.
+  replicas: '{{ graylog_es_hosts | length - 1 }}' # The number of replicas for your indices.
   request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
+  retention_strategy: 'delete' # Decide what happens with the oldest indices when the maximum number of indices is reached.
+  rotation_strategy: 'count' # The strategy it uses to determine when to rotate the currently active write index.
+  shards: '{{ graylog_es_hosts | length }}' # The number of shards for your indices.
   socket_timeout: '60s' # Maximum amount of time to wait for reading back a response from an Elasticsearch server.
 
 # Inputs Variables #

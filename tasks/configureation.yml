@@ -50,7 +50,6 @@
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
   loop: "{{ graylog_conf_parameter|flatten(levels=1) }}"
-  no_log: true
   register: conf_update
 
 - name: Geolocation database download
