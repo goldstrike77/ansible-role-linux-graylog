@@ -38,6 +38,13 @@
 - name: Force the handler to run immediately
   meta: flush_handlers
 
+- name: Provide Graylog authenticated for Prometheus
+  include: 'exporter.yml'
+  when: graylog_servers[0] in ansible_default_ipv4.address
+
+- include_tasks: 'register.yml'
+  when: consul_is_register
+
 - name: Ensure MTA service is enabled
   systemd:
     name: 'postfix.service'

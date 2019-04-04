@@ -1,0 +1,69 @@
+---
+- name: Waiting for Graylog master node ready
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus'
+    method: 'GET'
+    return_content: 'yes'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  register: graylog_node_status
+  until: graylog_node_status.content.find("ALIVE") != -1
+  retries: 24
+  delay: 5
+
+- name: Graylog prometheus exporter user password generator
+  set_fact:
+    graylog_exporter_user_passwd: "{{ lookup('password', '' + ansible_host + ' length=12 chars=ascii_letters,digits') }}"
+  no_log: true
+
+- name: Search Graylog prometheus exporter user if exists
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus'
+    method: 'GET'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    force_basic_auth: 'yes'
+    status_code: '200'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  changed_when: false
+  failed_when: false
+  register: graylog_exporter_user
+
+- name: Create Graylog prometheus exporter user
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users'
+    method: 'POST'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    body: '{"username":"prometheus","password":"password","email":"prometheus@domain.com","full_name":"prometheus","permissions":["users:edit:prometheus","users:tokencreate:prometheus","users:tokenlist:prometheus","users:tokenremove:prometheus","users:passwordchange:prometheus","clusterconfigentry:read","indexercluster:read","messagecount:read","journal:read","messages:analyze","inputs:read","metrics:read","savedsearches:edit","fieldnames:read","buffers:read","system:read","savedsearches:create","jvmstats:read","decorators:read","throughput:read","savedsearches:read","messages:read"],"timezone":"Asia/Shanghai","session_timeout_ms":3600000,"startpage":null,"roles":["Reader"]}'
+    force_basic_auth: 'yes'
+    status_code: '201'
+    body_format: 'json'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  when:
+    - graylog_exporter_user.status == 404
+
+- name: Create Graylog prometheus exporter user token
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus/tokens/default'
+    method: 'POST'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    force_basic_auth: 'yes'
+    status_code: '200'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  when:
+    - graylog_exporter_user.status == 404
+  no_log: true
