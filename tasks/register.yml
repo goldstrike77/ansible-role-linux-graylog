@@ -38,4 +38,8 @@
   environment:
     no_proxy: '{{ item }}'
   loop: '{{ consul_clients|flatten(levels=1) }}'
+  register: register_status
+  until: register_status.status == 200
+  retries: 10
+  delay: 3
   no_log: true

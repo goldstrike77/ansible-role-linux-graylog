@@ -22,7 +22,7 @@ graylog_conf_parameter:
   - { regexp: '^elasticsearch_discovery_enabled ', line: 'elasticsearch_discovery_enabled = {{ graylog_es_arg.discovery_enabled | bool | to_json }}' }
   - { regexp: '^elasticsearch_discovery_filter ', line: 'elasticsearch_discovery_filter = {{ graylog_es_arg.discovery_filter }}' }
   - { regexp: '^elasticsearch_discovery_frequency ', line: 'elasticsearch_discovery_frequency = {{ graylog_es_arg.discovery_frequency }}' }
-  - { regexp: '^elasticsearch_hosts ', line: 'elasticsearch_hosts = http://{{ graylog_es_hosts | list | join(":" + graylog_es_port + ",http://") }}:{{ graylog_es_port }}' }
+  - { regexp: '^elasticsearch_hosts ', line: 'elasticsearch_hosts = {% if graylog_es_user is defined %}http://{{ graylog_es_user }}:{{ graylog_es_pass }}@{{ graylog_es_hosts | list | join(":" + graylog_es_port + ",http://" + graylog_es_user + ":" + graylog_es_pass + "@") }}:{{ graylog_es_port }}{% else %}http://{{ graylog_es_hosts | list | join(":" + graylog_es_port + ",http://") }}:{{ graylog_es_port }}{% endif %}' }
   - { regexp: '^elasticsearch_idle_timeout ', line: 'elasticsearch_idle_timeout = {{ graylog_es_arg.idle_timeout }}' }
   - { regexp: '^elasticsearch_index_optimization_jobs ', line: 'elasticsearch_index_optimization_jobs = {{ graylog_es_arg.index_optimization_jobs }}' }
   - { regexp: '^elasticsearch_index_optimization_timeout ', line: 'elasticsearch_index_optimization_timeout = {{ graylog_es_arg.index_optimization_timeout }}' }

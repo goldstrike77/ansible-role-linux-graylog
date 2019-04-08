@@ -12,6 +12,8 @@ graylog_version: '3.0' # Specify the Graylog version.
 graylog_es_hosts: # List of Elasticsearch hosts Graylog should connect to.
   - 'localhost'
 graylog_es_port: '9200' # The Elasticsearch node RESTful API port.
+#graylog_es_user: 'elastic' # Elasticsearch authenticated user.
+#graylog_es_pass: 'password' # Elasticsearch authenticated password.
 graylog_mongodb_hosts: # List of MongoDB hosts Graylog should connect to.
   - 'localhost'
 graylog_mongodb_port: '27017' # The MongoDB instance port.
