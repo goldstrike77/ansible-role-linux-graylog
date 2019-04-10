@@ -46,7 +46,7 @@ graylog_arg:
   alert_check_interval: '60' # Length of the interval in seconds in which the alert conditions for all streams should be checked and alarms are being sent.
   allow_highlighting: false # Allow searches to be highlighted.
   allow_leading_wildcard_searches: false # Allow searches with leading wildcards.
-  async_eventbus_processors: '{{ ansible_processor_vcpus | int }}' # Number of threads used exclusively for dispatching internal events.
+  async_eventbus_processors: '{{ ansible_processor_vcpus }}' # Number of threads used exclusively for dispatching internal events.
   versionchecks: false # Software version check
   disable_sigar: true # Disable the use of SIGAR for collecting system stats.
   http_connect_timeout: '5s' # The default connect timeout for outgoing HTTP connections.
@@ -55,10 +55,10 @@ graylog_arg:
   http_enable_tls: false # Secures the communication with the HTTP interface with TLS.
   http_max_header_size: '8192' # The maximum size of the HTTP request headers in bytes.
   http_read_timeout: '10s' # The default read timeout for outgoing HTTP connections.
-  http_thread_pool_size: '{{ (ansible_processor_vcpus * 6) | int }}' # The size of the thread pool used exclusively for serving the HTTP interface.
+  http_thread_pool_size: '{{ ansible_processor_vcpus * 6 }}' # The size of the thread pool used exclusively for serving the HTTP interface.
   http_write_timeout: '10s' # The default write timeout for outgoing HTTP connections.
   index_ranges_cleanup_interval: '1h' # Time interval for index range information cleanups.
-  inputbuffer_processors: '{{ ansible_processor_vcpus | int }}' # The number processors of input ring buffers.
+  inputbuffer_processors: '{% if ansible_processor_vcpus > 2 %}{{ ansible_processor_vcpus - 2 }}{% else %}1{% endif %}' # The number processors of input ring buffers.
   inputbuffer_ring_size: '65536' # Size of input ring buffers.
   inputbuffer_wait_strategy: 'blocking' # Wait strategy describing how buffer processors wait on a input sequence.
   message_journal_dir: '{{ graylog_path }}/graylog/journal' # The directory which will be used to store the message journal.
@@ -70,11 +70,11 @@ graylog_arg:
   message_journal_segment_age: '1h' # Controls the period of time which Graylog will force the log to roll even
   message_journal_segment_size: '100mb' # The segment size of message journal.
   mongodb_max_connections: '1000' # The maximum connections your MongoDB server can handle from a single client.
-  output_batch_size: '10000' # Batch size for the Elasticsearch output.
+  output_batch_size: '2000' # Batch size for the Elasticsearch output.
   output_flush_interval: '1' # Flush interval (in seconds) for the Elasticsearch output.
-  outputbuffer_processors: '{{ ansible_processor_vcpus | int }}' # Raise this number if your buffers are filling up.
+  outputbuffer_processors: '{{ ansible_processor_vcpus }}' # Raise this number if your buffers are filling up.
   password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap' # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
-  processbuffer_processors: '{{ ansible_processor_vcpus | int }}' # The number of parallel running processors.
+  processbuffer_processors: '{{ ansible_processor_vcpus }}' # The number of parallel running processors.
   processor_wait_strategy: 'blocking' # Wait strategy describing how buffer processors wait on a cursor sequence
   ring_size: '65536' # Size of internal ring buffers.
   udp_recvbuffer_sizes: '2097152' # UDP receive buffer size for all message inputs.
@@ -95,8 +95,8 @@ graylog_es_arg:
   max_retries: '2' # Maximum number of times Graylog will retry failed requests to Elasticsearch.
   max_size_per_index: '1073741824' # Maximum size in bytes per Elasticsearch index on disk before a new index is being created.
   max_time_per_index: '1d' # Maximum time before a new Elasticsearch index is being created.
-  max_total_connections: '20' # Maximum number of total connections to Elasticsearch.
-  max_total_connections_per_route: '2' # Maximum number of total connections per Elasticsearch route.
+  max_total_connections: '{{ ansible_processor_vcpus * 10 }}' # Maximum number of total connections to Elasticsearch.
+  max_total_connections_per_route: '{{ ansible_processor_vcpus * 4 }}' # Maximum number of total connections per Elasticsearch route.
   replicas: '{{ graylog_es_hosts | length - 1 }}' # The number of replicas for your indices.
   request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
   retention_strategy: 'delete' # Decide what happens with the oldest indices when the maximum number of indices is reached.

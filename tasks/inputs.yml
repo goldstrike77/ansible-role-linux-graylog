@@ -52,7 +52,7 @@
     method: 'POST'
     user: '{{ graylog_root_username }}'
     password: '{{ graylog_root_password }}'
-    body: '{"title":"{{ item.title }}","type":"org.graylog2.inputs.{{ item.type }}","configuration":{"bind_address":"0.0.0.0","port":{{ item.port }},"recv_buffer_size":{{ graylog_arg.udp_recvbuffer_sizes }},"override_source":null,"decompress_size_limit":8388608,"number_worker_threads":{{ ansible_processor_vcpus | int }}},"global":true}'
+    body: '{"title":"{{ item.title }}","type":"org.graylog2.inputs.{{ item.type }}","configuration":{"bind_address":"0.0.0.0","port":{{ item.port }},"recv_buffer_size":{{ graylog_arg.udp_recvbuffer_sizes }},"override_source":null,"decompress_size_limit":8388608,"number_worker_threads":{{ graylog_arg.inputbuffer_processors }}},"global":true}'
     force_basic_auth: 'yes'
     status_code: '201'
     body_format: 'json'
