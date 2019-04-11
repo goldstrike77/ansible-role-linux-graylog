@@ -46,7 +46,7 @@ graylog_arg:
   alert_check_interval: '60' # Length of the interval in seconds in which the alert conditions for all streams should be checked and alarms are being sent.
   allow_highlighting: false # Allow searches to be highlighted.
   allow_leading_wildcard_searches: false # Allow searches with leading wildcards.
-  async_eventbus_processors: '{{ ansible_processor_vcpus }}' # Number of threads used exclusively for dispatching internal events.
+  async_eventbus_processors: '{% if ansible_processor_vcpus > 2 %}2{% else %}1{% endif %}' # Number of threads used exclusively for dispatching internal events.
   versionchecks: false # Software version check
   disable_sigar: true # Disable the use of SIGAR for collecting system stats.
   http_connect_timeout: '5s' # The default connect timeout for outgoing HTTP connections.
@@ -66,9 +66,9 @@ graylog_arg:
   message_journal_flush_age: '1m' # Specify a time interval at which we will force an fsync of data written to the log.
   message_journal_flush_interval: '1000000' # Specify an interval at which we will force an fsync of data written to the log.
   message_journal_max_age: '12h' # The maximum hours for journal hold messages before they could be written.
-  message_journal_max_size: '5gb' # # The maximum size for journal hold messages before they could be written.
+  message_journal_max_size: '10gb' # # The maximum size for journal hold messages before they could be written.
   message_journal_segment_age: '1h' # Controls the period of time which Graylog will force the log to roll even
-  message_journal_segment_size: '100mb' # The segment size of message journal.
+  message_journal_segment_size: '200mb' # The segment size of message journal.
   mongodb_max_connections: '1000' # The maximum connections your MongoDB server can handle from a single client.
   output_batch_size: '2000' # Batch size for the Elasticsearch output.
   output_flush_interval: '1' # Flush interval (in seconds) for the Elasticsearch output.
@@ -83,6 +83,7 @@ graylog_arg:
 graylog_es_arg:
   compression_enabled: false # Enable payload compression for Elasticsearch requests.
   connect_timeout: '10s' # Maximum amount of time to wait for successfull connection to Elasticsearch HTTP port.
+  disable_index_optimization: false # Disable the optimization of Elasticsearch indices after index cycling.
   disable_version_check: true # Disable checking the version of Elasticsearch for being compatible with Graylog release.
   discovery_enabled: false # Enable automatic Elasticsearch node discovery through Nodes Info.
   discovery_filter: '' # Filter for including/excluding Elasticsearch nodes to their custom attributes.
@@ -92,11 +93,11 @@ graylog_es_arg:
   index_optimization_timeout: '1h' # Global timeout for index optimization requests.
   max_docs_per_index: '20000000' # Maximum number of documents in an Elasticsearch index before a new index is being created
   max_number_of_indices: '20' # How many indices do you want to keep.
-  max_retries: '2' # Maximum number of times Graylog will retry failed requests to Elasticsearch.
+  max_retries: '3' # Maximum number of times Graylog will retry failed requests to Elasticsearch.
   max_size_per_index: '1073741824' # Maximum size in bytes per Elasticsearch index on disk before a new index is being created.
   max_time_per_index: '1d' # Maximum time before a new Elasticsearch index is being created.
   max_total_connections: '{{ ansible_processor_vcpus * 10 }}' # Maximum number of total connections to Elasticsearch.
-  max_total_connections_per_route: '{{ ansible_processor_vcpus * 4 }}' # Maximum number of total connections per Elasticsearch route.
+  max_total_connections_per_route: '{{ graylog_es_hosts | length }}' # Maximum number of total connections per Elasticsearch route.
   replicas: '{{ graylog_es_hosts | length - 1 }}' # The number of replicas for your indices.
   request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
   retention_strategy: 'delete' # Decide what happens with the oldest indices when the maximum number of indices is reached.

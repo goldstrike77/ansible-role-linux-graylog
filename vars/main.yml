@@ -16,6 +16,7 @@ graylog_conf_parameter:
   - { regexp: '^async_eventbus_processors ', line: 'async_eventbus_processors = {{ graylog_arg.async_eventbus_processors }}' }
   - { regexp: '^data_dir ', line: 'data_dir = {{ graylog_path }}/graylog' }
   - { regexp: '^disable_sigar ', line: 'disable_sigar = {{ graylog_arg.disable_sigar | bool | to_json }}' }
+  - { regexp: '^disable_index_optimization ', line: 'disable_index_optimization = {{ graylog_es_arg.disable_index_optimization | bool | to_json }}' }
   - { regexp: '^elasticsearch_compression_enabled ', line: 'elasticsearch_compression_enabled = {{ graylog_es_arg.compression_enabled | bool | to_json }}' }
   - { regexp: '^elasticsearch_connect_timeout ', line: 'elasticsearch_connect_timeout = {{ graylog_es_arg.connect_timeout }}' }
   - { regexp: '^elasticsearch_disable_version_check ', line: 'elasticsearch_disable_version_check = {{ graylog_es_arg.disable_version_check | bool | to_json }}' }
