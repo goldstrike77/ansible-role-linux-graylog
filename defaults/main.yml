@@ -49,14 +49,14 @@ graylog_arg:
   async_eventbus_processors: '{% if ansible_processor_vcpus > 2 %}2{% else %}1{% endif %}' # Number of threads used exclusively for dispatching internal events.
   versionchecks: false # Software version check
   disable_sigar: true # Disable the use of SIGAR for collecting system stats.
-  http_connect_timeout: '5s' # The default connect timeout for outgoing HTTP connections.
+  http_connect_timeout: '10s' # The default connect timeout for outgoing HTTP connections.
   http_enable_cors: true # Enable CORS headers for HTTP interface.
   http_enable_gzip: true # This compresses API responses and therefore helps to reduce overall round trip times.
   http_enable_tls: false # Secures the communication with the HTTP interface with TLS.
   http_max_header_size: '8192' # The maximum size of the HTTP request headers in bytes.
-  http_read_timeout: '10s' # The default read timeout for outgoing HTTP connections.
+  http_read_timeout: '20s' # The default read timeout for outgoing HTTP connections.
   http_thread_pool_size: '{{ ansible_processor_vcpus * 6 }}' # The size of the thread pool used exclusively for serving the HTTP interface.
-  http_write_timeout: '10s' # The default write timeout for outgoing HTTP connections.
+  http_write_timeout: '20s' # The default write timeout for outgoing HTTP connections.
   index_ranges_cleanup_interval: '1h' # Time interval for index range information cleanups.
   inputbuffer_processors: '{% if ansible_processor_vcpus > 2 %}{{ ansible_processor_vcpus - 2 }}{% else %}1{% endif %}' # The number processors of input ring buffers.
   inputbuffer_ring_size: '65536' # Size of input ring buffers.
