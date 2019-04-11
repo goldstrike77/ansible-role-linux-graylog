@@ -70,7 +70,7 @@ graylog_arg:
   message_journal_segment_age: '1h' # Controls the period of time which Graylog will force the log to roll even
   message_journal_segment_size: '200mb' # The segment size of message journal.
   mongodb_max_connections: '1000' # The maximum connections your MongoDB server can handle from a single client.
-  output_batch_size: '2000' # Batch size for the Elasticsearch output.
+  output_batch_size: '{{ ansible_processor_vcpus * 250 }}' # Batch size for the Elasticsearch output.
   output_flush_interval: '1' # Flush interval (in seconds) for the Elasticsearch output.
   outputbuffer_processors: '{{ ansible_processor_vcpus }}' # Raise this number if your buffers are filling up.
   password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap' # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
