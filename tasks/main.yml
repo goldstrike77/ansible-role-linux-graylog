@@ -42,8 +42,13 @@
   include: 'exporter.yml'
   when: graylog_servers[0] in ansible_default_ipv4.address
 
-- include_tasks: 'register.yml'
+- name: Registered with HashiCorp Consul
+  include: 'register.yml'
   when: consul_is_register
+
+- name: Graylog custom mapping
+  include: 'index.yml'
+  when: graylog_indexes_arg is defined
 
 - name: Ensure MTA service is enabled
   systemd:

@@ -113,3 +113,10 @@ graylog_inputs_arg: # Define the global inputs parameters.
   - title: 'Syslog UDP'
     type: 'syslog.udp.SyslogUDPInput'
     port: '1514'
+
+# Indexes Optimization Tuning#
+graylog_indexes_arg:
+  - refresh_interval: '30s'
+    translog:
+      sync_interval: '30s'
+      durability: 'async'
