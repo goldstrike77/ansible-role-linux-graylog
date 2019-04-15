@@ -9,6 +9,9 @@ graylog_servers: "\
   {% endfor %}\
   {{ _graylog_servers }}"
 
+graylog_kernel_parameters:
+  - { variable: 'net.core.rmem_max', value: '{{ graylog_arg.recvbuffer_sizes }}' }
+
 graylog_conf_parameter:
   - { regexp: '^alert_check_interval ', line: 'alert_check_interval = {{ graylog_arg.alert_check_interval }}' }
   - { regexp: '^allow_highlighting ', line: 'allow_highlighting = {{ graylog_arg.allow_highlighting | bool | to_json }}' }
@@ -84,5 +87,5 @@ graylog_conf_parameter:
   - { regexp: '^transport_email_use_auth ', line: 'transport_email_use_auth = {{ graylog_mail_arg.transport_email_use_auth | bool | to_json }}' }
   - { regexp: '^transport_email_use_ssl ', line: 'transport_email_use_ssl = {{ graylog_mail_arg.transport_email_use_ssl | bool | to_json }}' }
   - { regexp: '^transport_email_use_tls ', line: 'transport_email_use_tls = {{ graylog_mail_arg.transport_email_use_tls | bool | to_json }}' }
-  - { regexp: '^udp_recvbuffer_sizes ', line: 'udp_recvbuffer_sizes = {{ graylog_arg.udp_recvbuffer_sizes }}' }
+  - { regexp: '^udp_recvbuffer_sizes ', line: 'udp_recvbuffer_sizes = {{ graylog_arg.recvbuffer_sizes }}' }
   - { regexp: '^versionchecks ', line: 'versionchecks = {{ graylog_arg.versionchecks | bool | to_json }}' }

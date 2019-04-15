@@ -74,7 +74,7 @@ graylog_arg:
   processbuffer_processors: '{{ ansible_processor_vcpus }}' # The number of parallel running processors.
   processor_wait_strategy: 'blocking' # Wait strategy describing how buffer processors wait on a cursor sequence
   ring_size: '65536' # Size of internal ring buffers.
-  udp_recvbuffer_sizes: '2097152' # UDP receive buffer size for all message inputs.
+  recvbuffer_sizes: '2097152' # UDP receive buffer size for all message inputs.
 
 # Elasticsearch Variables #
 graylog_es_arg:
@@ -104,11 +104,11 @@ graylog_es_arg:
 
 # Inputs Variables #
 graylog_inputs_arg: # Define the global inputs parameters.
-  - title: 'GELF UDP'
-    type: 'gelf.udp.GELFUDPInput'
+  - type: 'gelf.udp.GELFUDPInput'
     port: '12201'
-  - title: 'Syslog UDP'
-    type: 'syslog.udp.SyslogUDPInput'
+  - type: 'gelf.udp.GELFUDPInput'
+    port: '12202'
+  - type: 'syslog.udp.SyslogUDPInput'
     port: '1514'
 
 # Indexes Optimization Tuning#

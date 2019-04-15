@@ -14,6 +14,16 @@
     group: graylog
     mode: 0755
 
+- name: Configure kernel parameters
+  sysctl:
+    name: '{{ item.variable }}'
+    value: '{{ item.value }}'
+    state: present
+    reload: yes
+    sysctl_set: yes
+    sysctl_file: /etc/sysctl.d/20-sysctl.conf
+  loop: "{{ graylog_kernel_parameters|flatten(levels=1) }}"
+
 - name: Graylog http certificate file transfer
   copy:
     src: 'ssl/'
