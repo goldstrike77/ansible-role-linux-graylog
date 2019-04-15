@@ -78,7 +78,7 @@ graylog_arg:
 
 # Elasticsearch Variables #
 graylog_es_arg:
-  compression_enabled: false # Enable payload compression for Elasticsearch requests.
+  compression_enabled: true # Enable payload compression for Elasticsearch requests.
   connect_timeout: '10s' # Maximum amount of time to wait for successfull connection to Elasticsearch HTTP port.
   disable_index_optimization: false # Disable the optimization of Elasticsearch indices after index cycling.
   disable_version_check: true # Disable checking the version of Elasticsearch for being compatible with Graylog release.
