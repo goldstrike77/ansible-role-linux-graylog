@@ -4,6 +4,10 @@
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus'
     method: 'GET'
     return_content: 'yes'
+    status_code: '200'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
   environment:
     no_proxy: '{{ ansible_default_ipv4.address }}'
   register: graylog_node_status
@@ -31,10 +35,13 @@
   uri:
     url: 'http://{{ item }}:{{ consul_http_port }}/v1/agent/service/register'
     method: 'PUT'
-    headers:
-      X-Consul-Token: '{{ consul_exporter_token }}'
     body: '{"ID":"{{ inventory_hostname | upper }}_graylog_exporter","name":"graylog_exporter","address":"{{ ansible_default_ipv4.address }}","port":{{ graylog_port_arg.api }},"meta":{"instance":"{{ inventory_hostname | upper }}","group":"{{ group_names[0] | upper }}","environment":"{{ environments | upper }}"},"checks":[{"http":"http://{{ (graylog_exporter_user_token | json_query("json.tokens[*].token"))[0] }}:token@{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/plugins/org.graylog.plugins.metrics.prometheus/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"5s"}]}'
     body_format: 'json'
+    status_code: '200'
+    headers:
+      X-Consul-Token: '{{ consul_exporter_token }}'
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
   environment:
     no_proxy: '{{ item }}'
   loop: '{{ consul_clients|flatten(levels=1) }}'
