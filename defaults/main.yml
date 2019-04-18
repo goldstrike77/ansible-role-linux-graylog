@@ -1,7 +1,7 @@
 ---
 # General parameters #
 #graylog_cluster: 'default'
-graylog_es_heap_size: '2G' # Specify the maximum memory allocation pool for a Java virtual machine.
+graylog_heap_size: '2G' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_path: '/data' # This directory is used to store Graylog server state.
 graylog_root_email: 'somebody@domain.com' # The email address of the root user.
 graylog_root_password: 'password' # A SHA2 hash of a password for root user.
@@ -9,14 +9,21 @@ graylog_root_timezone: 'PRC' # The time zone setting of the root user.
 graylog_root_username: 'admin' # The default root username.
 graylog_selinux: 'false' # SELinux security policy.
 graylog_version: '3.0' # Specify the Graylog version.
-graylog_es_hosts: 'localhost' # List of Elasticsearch hosts Graylog should connect to.
-graylog_es_port: '9200' # The Elasticsearch node RESTful API port.
-#graylog_es_user: 'elastic' # Elasticsearch authenticated user.
-#graylog_es_pass: 'password' # Elasticsearch authenticated password.
-graylog_mongodb_hosts: 'localhost' # List of MongoDB hosts Graylog should connect to.
-graylog_mongodb_port: '27017' # The MongoDB instance port.
-#graylog_mongodb_user: 'graylog' # MongoDB authenticated user.
-#graylog_mongodb_pass: 'password' # MongoDB authenticated password.
+graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap' # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
+
+# Elastic parameters #
+graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.
+graylog_elastic_hosts: 'localhost' # List of Elasticsearch hosts Graylog should connect to.
+graylog_elastic_port: '9200' # The Elasticsearch node RESTful API port.
+graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
+graylog_elastic_pass: 'password' # Elasticsearch authenticated password.
+
+# MongoDB parameters #
+graylog_mongod_auth: false # A boolean value, Enable or Disable MongoDB authentication.
+graylog_mongod_hosts: 'localhost' # Group of MongoDB hosts Graylog should connect to.
+graylog_mongod_pass: 'password' # MongoDB Graylog password.
+graylog_mongod_port: '27017' # The MongoDB instance port.
+graylog_mongod_user: 'graylog' # MongoDB Graylog username.
 
 # Listen port #
 graylog_port_arg:
@@ -66,18 +73,17 @@ graylog_arg:
   message_journal_max_size: '10gb' # # The maximum size for journal hold messages before they could be written.
   message_journal_segment_age: '1h' # Controls the period of time which Graylog will force the log to roll even
   message_journal_segment_size: '200mb' # The segment size of message journal.
-  mongodb_max_connections: '1000' # The maximum connections your MongoDB server can handle from a single client.
+  mongod_max_connections: '1000' # The maximum connections your MongoDB server can handle from a single client.
   output_batch_size: '{{ ansible_processor_vcpus * 250 }}' # Batch size for the Elasticsearch output.
   output_flush_interval: '1' # Flush interval (in seconds) for the Elasticsearch output.
   outputbuffer_processors: '{{ ansible_processor_vcpus }}' # Raise this number if your buffers are filling up.
-  password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap' # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
   processbuffer_processors: '{{ ansible_processor_vcpus }}' # The number of parallel running processors.
   processor_wait_strategy: 'blocking' # Wait strategy describing how buffer processors wait on a cursor sequence
   ring_size: '65536' # Size of internal ring buffers.
   recvbuffer_sizes: '2097152' # UDP receive buffer size for all message inputs.
 
 # Elasticsearch Variables #
-graylog_es_arg:
+graylog_elastic_arg:
   compression_enabled: true # Enable payload compression for Elasticsearch requests.
   connect_timeout: '10s' # Maximum amount of time to wait for successfull connection to Elasticsearch HTTP port.
   disable_index_optimization: false # Disable the optimization of Elasticsearch indices after index cycling.
@@ -94,12 +100,12 @@ graylog_es_arg:
   max_size_per_index: '1073741824' # Maximum size in bytes per Elasticsearch index on disk before a new index is being created.
   max_time_per_index: '1d' # Maximum time before a new Elasticsearch index is being created.
   max_total_connections: '{{ ansible_processor_vcpus * 10 }}' # Maximum number of total connections to Elasticsearch.
-  max_total_connections_per_route: '{{ graylog_es_hosts | length }}' # Maximum number of total connections per Elasticsearch route.
-  replicas: '{{ graylog_es_hosts | length - 1 }}' # The number of replicas for your indices.
+  max_total_connections_per_route: '{{ graylog_elastic_hosts | length }}' # Maximum number of total connections per Elasticsearch route.
+  replicas: '{{ graylog_elastic_hosts | length - 1 }}' # The number of replicas for your indices.
   request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
   retention_strategy: 'delete' # Decide what happens with the oldest indices when the maximum number of indices is reached.
   rotation_strategy: 'count' # The strategy it uses to determine when to rotate the currently active write index.
-  shards: '{{ graylog_es_hosts | length }}' # The number of shards for your indices.
+  shards: '{{ graylog_elastic_hosts | length }}' # The number of shards for your indices.
   socket_timeout: '60s' # Maximum amount of time to wait for reading back a response from an Elasticsearch server.
 
 # Inputs Variables #
@@ -112,7 +118,7 @@ graylog_inputs_arg: # Define the global inputs parameters.
     port: '1514'
 
 # Indexes Optimization Tuning#
-graylog_indexes_arg:
+graylog_indexes_arg: # Define the customer index parameters.
   - refresh_interval: '30s'
     translog:
       sync_interval: '30s'

@@ -1,10 +1,10 @@
 ---
 - name: Apply the additional index mapping
   uri:
-    url: 'http://{{ graylog_es_hosts[0] }}:{{ graylog_es_port }}/_template/graylog-custom-mapping?pretty'
+    url: 'http://{{ graylog_elastic_hosts[0] }}:{{ graylog_elastic_port }}/_template/graylog-custom-mapping?pretty'
     method: 'PUT'
-    user: '{{ graylog_es_user }}'
-    password: '{{ graylog_es_pass }}'
+    user: '{{ graylog_elastic_user }}'
+    password: '{{ graylog_elastic_pass }}'
     body: '{"template":"graylog_*","settings":{"index":{{ graylog_indexes_arg[0] | to_json | replace("\n", "")}}}}'
     force_basic_auth: 'yes'
     status_code: '200'
@@ -12,6 +12,6 @@
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
   environment:
-    no_proxy: '{{ graylog_es_hosts[0] }}'
+    no_proxy: '{{ graylog_elastic_hosts[0] }}'
   run_once: true
   no_log: true
