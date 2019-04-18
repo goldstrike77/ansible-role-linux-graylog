@@ -35,7 +35,7 @@ This role will work on the following operating systems:
 
   * CentOS 7
 
-### graylog versions
+### Graylog versions
 
 The following list of supported the graylog releases:
 
