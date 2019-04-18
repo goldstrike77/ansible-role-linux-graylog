@@ -224,7 +224,7 @@ You can also use the group_vars or the host_vars files for setting the variables
       alert_check_interval: '60' and alarms are being sent.
       allow_highlighting: false
       allow_leading_wildcard_searches: false
-      async_eventbus_processors: '{% if ansible_processor_vcpus > 2 %}2{% else %}1{% endif %}'
+      async_eventbus_processors: '2'
       versionchecks: false
       disable_sigar: true
       http_connect_timeout: '10s'
@@ -233,10 +233,10 @@ You can also use the group_vars or the host_vars files for setting the variables
       http_enable_tls: false
       http_max_header_size: '8192'
       http_read_timeout: '20s'
-      http_thread_pool_size: '{{ ansible_processor_vcpus * 6 }}'
+      http_thread_pool_size: '12'
       http_write_timeout: '20s'
       index_ranges_cleanup_interval: '1h'
-      inputbuffer_processors: '{% if ansible_processor_vcpus > 1 %}{{ ansible_processor_vcpus - 1 }}{% else %}1{% endif %}'
+      inputbuffer_processors: '2'
       inputbuffer_ring_size: '65536'
       inputbuffer_wait_strategy: 'blocking'
       message_journal_dir: '{{ graylog_path }}/graylog/journal'
@@ -248,10 +248,10 @@ You can also use the group_vars or the host_vars files for setting the variables
       message_journal_segment_age: '1h'
       message_journal_segment_size: '200mb'
       mongod_max_connections: '1000'
-      output_batch_size: '{{ ansible_processor_vcpus * 250 }}'
+      output_batch_size: '500'
       output_flush_interval: '1'
-      outputbuffer_processors: '{{ ansible_processor_vcpus }}'
-      processbuffer_processors: '{{ ansible_processor_vcpus }}'
+      outputbuffer_processors: '2'
+      processbuffer_processors: '2'
       processor_wait_strategy: 'blocking'
       ring_size: '65536'
       recvbuffer_sizes: '2097152'
@@ -271,13 +271,13 @@ You can also use the group_vars or the host_vars files for setting the variables
       max_retries: '3'
       max_size_per_index: '1073741824'
       max_time_per_index: '1d'
-      max_total_connections: '{{ ansible_processor_vcpus * 10 }}'
-      max_total_connections_per_route: '{{ graylog_elastic_hosts | length }}'
-      replicas: '{{ graylog_elastic_hosts | length - 1 }}'
+      max_total_connections: '20'
+      max_total_connections_per_route: '3'
+      replicas: '0'
       request_timeout: '1m'
       retention_strategy: 'delete'
       rotation_strategy: 'count'
-      shards: '{{ graylog_elastic_hosts | length }}'
+      shards: '1'
       socket_timeout: '60s'
     graylog_inputs_arg:
       - type: 'gelf.udp.GELFUDPInput'
