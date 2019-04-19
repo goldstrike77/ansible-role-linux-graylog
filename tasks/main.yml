@@ -59,3 +59,6 @@
     name: 'postfix.service'
     enabled: 'yes'
     state: 'started'
+  when:
+    - graylog_mail_arg.transport_email_enabled
+    - graylog_mail_arg.transport_email_hostname == 'localhost' or graylog_mail_arg.transport_email_hostname == '127.0.0.1'
