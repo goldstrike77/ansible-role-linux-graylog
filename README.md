@@ -191,7 +191,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_path: '/data'
     graylog_root_email: 'somebody@domain.com'
     graylog_root_password: 'password'
-    graylog_root_timezone: 'PRC'
+    graylog_root_timezone: 'Asia/Shanghai'
     graylog_root_username: 'admin'
     graylog_selinux: 'false'
     graylog_version: '3.0'
