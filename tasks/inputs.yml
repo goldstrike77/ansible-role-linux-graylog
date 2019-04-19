@@ -29,6 +29,9 @@
   environment:
     no_proxy: '{{ ansible_default_ipv4.address }}'
   register: graylog_current_inputs
+  until: graylog_current_inputs.status == 200
+  retries: 10
+  delay: 3
   no_log: true
 
 - name: Gather Graylog exists inputs variables
@@ -49,6 +52,10 @@
   environment:
     no_proxy: '{{ ansible_default_ipv4.address }}'
   loop: "{{ graylog_inputId|flatten(levels=1) }}"
+  register: register_status
+  until: register_status.status == 204
+  retries: 10
+  delay: 3
   no_log: true
   when:
     - graylog_current_inputs.json.total > 0
@@ -71,4 +78,8 @@
   loop: '{{ graylog_inputs_arg }}'
   loop_control:
     index_var: index
+  register: register_status
+  until: register_status.status == 201
+  retries: 10
+  delay: 3
   no_log: true

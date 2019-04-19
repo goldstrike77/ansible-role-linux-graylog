@@ -47,6 +47,10 @@
       cache-control: 'no-cache'
   environment:
     no_proxy: '{{ ansible_default_ipv4.address }}'
+  register: register_status
+  until: register_status.status == 201
+  retries: 10
+  delay: 3
   when:
     - graylog_exporter_user.status == 404
 
@@ -63,6 +67,10 @@
       cache-control: 'no-cache'
   environment:
     no_proxy: '{{ ansible_default_ipv4.address }}'
+  register: register_status
+  until: register_status.status == 200
+  retries: 10
+  delay: 3
+  no_log: true
   when:
     - graylog_exporter_user.status == 404
-  no_log: true

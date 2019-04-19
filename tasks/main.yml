@@ -26,7 +26,8 @@
 
 - name: Create Graylog global inputs
   include: 'inputs.yml'
-  when: graylog_servers[0] in ansible_default_ipv4.address
+  when:
+    - graylog_servers[0] in ansible_default_ipv4.address
 
 - name: Reload the Other node Graylog service
   shell: echo ''
@@ -40,7 +41,8 @@
 
 - name: Provide Graylog authenticated for Prometheus
   include: 'exporter.yml'
-  when: graylog_servers[0] in ansible_default_ipv4.address
+  when:
+    - graylog_servers[0] in ansible_default_ipv4.address
 
 - name: Registered with HashiCorp Consul
   include: 'register.yml'
@@ -48,7 +50,9 @@
 
 - name: Graylog custom mapping
   include: 'index.yml'
-  when: graylog_indexes_arg is defined
+  when:
+    - graylog_indexes_arg is defined
+    - graylog_servers[0] in ansible_default_ipv4.address
 
 - name: Ensure MTA service is enabled
   systemd:
