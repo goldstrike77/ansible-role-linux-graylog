@@ -1,38 +1,302 @@
-Role Name
-=========
+![](https://img.shields.io/badge/Ansible-graylog-green.svg?logo=angular&style=for-the-badge)
 
-A brief description of the role goes here.
+>__Please note that the original design goal of this role was more concerned with the initial installation and bootstrapping environment, which currently does not involve performing continuous maintenance, and therefore are only suitable for testing and development purposes,  should not be used in production environments.__
 
-Requirements
-------------
+>__请注意，此角色的最初设计目标更关注初始安装和引导环境，目前不涉及执行连续维护，因此仅适用于测试和开发目的，不应在生产环境中使用。__
+___
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+<p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/logo/logo_graylog.png" align="right" /></p>
 
-Role Variables
---------------
+__Table of Contents__
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- [Overview](#overview)
+- [Requirements](#requirements)
+  * [Operating systems](#operating-systems)
+  * [Graylog Versions](#graylog-versions)
+- [ Role variables](#Role-variables)
+  * [Minimal Configuration](#minimal-configuration)
+  * [Main Configuration](#Main-parameters)
+  * [Other Configuration](#Other-parameters)
+- [Dependencies](#dependencies)
+- [Example Playbook](#example-playbook)
+  * [Hosts inventory file](#Hosts-inventory-file)
+  * [Vars in role configuration](#vars-in-role-configuration)
+  * [Combination of group vars and playbook](#combination-of-group-vars-and-playbook)
+- [License](#license)
+- [Author Information](#author-information)
+- [Contributors](#Contributors)
 
-Dependencies
-------------
+## Overview
+This Ansible role installs Graylog on linux operating system, including establishing a filesystem structure and server configuration with some common operational features.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## Requirements
+### Operating systems
+This role will work on the following operating systems:
 
-Example Playbook
-----------------
+  * CentOS 7
 
+### Graylog versions
+
+The following list of supported the graylog releases:
+
+  * Graylog 3.0
+
+## Role variables
+### Main parameters #
+There are some variables in defaults/main.yml which can (Or needs to) be overridden:
+
+##### General parameters
+* `graylog_cluster`: Cluster name of servers that implements distribution performance.
+* `graylog_heap_size`: Specify the maximum memory allocation pool for a Java virtual machine.
+* `graylog_path`: This directory is used to store Graylog server state.
+* `graylog_root_email`: The email address of the root user.
+* `graylog_root_password`: A SHA2 hash of a password for root user.
+* `graylog_root_timezone`: The time zone setting of the root user.
+* `graylog_root_username`: The default root username.
+* `graylog_selinux`: SELinux security policy.
+* `graylog_version`: Specify the Graylog version.
+* `graylog_password_secret`: a secret that is used for password encryption and salting.
+
+##### Elasticseach connection parameters
+* `graylog_elastic_auth`: Enable or Disable Elasticsearch authentication.
+* `graylog_elastic_hosts`: List of Elasticsearch hosts Graylog should connect to.
+* `graylog_elastic_port`: The Elasticsearch node RESTful API port.
+* `graylog_elastic_user`: Elasticsearch authenticated user.
+* `graylog_elastic_pass`: Elasticsearch authenticated password.
+
+##### MongoDB connection parameters
+* `graylog_mongod_auth`: Enable or Disable MongoDB authentication.
+* `graylog_mongod_hosts`: Group of MongoDB hosts Graylog should connect to.
+* `graylog_mongod_pass`: MongoDB Graylog password.
+* `graylog_mongod_port`: The MongoDB instance port.
+* `graylog_mongod_user`: MongoDB Graylog username.
+
+##### Listen port
+* `graylog_port_arg.api`: WEB / API network communication ports.
+
+##### Service Mesh
+* `environments`: Define the service environment.
+* `consul_is_register`: Whether register a client service with consul.
+* `consul_exporter_token`: Consul client ACL token.
+* `consul_clients`: List of consul clients.
+* `consul_http_port`: The consul HTTP API port.
+
+##### Email Variables
+
+* `graylog_mail_arg.transport_email_enabled`: Enable mail for alert.
+* `graylog_mail_arg.transport_email_hostname`: The SMTP host address.
+* `graylog_mail_arg.transport_email_port`: The SMTP host communication port.
+* `graylog_mail_arg.transport_email_use_auth`: Enable SMTP Authentication.
+* `graylog_mail_arg.transport_email_use_tls`: Enable SMTP with STARTTLS for encrypted connections.
+* `graylog_mail_arg.transport_email_use_ssl`: Enable SMTP over SSL (SMTPS) for encrypted connections.
+
+##### System Variables
+* `graylog_arg.alert_check_interval`: Length of the interval in seconds in which the alert conditions for all streams should be checked and alarms are being sent.
+* `graylog_arg.allow_highlighting`: Allow searches to be highlighted.
+* `graylog_arg.allow_leading_wildcard_searches`: Allow searches with leading wildcards.
+* `graylog_arg.async_eventbus_processors`: Number of threads used exclusively for dispatching internal events.
+* `graylog_arg.versionchecks`: Software version check
+* `graylog_arg.disable_sigar`: Disable the use of SIGAR for collecting system stats.
+* `graylog_arg.http_connect_timeout`: The default connect timeout for outgoing HTTP connections.
+* `graylog_arg.http_enable_cors`: Enable CORS headers for HTTP interface.
+* `graylog_arg.http_enable_gzip`: This compresses API responses and therefore helps to reduce overall round trip times.
+* `graylog_arg.http_enable_tls`: Secures the communication with the HTTP interface with TLS.
+* `graylog_arg.http_max_header_size`: The maximum size of the HTTP request headers in bytes.
+* `graylog_arg.http_read_timeout`: The default read timeout for outgoing HTTP connections.
+* `graylog_arg.http_thread_pool_size`: The size of the thread pool used exclusively for serving the HTTP interface.
+* `graylog_arg.http_write_timeout`: The default write timeout for outgoing HTTP connections.
+* `graylog_arg.index_ranges_cleanup_interval`: Time interval for index range information cleanups.
+* `graylog_arg.inputbuffer_processors`: The number processors of input ring buffers.
+* `graylog_arg.inputbuffer_ring_size`: Size of input ring buffers.
+* `graylog_arg.inputbuffer_wait_strategy`: Wait strategy describing how buffer processors wait on a input sequence.
+* `graylog_arg.message_journal_dir`: The directory which will be used to store the message journal.
+* `graylog_arg.message_journal_enabled`: Enable the disk based message journal.
+* `graylog_arg.message_journal_flush_age`: Specify a time interval at which we will force an fsync of data written to the log.
+* `graylog_arg.message_journal_flush_interval`: Specify an interval at which we will force an fsync of data written to the log.
+* `graylog_arg.message_journal_max_age`: The maximum hours for journal hold messages before they could be written.
+* `graylog_arg.message_journal_max_size`: The maximum size for journal hold messages before they could be written.
+* `graylog_arg.message_journal_segment_age`: Controls the period of time which Graylog will force the log to roll even
+* `graylog_arg.message_journal_segment_size`: The segment size of message journal.
+* `graylog_arg.mongod_max_connections`: The maximum connections your MongoDB server can handle from a single client.
+* `graylog_arg.output_batch_size`: Batch size for the Elasticsearch output.
+* `graylog_arg.output_flush_interval`: Flush interval (in seconds) for the Elasticsearch output.
+* `graylog_arg.outputbuffer_processors`:Raise this number if your buffers are filling up.
+* `graylog_arg.processbuffer_processors`: The number of parallel running processors.
+* `graylog_arg.processor_wait_strategy`: Wait strategy describing how buffer processors wait on a cursor sequence
+* `graylog_arg.ring_size`: Size of internal ring buffers.
+* `graylog_arg.recvbuffer_sizes`: UDP receive buffer size for all message inputs.
+
+##### Elasticsearch Variables
+
+* `graylog_elastic_arg.compression_enabled`: Enable payload compression for Elasticsearch requests.
+* `graylog_elastic_arg.connect_timeout`: Maximum amount of time to wait for successfull connection to Elasticsearch HTTP port.
+* `graylog_elastic_arg.disable_index_optimization`: Disable the optimization of Elasticsearch indices after index cycling.
+* `graylog_elastic_arg.disable_version_check`: Disable checking the version of Elasticsearch for being compatible with Graylog release.
+* `graylog_elastic_arg.discovery_enabled`: Enable automatic Elasticsearch node discovery through Nodes Info.
+* `graylog_elastic_arg.discovery_filter`: Filter for including/excluding Elasticsearch nodes to their custom attributes.
+* `graylog_elastic_arg.discovery_frequency`: Frequency of the Elasticsearch node discovery.
+* `graylog_elastic_arg.idle_timeout`: Maximum idle time for an Elasticsearch connection.
+* `graylog_elastic_arg.index_optimization_jobs`: Maximum number of concurrently running index optimization jobs.
+* `graylog_elastic_arg.index_optimization_timeout`: Global timeout for index optimization requests.
+* `graylog_elastic_arg.max_docs_per_index`: Maximum number of documents in an Elasticsearch index before a new index is being created
+* `graylog_elastic_arg.max_number_of_indices`: How many indices do you want to keep.
+* `graylog_elastic_arg.max_retries`: Maximum number of times Graylog will retry failed requests to Elasticsearch.
+* `graylog_elastic_arg.max_size_per_index`: Maximum size in bytes per Elasticsearch index on disk before a new index is being created.
+* `graylog_elastic_arg.max_time_per_index`: Maximum time before a new Elasticsearch index is being created.
+* `graylog_elastic_arg.max_total_connections`: Maximum number of total connections to Elasticsearch.
+* `graylog_elastic_arg.max_total_connections_per_route`: Maximum number of total connections per Elasticsearch route.
+* `graylog_elastic_arg.replicas`: The number of replicas for your indices.
+* `graylog_elastic_arg.request_timeout`: Global request timeout for Elasticsearch requests.
+* `graylog_elastic_arg.retention_strategy`: Decide what happens with the oldest indices when the maximum number of indices is reached.
+* `graylog_elastic_arg.rotation_strategy`: The strategy it uses to determine when to rotate the currently active write index.
+* `graylog_elastic_arg.shards`: The number of shards for your indices.
+* `graylog_elastic_arg.socket_timeout`: Maximum amount of time to wait for reading back a response from an Elasticsearch server.
+
+##### Inputs Variables
+* `graylog_inputs_arg`: Define the global inputs parameters.
+
+##### Indexes Optimization Tuning
+* `graylog_indexes_arg`: Define the customer index parameters.
+
+
+### Other parameters
+There are some variables in vars/main.yml:
+* `graylog_kernel_parameters`: Operating system variables.
+
+## Dependencies
+There are no dependencies on other roles.
+
+## Example
+
+### Hosts inventory file
+See tests/inventory for an example.
+
+    node01 ansible_host='192.168.1.10' graylog_cluster='syslog'
+    node02 ansible_host='192.168.1.11' graylog_cluster='syslog'
+    node03 ansible_host='192.168.1.12' graylog_cluster='syslog'
+
+### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
+    - hosts: all
       roles:
-         - { role: username.rolename, x: 42 }
+         - role: ansible-role-linux-graylog
+           graylog_cluster: syslog
 
-License
--------
+### Combination of group vars and playbook
+You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
-BSD
+    graylog_cluster: 'default'
+    graylog_heap_size: '2G'
+    graylog_path: '/data'
+    graylog_root_email: 'somebody@domain.com'
+    graylog_root_password: 'password'
+    graylog_root_timezone: 'PRC'
+    graylog_root_username: 'admin'
+    graylog_selinux: 'false'
+    graylog_version: '3.0'
+    graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap'
+    graylog_elastic_auth: false
+    graylog_elastic_hosts: 'localhost'
+    graylog_elastic_port: '9200'
+    graylog_elastic_user: 'elastic'
+    graylog_elastic_pass: 'password'
+    graylog_mongod_auth: false
+    graylog_mongod_hosts: 'localhost'
+    graylog_mongod_pass: 'password'
+    graylog_mongod_port: '27017'
+    graylog_mongod_user: 'graylog'
+    graylog_port_arg:
+      api: '9099'
+    environments: 'SIT'
+    consul_is_register: false
+    consul_exporter_token: '00000000-0000-0000-0000-000000000000'
+    consul_clients: 'localhost'
+    consul_http_port: '8500'
+    graylog_mail_arg:
+      transport_email_enabled: false
+      transport_email_hostname: 'localhost'
+      transport_email_port: '25'
+      transport_email_use_auth: false
+      transport_email_use_tls: false
+      transport_email_use_ssl: false
+    graylog_arg:
+      alert_check_interval: '60' and alarms are being sent.
+      allow_highlighting: false
+      allow_leading_wildcard_searches: false
+      async_eventbus_processors: '2'
+      versionchecks: false
+      disable_sigar: true
+      http_connect_timeout: '10s'
+      http_enable_cors: true
+      http_enable_gzip: true
+      http_enable_tls: false
+      http_max_header_size: '8192'
+      http_read_timeout: '20s'
+      http_thread_pool_size: '12'
+      http_write_timeout: '20s'
+      index_ranges_cleanup_interval: '1h'
+      inputbuffer_processors: '2'
+      inputbuffer_ring_size: '65536'
+      inputbuffer_wait_strategy: 'blocking'
+      message_journal_dir: '{{ graylog_path }}/graylog/journal'
+      message_journal_enabled: true
+      message_journal_flush_age: '1m'
+      message_journal_flush_interval: '1000000'
+      message_journal_max_age: '12h'
+      message_journal_max_size: '10gb'
+      message_journal_segment_age: '1h'
+      message_journal_segment_size: '200mb'
+      mongod_max_connections: '1000'
+      output_batch_size: '500'
+      output_flush_interval: '1'
+      outputbuffer_processors: '2'
+      processbuffer_processors: '2'
+      processor_wait_strategy: 'blocking'
+      ring_size: '65536'
+      recvbuffer_sizes: '2097152'
+    graylog_elastic_arg:
+      compression_enabled: true
+      connect_timeout: '10s'
+      disable_index_optimization: false
+      disable_version_check: true
+      discovery_enabled: false
+      discovery_filter: ''
+      discovery_frequency: '30s'
+      idle_timeout: '600s'
+      index_optimization_jobs: '20'
+      index_optimization_timeout: '1h'
+      max_docs_per_index: '20000000'
+      max_number_of_indices: '20'
+      max_retries: '3'
+      max_size_per_index: '1073741824'
+      max_time_per_index: '1d'
+      max_total_connections: '20'
+      max_total_connections_per_route: '3'
+      replicas: '0'
+      request_timeout: '1m'
+      retention_strategy: 'delete'
+      rotation_strategy: 'count'
+      shards: '1'
+      socket_timeout: '60s'
+    graylog_inputs_arg:
+      - type: 'gelf.udp.GELFUDPInput'
+        port: '12201'
+      - type: 'gelf.udp.GELFUDPInput'
+        port: '12202'
+      - type: 'syslog.udp.SyslogUDPInput'
+        port: '1514'
+    graylog_indexes_arg:
+      - refresh_interval: '30s'
+        translog:
+          sync_interval: '30s'
+          durability: 'async'
 
-Author Information
-------------------
+## License
+![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## Author Information
+Please send your suggestions to make this role better.
+
+## Contributors
+Special thanks to the [Connext Information Technology](http://www.connext.com.cn) for their contributions to this role.
