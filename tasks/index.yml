@@ -37,4 +37,4 @@
   until: register_status.status == 204
   retries: 10
   delay: 3
-#  no_log: true
+  no_log: true
