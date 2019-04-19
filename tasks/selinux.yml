@@ -17,12 +17,22 @@
     graylog_selinux: '{{ true }}'
   when: 'getenforce_bin.stat.exists and ("Enforcing" in sestatus.stdout or "Permissive" in sestatus.stdout)'
 
-- name: 'Allow Graylog to listen on tcp port'
+- name: Allow Graylog to listen on service port
   seport:
     ports: '{{ item.value }}'
     proto: 'tcp'
     setype: 'http_port_t'
     state: 'present'
   loop: '{{ graylog_port_arg|dict2items }}'
+  when:
+    - graylog_selinux
+
+- name: Allow Graylog to listen on inputs port
+  seport:
+    ports: '{{ item.port }}'
+    proto: "{{ item.name.split(' ')[1] | lower }}"
+    setype: 'http_port_t'
+    state: 'present'
+  loop: '{{ graylog_inputs_arg }}'
   when:
     - graylog_selinux

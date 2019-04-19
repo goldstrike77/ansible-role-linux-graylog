@@ -5,7 +5,7 @@ graylog_heap_size: '2G' # Specify the maximum memory allocation pool for a Java 
 graylog_path: '/data' # This directory is used to store Graylog server state.
 graylog_root_email: 'somebody@domain.com' # The email address of the root user.
 graylog_root_password: 'password' # A SHA2 hash of a password for root user.
-graylog_root_timezone: 'PRC' # The time zone setting of the root user.
+graylog_root_timezone: 'Asia/Shanghai' # The time zone setting of the root user.
 graylog_root_username: 'admin' # The default root username.
 graylog_selinux: 'false' # SELinux security policy.
 graylog_version: '3.0' # Specify the Graylog version.
@@ -110,12 +110,24 @@ graylog_elastic_arg:
 
 # Inputs Variables #
 graylog_inputs_arg: # Define the global inputs parameters.
-  - type: 'gelf.udp.GELFUDPInput'
+  - name: 'GELF UDP'
+    type: 'org.graylog2.inputs.gelf.udp.GELFUDPInput'
     port: '12201'
-  - type: 'gelf.udp.GELFUDPInput'
+  - name: 'GELF UDP'
+    type: 'org.graylog2.inputs.gelf.udp.GELFUDPInput'
     port: '12202'
-  - type: 'syslog.udp.SyslogUDPInput'
+  - name: 'Syslog UDP'
+    type: 'org.graylog2.inputs.syslog.udp.SyslogUDPInput'
     port: '1514'
+  - name: 'Syslog UDP'
+    type: 'org.graylog2.inputs.syslog.udp.SyslogUDPInput'
+    port: '1515'
+  - name: 'CEF UDP Input'
+    type: 'org.graylog.plugins.cef.input.CEFUDPInput'
+    port: '5555'
+  - name: 'CEF UDP Input'
+    type: 'org.graylog.plugins.cef.input.CEFUDPInput'
+    port: '5556'
 
 # Indexes Optimization Tuning#
 graylog_indexes_arg: # Define the customer index parameters.
