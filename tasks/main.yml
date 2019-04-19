@@ -19,7 +19,7 @@
   notify: 'Ensure graylog service is enabled'
   when:
     - graylog_servers[0] in ansible_default_ipv4.address
-    - cert_update|changed or sys_update|changed or conf_update|changed or geo_update|changed or plugin_update|changed
+    - cert_update|changed or sys_update|changed or conf_update|changed or plugin_update|changed
 
 - name: Force the handler to run immediately
   meta: flush_handlers
@@ -34,7 +34,7 @@
   notify: 'Ensure graylog service is enabled'
   when:
     - graylog_servers[0] not in ansible_default_ipv4.address
-    - cert_update|changed or sys_update|changed or conf_update|changed or geo_update|changed or plugin_update|changed
+    - cert_update|changed or sys_update|changed or conf_update|changed or plugin_update|changed
 
 - name: Force the handler to run immediately
   meta: flush_handlers
@@ -53,6 +53,9 @@
   when:
     - graylog_indexes_arg is defined
     - graylog_servers[0] in ansible_default_ipv4.address
+
+- name: Configure the geolocation resolution
+  include: 'geolocation.yml'
 
 - name: Ensure MTA service is enabled
   systemd:

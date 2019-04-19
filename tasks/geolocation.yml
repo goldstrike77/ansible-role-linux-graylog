@@ -1,0 +1,117 @@
+---
+- name: Query Graylog exists Lookup Table
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/adapters'
+    method: 'GET'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    force_basic_auth: 'yes'
+    status_code: '200'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  register: graylog_current_lut_data_adapters
+  until: graylog_current_lut_data_adapters.status == 200
+  retries: 10
+  delay: 3
+  no_log: true
+
+- name: Gather Graylog exists Lookup Table variables
+  set_fact:
+    graylog_lutName: "{{ graylog_current_lut_data_adapters | json_query('json.data_adapters[*].name') }}"
+
+- name: Geolocation database download
+  unarchive:
+    src: 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz'
+    dest: '/etc/graylog/server'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+    extra_opts: [--strip-components=1]
+    exclude:
+      - 'COPYRIGHT.txt'
+      - 'LICENSE.txt'
+      - 'README.txt'
+    remote_src: yes
+    validate_certs: 'no'
+  register: graylog_geo_file_update
+  ignore_errors: true
+  when:
+    - '"geo-ip-data-adapter" not in graylog_lutName'
+
+- name: Create a Geo IP Data Adapter and point it to the location
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/adapters'
+    method: 'POST'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    body: '{"title":"Geo IP Data Adapter","description":"Geo IP Data Adapter","name":"geo-ip-data-adapter","content_pack":null,"config":{"type":"maxmind_geoip","path":"/etc/graylog/server/GeoLite2-City.mmdb","database_type":"MAXMIND_CITY","check_interval":60,"check_interval_unit":"MINUTES"}}'
+    force_basic_auth: 'yes'
+    body_format: 'json'
+    status_code: '200'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  register: graylog_lut_data_adapters
+  until: graylog_lut_data_adapters.status == 200
+  retries: 10
+  delay: 3
+  when:
+    - 'graylog_geo_file_update is succeeded'
+    - 'graylog_servers[0] in ansible_default_ipv4.address'
+    - '"geo-ip-data-adapter" not in graylog_lutName'
+  no_log: true
+
+- name: Create a Cache to make lookups faster
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/caches'
+    method: 'POST'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    body: '{"config":{"type":"guava_cache","max_size":100000,"expire_after_access":60,"expire_after_access_unit":"MINUTES","expire_after_write":0,"expire_after_write_unit":null},"title":"Geo IP Data Cache","description":"Geo IP Data Cache","name":"geo-ip-data-cache","content_pack":null}'
+    force_basic_auth: 'yes'
+    body_format: 'json'
+    status_code: '200'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  register: graylog_lut_caches
+  until: graylog_lut_caches.status == 200
+  retries: 10
+  delay: 3
+  when:
+    - 'graylog_geo_file_update is succeeded'
+    - 'graylog_servers[0] in ansible_default_ipv4.address'
+    - '"geo-ip-data-adapter" not in graylog_lutName'
+  no_log: true
+
+- name: Create MaxMind City Lookup Table
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/tables'
+    method: 'POST'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    body: '{"title":"Geo Location","description":"Geo Location","name":"geo-location","cache_id":"{{ graylog_lut_caches.json.id }}","data_adapter_id":"{{ graylog_lut_data_adapters.json.id }}","content_pack":null,"default_single_value":"","default_single_value_type":"NULL","default_multi_value":"","default_multi_value_type":"NULL"}'
+    force_basic_auth: 'yes'
+    body_format: 'json'
+    status_code: '200'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  register: graylog_lut_tables
+  until: graylog_lut_tables.status == 200
+  retries: 10
+  delay: 3
+  when:
+    - 'graylog_geo_file_update is succeeded'
+    - 'graylog_servers[0] in ansible_default_ipv4.address'
+    - '"geo-ip-data-adapter" not in graylog_lutName'
+  no_log: true
