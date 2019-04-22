@@ -55,3 +55,31 @@ galaxy_info:
 dependencies:
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,
   # if you add dependencies to this list.
+  - role: 'ansible-role-linux-nginx'
+    vars:
+      ngx_block_common_exploits: true
+      ngx_block_agents: true
+      ngx_block_file_inject: true
+      ngx_block_spam: true
+      ngx_block_sql_inject: true
+      ngx_compress: true
+      ngx_dhparam: true
+      ngx_pagespeed: true
+      ngx_ssl_protocols: 'modern'
+      ngx_version: 'extras'
+      ngx_site:
+        - domain: '{{ graylog_ngx_domain }}'
+          type: 'proxy'
+          location: '/'
+          syntax:
+            - 'expires off'
+            - 'proxy_set_header Host $http_host'
+            - 'proxy_set_header X-Forwarded-Host $host'
+            - 'proxy_set_header X-Forwarded-Server $host'
+            - 'proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for'
+            - 'proxy_set_header X-Graylog-Server-URL https://$server_name/'
+          backend_address: '{{ graylog_servers }}'
+          backend_port: '{{ graylog_port_arg.api }}'
+          sticky: 'ip_hash'
+          keepalive: '{{ graylog_arg.http_thread_pool_size }}'
+    when: graylog_ngx_is_used

@@ -11,6 +11,10 @@ graylog_selinux: 'false' # SELinux security policy.
 graylog_version: '3.0' # Specify the Graylog version.
 graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap' # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
 
+# NGinx parameters #
+graylog_ngx_is_used: false # A boolean value, whether proxy web interface and API traffic using NGinx.
+graylog_ngx_domain: 'syslog.example.com' # Defines domain name.
+
 # Elastic parameters #
 graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.
 graylog_elastic_hosts: 'localhost' # List of Elasticsearch hosts Graylog should connect to.

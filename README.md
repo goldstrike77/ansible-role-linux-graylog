@@ -57,6 +57,10 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_version`: Specify the Graylog version.
 * `graylog_password_secret`: a secret that is used for password encryption and salting.
 
+##### NGinx parameters
+* `graylog_ngx_is_used`: A boolean value, whether proxy web interface and API traffic using NGinx.
+* `graylog_ngx_domain`: Defines domain name.
+
 ##### Elasticseach connection parameters
 * `graylog_elastic_auth`: Enable or Disable Elasticsearch authentication.
 * `graylog_elastic_hosts`: List of Elasticsearch hosts Graylog should connect to.
@@ -83,7 +87,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `consul_http_port`: The consul HTTP API port.
 
 ##### Email Variables
-
 * `graylog_mail_arg.transport_email_enabled`: Enable mail for alert.
 * `graylog_mail_arg.transport_email_hostname`: The SMTP host address.
 * `graylog_mail_arg.transport_email_port`: The SMTP host communication port.
@@ -128,7 +131,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_arg.recvbuffer_sizes`: UDP receive buffer size for all message inputs.
 
 ##### Elasticsearch Variables
-
 * `graylog_elastic_arg.compression_enabled`: Enable payload compression for Elasticsearch requests.
 * `graylog_elastic_arg.connect_timeout`: Maximum amount of time to wait for successfull connection to Elasticsearch HTTP port.
 * `graylog_elastic_arg.disable_index_optimization`: Disable the optimization of Elasticsearch indices after index cycling.
@@ -159,13 +161,12 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 ##### Indexes Optimization Tuning
 * `graylog_indexes_arg`: Define the customer index parameters.
 
-
 ### Other parameters
 There are some variables in vars/main.yml:
 * `graylog_kernel_parameters`: Operating system variables.
 
 ## Dependencies
-There are no dependencies on other roles.
+[ansible-role-linux-nginx](https://github.com/goldstrike77/ansible-role-linux-nginx.git)
 
 ## Example
 
@@ -197,6 +198,8 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_selinux: 'false'
     graylog_version: '3.0'
     graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap'
+    graylog_ngx_is_used: false
+    graylog_ngx_domain: 'syslog.example.com'
     graylog_elastic_auth: false
     graylog_elastic_hosts: 'localhost'
     graylog_elastic_port: '9200'
