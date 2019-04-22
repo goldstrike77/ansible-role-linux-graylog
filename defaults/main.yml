@@ -23,6 +23,7 @@ graylog_mongod_auth: false # A boolean value, Enable or Disable MongoDB authenti
 graylog_mongod_hosts: 'localhost' # Group of MongoDB hosts Graylog should connect to.
 graylog_mongod_pass: 'password' # MongoDB Graylog password.
 graylog_mongod_port: '27017' # The MongoDB instance port.
+graylog_mongod_replset: 'graylog' # MongoDB ReplicaSet name.
 graylog_mongod_user: 'graylog' # MongoDB Graylog username.
 
 # Listen port #

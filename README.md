@@ -69,6 +69,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_mongod_hosts`: Group of MongoDB hosts Graylog should connect to.
 * `graylog_mongod_pass`: MongoDB Graylog password.
 * `graylog_mongod_port`: The MongoDB instance port.
+* `graylog_mongod_replset`: MongoDB ReplicaSet name.
 * `graylog_mongod_user`: MongoDB Graylog username.
 
 ##### Listen port
@@ -205,6 +206,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_mongod_hosts: 'localhost'
     graylog_mongod_pass: 'password'
     graylog_mongod_port: '27017'
+    graylog_mongod_replset: 'graylog'
     graylog_mongod_user: 'graylog'
     graylog_port_arg:
       api: '9099'
