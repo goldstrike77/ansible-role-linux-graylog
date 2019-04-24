@@ -50,8 +50,6 @@
   environment:
     no_proxy: '{{ ansible_default_ipv4.address }}'
   loop: "{{ graylog_inputs_arg | json_query('[*].{name:name,type:type,port:port}') }}"
-  loop_control:
-    index_var: index
   register: register_status
   until: register_status.status == 201
   retries: 10
