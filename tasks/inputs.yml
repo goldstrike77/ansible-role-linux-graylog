@@ -57,4 +57,4 @@
   retries: 10
   delay: 3
   when: item not in ( graylog_current_inputs | json_query('json.inputs[*].{name:name,type:type,port:attributes.port}') )
-#  no_log: true
+  no_log: true
