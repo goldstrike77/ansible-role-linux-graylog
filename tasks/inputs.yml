@@ -34,39 +34,13 @@
   delay: 3
   no_log: true
 
-- name: Gather Graylog exists inputs variables
-  set_fact:
-    graylog_inputId: "{{ graylog_current_inputs | json_query('json.inputs[*].id') }}"
-
-- name: Erase Graylog current inputs
-  uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs/{{ item }}'
-    method: 'DELETE'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
-    force_basic_auth: 'yes'
-    status_code: '204'
-    headers:
-      X-Requested-By: '{{ ansible_default_ipv4.address }}'
-      cache-control: 'no-cache'
-  environment:
-    no_proxy: '{{ ansible_default_ipv4.address }}'
-  loop: "{{ graylog_inputId|flatten(levels=1) }}"
-  register: register_status
-  until: register_status.status == 204
-  retries: 10
-  delay: 3
-  no_log: true
-  when:
-    - graylog_current_inputs.json.total > 0
-
 - name: Create graylog global inputs
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs'
     method: 'POST'
     user: '{{ graylog_root_username }}'
     password: '{{ graylog_root_password }}'
-    body: '{"title":"{{ index + 1 }}.","type":"{{ item.type }}","configuration":{"bind_address":"0.0.0.0","port":{{ item.port }},"recv_buffer_size":{{ graylog_arg.recvbuffer_sizes }},"override_source":null,"decompress_size_limit":8388608,"number_worker_threads":{{ graylog_arg.inputbuffer_processors }}{% if item.name == "CEF UDP Input" %},"timezone":"{{ graylog_root_timezone }}"{% else %}{% endif %}},"global":true}'
+    body: '{"title":"{{ lookup("password", "/dev/null length=8 chars=ascii_letters,digits") | upper }}","type":"{{ item.type }}","configuration":{"bind_address":"0.0.0.0","port":{{ item.port }},"recv_buffer_size":{{ graylog_arg.recvbuffer_sizes }},"override_source":null,"decompress_size_limit":8388608,"number_worker_threads":{{ graylog_arg.inputbuffer_processors }}{% if item.name == "CEF UDP Input" %},"timezone":"{{ graylog_root_timezone }}"{% else %}{% endif %}},"global":true}'
     force_basic_auth: 'yes'
     body_format: 'json'
     status_code: '201'
@@ -75,11 +49,12 @@
       cache-control: 'no-cache'
   environment:
     no_proxy: '{{ ansible_default_ipv4.address }}'
-  loop: '{{ graylog_inputs_arg }}'
+  loop: "{{ graylog_inputs_arg | json_query('[*].{name:name,type:type,port:port}') }}"
   loop_control:
     index_var: index
   register: register_status
   until: register_status.status == 201
   retries: 10
   delay: 3
-  no_log: true
+  when: item not in ( graylog_current_inputs | json_query('json.inputs[*].{name:name,type:type,port:attributes.port}') )
+#  no_log: true

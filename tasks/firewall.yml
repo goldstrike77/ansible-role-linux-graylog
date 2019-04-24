@@ -16,3 +16,14 @@
     immediate: 'true'
     state: 'enabled'
   loop: '{{ graylog_inputs_arg }}'
+  when: graylog_inputs_arg is defined
+
+- name: Allow Graylog Content Packs inputs port
+  firewalld:
+    port: "{{ item.port }}/{{ item.protocol | lower }}"
+    zone: 'public'
+    permanent: 'true'
+    immediate: 'true'
+    state: 'enabled'
+  loop: '{{ graylog_content_packs_arg }}'
+  when: graylog_content_packs_arg is defined

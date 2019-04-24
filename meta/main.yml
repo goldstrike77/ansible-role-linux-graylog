@@ -83,3 +83,5 @@ dependencies:
           sticky: 'ip_hash'
           keepalive: '{{ graylog_arg.http_thread_pool_size }}'
     when: graylog_ngx_is_used
+    changed_when: false
+    failed_when: false

@@ -19,7 +19,7 @@
   notify: 'Ensure graylog service is enabled'
   when:
     - graylog_servers[0] in ansible_default_ipv4.address
-    - cert_update|changed or sys_update|changed or conf_update|changed or plugin_update|changed
+    - cert_update is changed or sys_update is changed or conf_update is changed or plugin_update is changed
 
 - name: Force the handler to run immediately
   meta: flush_handlers
@@ -28,13 +28,20 @@
   include: 'inputs.yml'
   when:
     - graylog_servers[0] in ansible_default_ipv4.address
+    - graylog_inputs_arg is defined
+
+- name: Create Graylog Content Packs
+  include: 'content_packs.yml'
+  when:
+    - graylog_servers[0] in ansible_default_ipv4.address
+    - graylog_content_packs_arg is defined
 
 - name: Reload the Other node Graylog service
   shell: echo ''
   notify: 'Ensure graylog service is enabled'
   when:
     - graylog_servers[0] not in ansible_default_ipv4.address
-    - cert_update|changed or sys_update|changed or conf_update|changed or plugin_update|changed
+    - cert_update is changed or sys_update is changed or conf_update is changed or plugin_update is changed
 
 - name: Force the handler to run immediately
   meta: flush_handlers

@@ -1,0 +1,73 @@
+---
+- name: Query Graylog exits Content Packs
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs'
+    method: 'GET'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    force_basic_auth: 'yes'
+    status_code: '200'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  register: graylog_current_content_packs
+  until: graylog_current_content_packs.status == 200
+  retries: 10
+  delay: 3
+  no_log: true
+
+- name: Gather Graylog exists Content Packs name
+  set_fact:
+    graylog_content_packs_name: "{{ graylog_current_content_packs | json_query('json.content_packs[*].name') }}"
+
+- name: Create graylog Content Packs
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs'
+    method: 'POST'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    body: '{{ lookup("template","content_packs/{{ item.name }}.json") }}'
+    force_basic_auth: 'yes'
+    body_format: 'json'
+    status_code: '201'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  loop: '{{ graylog_content_packs_arg }}'
+  register: graylog_content_packs_status
+  until: graylog_content_packs_status.status == 201
+  retries: 10
+  delay: 3
+  no_log: true
+  when: item.name not in graylog_content_packs_name
+
+- name: Gather Graylog created Content Packs ID
+  set_fact:
+    graylog_content_packs_id: "{{ graylog_content_packs_status | json_query('results[*].invocation.module_args.body.id') }}"
+
+- name: Installations Graylog Content Packs
+  uri:
+    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs/{{ item }}/1/installations'
+    method: 'POST'
+    user: '{{ graylog_root_username }}'
+    password: '{{ graylog_root_password }}'
+    body: '{"comment":"","parameters":{}}'
+    force_basic_auth: 'yes'
+    body_format: 'json'
+    status_code: '200'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  loop: '{{ graylog_content_packs_id }}'
+  register: graylog_content_packs_install
+  until: graylog_content_packs_install.status == 200
+  retries: 10
+  delay: 3
+  no_log: true
+  when: graylog_content_packs_status is succeeded

@@ -36,3 +36,15 @@
   loop: '{{ graylog_inputs_arg }}'
   when:
     - graylog_selinux
+    - graylog_inputs_arg is defined
+
+- name: Allow Graylog to listen on Content Packs inputs port
+  seport:
+    ports: '{{ item.port }}'
+    proto: "{{ item.protocol }}"
+    setype: 'http_port_t'
+    state: 'present'
+  loop: '{{ graylog_content_packs_arg }}'
+  when:
+    - graylog_selinux
+    - graylog_content_packs_arg is defined

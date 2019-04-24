@@ -158,6 +158,9 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 ##### Inputs Variables
 * `graylog_inputs_arg`: Define the global inputs parameters.
 
+##### Content Packs Variables
+* `graylog_content_packs_arg`: Define the Content Packs parameters.
+
 ##### Indexes Optimization Tuning
 * `graylog_indexes_arg`: Define the customer index parameters.
 
@@ -287,14 +290,18 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_inputs_arg:
       - name: 'GELF UDP'
         type: 'org.graylog2.inputs.gelf.udp.GELFUDPInput'
-        port: '12201'
+        port: 12201
       - name: 'Syslog UDP'
         type: 'org.graylog2.inputs.syslog.udp.SyslogUDPInput'
-        port: '1514'
+        port: 1514
       - name: 'CEF UDP Input'
         type: 'org.graylog.plugins.cef.input.CEFUDPInput'
-        port: '5555'
+        port: 5555
         graylog_indexes_arg:
+    graylog_content_packs_arg:
+      - name: 'NGinx'
+        protocol: 'udp'
+        port: '12302-12301'
     graylog_indexes_arg:
       - refresh_interval: '30s'
         translog:

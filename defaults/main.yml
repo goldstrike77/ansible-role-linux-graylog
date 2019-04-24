@@ -106,7 +106,7 @@ graylog_elastic_arg:
   max_time_per_index: '1d' # Maximum time before a new Elasticsearch index is being created.
   max_total_connections: '{{ ansible_processor_vcpus * 10 }}' # Maximum number of total connections to Elasticsearch.
   max_total_connections_per_route: '{{ graylog_elastic_hosts | length }}' # Maximum number of total connections per Elasticsearch route.
-  replicas: '{{ graylog_elastic_hosts | length - 1 }}' # The number of replicas for your indices.
+  replicas: '{% if ( graylog_elastic_hosts | length - 1 ) >= 2 %}2{% else %}{{ graylog_elastic_hosts - 1 }}{% endif %}' # The number of replicas for your indices.
   request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
   retention_strategy: 'delete' # Decide what happens with the oldest indices when the maximum number of indices is reached.
   rotation_strategy: 'count' # The strategy it uses to determine when to rotate the currently active write index.
@@ -114,25 +114,31 @@ graylog_elastic_arg:
   socket_timeout: '60s' # Maximum amount of time to wait for reading back a response from an Elasticsearch server.
 
 # Inputs Variables #
-graylog_inputs_arg: # Define the global inputs parameters.
+graylog_inputs_arg: # Define the global common inputs parameters.
   - name: 'GELF UDP'
     type: 'org.graylog2.inputs.gelf.udp.GELFUDPInput'
-    port: '12201'
+    port: 12201
   - name: 'GELF UDP'
     type: 'org.graylog2.inputs.gelf.udp.GELFUDPInput'
-    port: '12202'
+    port: 12202
   - name: 'Syslog UDP'
     type: 'org.graylog2.inputs.syslog.udp.SyslogUDPInput'
-    port: '1514'
+    port: 1514
   - name: 'Syslog UDP'
     type: 'org.graylog2.inputs.syslog.udp.SyslogUDPInput'
-    port: '1515'
+    port: 1515
   - name: 'CEF UDP Input'
     type: 'org.graylog.plugins.cef.input.CEFUDPInput'
-    port: '5555'
+    port: 5555
   - name: 'CEF UDP Input'
     type: 'org.graylog.plugins.cef.input.CEFUDPInput'
-    port: '5556'
+    port: 5556
+
+# Content Packs Variables #
+graylog_content_packs_arg: # Define the Content Packs parameters.
+  - name: 'NGinx'
+    protocol: 'udp'
+    port: '12301-12302'
 
 # Indexes Optimization Tuning#
 graylog_indexes_arg: # Define the customer index parameters.
