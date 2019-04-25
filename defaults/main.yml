@@ -12,23 +12,33 @@ graylog_version: '3.0' # Specify the Graylog version.
 graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap' # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
 
 # NGinx parameters #
-graylog_ngx_is_used: false # A boolean value, whether proxy web interface and API traffic using NGinx.
+graylog_ngx_dept: false # A boolean value, whether proxy web interface and API traffic using NGinx.
 graylog_ngx_domain: 'syslog.example.com' # Defines domain name.
 
 # Elastic parameters #
 graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.
-graylog_elastic_hosts: 'localhost' # List of Elasticsearch hosts Graylog should connect to.
-graylog_elastic_port: '9200' # The Elasticsearch node RESTful API port.
-graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
+graylog_elastic_cluster: 'graylog' # Specify name for your Elastic cluster name.
+graylog_elastic_dept: false # A boolean value, whether ElasticSearch use the same environment.
+#graylog_elastic_hosts: 'localhost' # List of Elasticsearch hosts Graylog should connect to.
 graylog_elastic_pass: 'password' # Elasticsearch authenticated password.
+graylog_elastic_path: '/data' # Specify the ElasticSearch data directory.
+graylog_elastic_port_rest: '9200' # Elasticsearch REST port.
+graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
+graylog_elastic_version: '5.6.16' # Specify the Elasticsearch version.
 
 # MongoDB parameters #
 graylog_mongod_auth: false # A boolean value, Enable or Disable MongoDB authentication.
-graylog_mongod_hosts: 'localhost' # Group of MongoDB hosts Graylog should connect to.
+graylog_mongod_dept: false # A boolean value, whether MongoDB database use the same environment.
+#graylog_mongod_hosts: 'localhost' # Group of MongoDB hosts Graylog should connect to.
+graylog_mongod_node_role: 'replica' # Member role for ReplicaSet.
+graylog_mongod_path: '/data' # Specify the MongoDB data directory.
 graylog_mongod_pass: 'password' # MongoDB Graylog password.
 graylog_mongod_port: '27017' # The MongoDB instance port.
 graylog_mongod_replset: 'graylog' # MongoDB ReplicaSet name.
+graylog_mongod_sa_pass: 'password' # MongoDB Superuser password.
+graylog_mongod_sa_user: 'sa' # # MongoDB Superuser name.
 graylog_mongod_user: 'graylog' # MongoDB Graylog username.
+graylog_mongod_version: '36' # Specify the MongoDB version, minimum 34.
 
 # Listen port #
 graylog_port_arg:

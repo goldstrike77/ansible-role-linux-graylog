@@ -67,7 +67,7 @@ graylog_conf_parameter:
   - { regexp: '^message_journal_segment_age ', line: 'message_journal_segment_age = {{ graylog_arg.message_journal_segment_age }}' }
   - { regexp: '^message_journal_segment_size ', line: 'message_journal_segment_size = {{ graylog_arg.message_journal_segment_size }}' }
   - { regexp: '^mongodb_max_connections ', line: 'mongodb_max_connections = {{ graylog_arg.mongod_max_connections }}' }
-  - { regexp: '^mongodb_uri ', line: 'mongodb_uri = {% if graylog_mongod_auth %}mongodb://{{ graylog_mongod_user }}:{{ graylog_mongod_pass }}@{{ graylog_mongod_hosts | list | join(",") }}:{{ graylog_mongod_port }}/graylog{% else %}mongodb://{{ graylog_mongod_hosts | list | join(",") }}:{{ graylog_mongod_port }}/graylog{% endif %}{% if graylog_mongod_replset is defined and graylog_mongod_hosts | length > 1 %}?replicaSet={{ graylog_mongod_replset | upper }}{% endif %}' }
+  - { regexp: '^mongodb_uri ', line: 'mongodb_uri = mongodb://{% if graylog_mongod_auth %}{{ graylog_mongod_user }}:{{ graylog_mongod_pass }}@{% endif %}{{ graylog_mongod_hosts |list | join(",") }}:{{ graylog_mongod_port }}/GRAYLOG{% if graylog_mongod_replset is defined and graylog_mongod_replset !="Non-ReplicaSet" %}?replicaSet={{ graylog_mongod_replset | default("GRAYLOG") | upper }}{% endif %}' }
   - { regexp: '^output_batch_size ', line: 'output_batch_size = {{ graylog_arg.output_batch_size }}' }
   - { regexp: '^output_flush_interval ', line: 'output_flush_interval = {{ graylog_arg.output_flush_interval }}' }
   - { regexp: '^outputbuffer_processors ', line: 'outputbuffer_processors = {{ graylog_arg.outputbuffer_processors }}' }

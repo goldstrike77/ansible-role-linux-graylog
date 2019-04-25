@@ -55,6 +55,33 @@ galaxy_info:
 dependencies:
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,
   # if you add dependencies to this list.
+  - role: 'ansible-role-linux-elasticsearch'
+    vars:
+      elastic_auth: '{{ graylog_elastic_auth }}'
+      elastic_cluster: '{{ graylog_elastic_cluster }}'
+      elastic_pass: '{{ graylog_elastic_pass }}'
+      elastic_path: '{{ graylog_elastic_path }}'
+      elastic_port_rest: '{{ graylog_elastic_port_rest }}'
+      elastic_servers: '{{ graylog_servers }}'
+      elastic_version: '{{ graylog_elastic_version }}'
+    when: graylog_elastic_dept
+  - role: 'ansible-role-linux-mongodb'
+    vars:
+      mongod_servers: '{{ graylog_servers }}'
+      mongod_version: '{{ graylog_mongod_version }}'
+      mongod_authorization: '{{ graylog_mongod_auth }}'
+      mongod_node_role: '{{ graylog_mongod_node_role }}'
+      mongod_path: '{{ graylog_mongod_path }}'
+      mongod_port: '{{ graylog_mongod_port }}'
+      mongod_replset: "{% if ( graylog_servers|length is not divisibleby 2 ) and ( graylog_servers|length > 2 ) %}{{ graylog_mongod_replset | default('GRAYLOG') }}{% else %}Non-ReplicaSet{% endif %}"
+      mongod_sa_pass: '{{ graylog_mongod_sa_pass }}'
+      mongod_sa_user: '{{ graylog_mongod_sa_user }}'
+      mongod_bu_dbs_arg:
+        - user: '{{ graylog_mongod_user }}'
+          pass: '{{ graylog_mongod_pass }}'
+          dbs: 'graylog'
+          role: 'readWrite'
+    when: graylog_mongod_dept
   - role: 'ansible-role-linux-nginx'
     vars:
       ngx_block_common_exploits: true
@@ -82,6 +109,6 @@ dependencies:
           backend_port: '{{ graylog_port_arg.api }}'
           sticky: 'ip_hash'
           keepalive: '{{ graylog_arg.http_thread_pool_size }}'
-    when: graylog_ngx_is_used
+    when: graylog_ngx_dept
     changed_when: false
     failed_when: false

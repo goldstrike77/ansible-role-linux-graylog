@@ -1,4 +1,18 @@
 ---
+- name: Sets MongoDB node variables for ReplicaSet
+  set_fact:
+    graylog_mongod_hosts: '{{ mongod_servers }}'
+  when:
+    - graylog_mongod_dept
+    - mongod_replset != 'Non-ReplicaSet'
+
+- name: Sets MongoDB node variables for stand-alone
+  set_fact:
+    graylog_mongod_hosts: '{{ mongod_servers[0] }}'
+  when:
+    - graylog_mongod_dept
+    - mongod_replset == 'Non-ReplicaSet'
+
 - name: Include OS-specific variables
   include_vars: '{{ ansible_os_family }}.yml'
 
