@@ -14,6 +14,7 @@ graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhe
 # NGinx parameters #
 graylog_ngx_dept: false # A boolean value, whether proxy web interface and API traffic using NGinx.
 graylog_ngx_domain: 'syslog.example.com' # Defines domain name.
+graylog_ngx_version: 'standard' # extras or standard
 
 # Elastic parameters #
 graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.

@@ -84,16 +84,7 @@ dependencies:
     when: graylog_mongod_dept
   - role: 'ansible-role-linux-nginx'
     vars:
-      ngx_block_common_exploits: true
-      ngx_block_agents: true
-      ngx_block_file_inject: true
-      ngx_block_spam: true
-      ngx_block_sql_inject: true
-      ngx_compress: true
-      ngx_dhparam: true
-      ngx_pagespeed: true
-      ngx_ssl_protocols: 'modern'
-      ngx_version: 'extras'
+      ngx_version: '{{ graylog_ngx_version }}'
       ngx_site:
         - domain: '{{ graylog_ngx_domain }}'
           type: 'proxy'
