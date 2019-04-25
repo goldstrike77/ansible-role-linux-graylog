@@ -58,23 +58,34 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_password_secret`: a secret that is used for password encryption and salting.
 
 ##### NGinx parameters
-* `graylog_ngx_is_used`: A boolean value, whether proxy web interface and API traffic using NGinx.
+* `graylog_ngx_dept`: A boolean value, whether proxy web interface and API traffic using NGinx.
 * `graylog_ngx_domain`: Defines domain name.
+* `graylog_ngx_version`:  extras or standard
 
 ##### Elasticseach connection parameters
-* `graylog_elastic_auth`: Enable or Disable Elasticsearch authentication.
+* `graylog_elastic_auth`: A boolean value, Enable or Disable Elasticsearch authentication.
+* `graylog_elastic_cluster`: Specify name for your Elastic cluster name.
+* `graylog_elastic_dept`: A boolean value, whether ElasticSearch use the same environment.
 * `graylog_elastic_hosts`: List of Elasticsearch hosts Graylog should connect to.
-* `graylog_elastic_port`: The Elasticsearch node RESTful API port.
-* `graylog_elastic_user`: Elasticsearch authenticated user.
 * `graylog_elastic_pass`: Elasticsearch authenticated password.
+* `graylog_elastic_path`: Specify the ElasticSearch data directory.
+* `graylog_elastic_port_rest`: Elasticsearch REST port.
+* `graylog_elastic_user`: Elasticsearch authenticated user.
+* `graylog_elastic_version`: Specify the Elasticsearch version.
 
 ##### MongoDB connection parameters
-* `graylog_mongod_auth`: Enable or Disable MongoDB authentication.
+* `graylog_mongod_auth`: A boolean value, Enable or Disable MongoDB authentication.
+* `graylog_mongod_dept`: A boolean value, whether MongoDB database use the same environment.
 * `graylog_mongod_hosts`: Group of MongoDB hosts Graylog should connect to.
+* `graylog_mongod_node_role`: Member role for ReplicaSet.
+* `graylog_mongod_path`: Specify the MongoDB data directory.
 * `graylog_mongod_pass`: MongoDB Graylog password.
 * `graylog_mongod_port`: The MongoDB instance port.
 * `graylog_mongod_replset`: MongoDB ReplicaSet name.
+* `graylog_mongod_sa_pass`: MongoDB Superuser password.
+* `graylog_mongod_sa_user`: MongoDB Superuser name.
 * `graylog_mongod_user`: MongoDB Graylog username.
+* `graylog_mongod_version`: Specify the MongoDB version, minimum 34.
 
 ##### Listen port
 * `graylog_port_arg.api`: WEB / API network communication ports.
@@ -169,7 +180,10 @@ There are some variables in vars/main.yml:
 * `graylog_kernel_parameters`: Operating system variables.
 
 ## Dependencies
-[ansible-role-linux-nginx](https://github.com/goldstrike77/ansible-role-linux-nginx.git)
+- [ansible-role-linux-nginx](https://github.com/goldstrike77/ansible-role-linux-nginx.git)
+- [ansible-role-linux-mongodb](https://github.com/goldstrike77/ansible-role-linux-mongodb.git) 
+- [ansible-role-linux-elasticsearch](https://github.com/goldstrike77/ansible-role-linux-elasticsearch.git)
+
 
 ## Example
 
@@ -201,19 +215,30 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_selinux: 'false'
     graylog_version: '3.0'
     graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap'
-    graylog_ngx_is_used: false
+    graylog_ngx_dept: false
     graylog_ngx_domain: 'syslog.example.com'
+    graylog_ngx_version: 'standard'
     graylog_elastic_auth: false
+    graylog_elastic_cluster: 'graylog'
+    graylog_elastic_dept: false
     graylog_elastic_hosts: 'localhost'
-    graylog_elastic_port: '9200'
-    graylog_elastic_user: 'elastic'
     graylog_elastic_pass: 'password'
+    graylog_elastic_path: '/data'
+    graylog_elastic_port_rest: '9200'
+    graylog_elastic_user: 'elastic'
+    graylog_elastic_version: '5.6.16'
     graylog_mongod_auth: false
+    graylog_mongod_dept: false
     graylog_mongod_hosts: 'localhost'
+    graylog_mongod_node_role: 'replica'
+    graylog_mongod_path: '/data'
     graylog_mongod_pass: 'password'
     graylog_mongod_port: '27017'
     graylog_mongod_replset: 'graylog'
+    graylog_mongod_sa_pass: 'password'
+    graylog_mongod_sa_user: 'sa'
     graylog_mongod_user: 'graylog'
+    graylog_mongod_version: '36'
     graylog_port_arg:
       api: '9099'
     environments: 'SIT'

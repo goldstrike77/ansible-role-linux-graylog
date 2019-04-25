@@ -37,7 +37,7 @@ graylog_mongod_pass: 'password' # MongoDB Graylog password.
 graylog_mongod_port: '27017' # The MongoDB instance port.
 graylog_mongod_replset: 'graylog' # MongoDB ReplicaSet name.
 graylog_mongod_sa_pass: 'password' # MongoDB Superuser password.
-graylog_mongod_sa_user: 'sa' # # MongoDB Superuser name.
+graylog_mongod_sa_user: 'sa' # MongoDB Superuser name.
 graylog_mongod_user: 'graylog' # MongoDB Graylog username.
 graylog_mongod_version: '36' # Specify the MongoDB version, minimum 34.
 
