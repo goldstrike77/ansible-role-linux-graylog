@@ -15,6 +15,8 @@ graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhe
 graylog_ngx_dept: false # A boolean value, whether proxy web interface and API traffic using NGinx.
 graylog_ngx_domain: 'syslog.example.com' # Defines domain name.
 graylog_ngx_version: 'standard' # extras or standard
+graylog_ngx_port_http: '80' # NGinx HTTP listen port.
+graylog_ngx_port_https: '443' # NGinx HTTPs listen port.
 
 # Elastic parameters #
 graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.
@@ -26,6 +28,7 @@ graylog_elastic_path: '/data' # Specify the ElasticSearch data directory.
 graylog_elastic_port_rest: '9200' # Elasticsearch REST port.
 graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
 graylog_elastic_version: '5.6.16' # Specify the Elasticsearch version.
+graylog_elastic_heap_size: '3g' # Specify the maximum memory allocation pool for a Java virtual machine.
 
 # MongoDB parameters #
 graylog_mongod_auth: false # A boolean value, Enable or Disable MongoDB authentication.

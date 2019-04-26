@@ -64,6 +64,7 @@ dependencies:
       elastic_port_rest: '{{ graylog_elastic_port_rest }}'
       elastic_servers: '{{ graylog_servers }}'
       elastic_version: '{{ graylog_elastic_version }}'
+      elastic_heap_size: '{{ graylog_elastic_heap_size }}'
     when: graylog_elastic_dept
   - role: 'ansible-role-linux-mongodb'
     vars:
@@ -85,6 +86,8 @@ dependencies:
   - role: 'ansible-role-linux-nginx'
     vars:
       ngx_version: '{{ graylog_ngx_version }}'
+      ngx_port_http: '{{ graylog_ngx_port_http }}'
+      ngx_port_https: '{{ graylog_ngx_port_https }}'
       ngx_site:
         - domain: '{{ graylog_ngx_domain }}'
           type: 'proxy'

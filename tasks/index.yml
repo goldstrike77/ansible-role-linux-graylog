@@ -1,7 +1,7 @@
 ---
 - name: Apply the additional index mapping
   uri:
-    url: 'http://{{ graylog_elastic_hosts[0] }}:{{ graylog_elastic_port }}/_template/graylog-custom-mapping?pretty'
+    url: 'http://{{ graylog_elastic_hosts[0] }}:{{ graylog_elastic_port_rest }}/_template/graylog-custom-mapping?pretty'
     method: 'PUT'
     user: '{{ graylog_elastic_user }}'
     password: '{{ graylog_elastic_pass }}'

@@ -66,6 +66,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_elastic_auth`: A boolean value, Enable or Disable Elasticsearch authentication.
 * `graylog_elastic_cluster`: Specify name for your Elastic cluster name.
 * `graylog_elastic_dept`: A boolean value, whether ElasticSearch use the same environment.
+* `graylog_elastic_heap_size`: Specify the maximum memory allocation pool for a Java virtual machine.
 * `graylog_elastic_hosts`: List of Elasticsearch hosts Graylog should connect to.
 * `graylog_elastic_pass`: Elasticsearch authenticated password.
 * `graylog_elastic_path`: Specify the ElasticSearch data directory.
@@ -222,6 +223,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_elastic_cluster: 'graylog'
     graylog_elastic_dept: false
     graylog_elastic_hosts: 'localhost'
+    graylog_elastic_heap_size: '3g'
     graylog_elastic_pass: 'password'
     graylog_elastic_path: '/data'
     graylog_elastic_port_rest: '9200'
