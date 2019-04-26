@@ -88,6 +88,12 @@ dependencies:
       ngx_version: '{{ graylog_ngx_version }}'
       ngx_port_http: '{{ graylog_ngx_port_http }}'
       ngx_port_https: '{{ graylog_ngx_port_https }}'
+      ngx_allow_methods:
+        - 'POST'
+        - 'PUT'
+        - 'GET'
+        - 'HEAD'
+        - 'DELETE'
       ngx_site:
         - domain: '{{ graylog_ngx_domain }}'
           type: 'proxy'
