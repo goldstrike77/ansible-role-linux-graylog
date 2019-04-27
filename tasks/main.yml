@@ -39,7 +39,7 @@
   notify: 'Ensure graylog service is enabled'
   when:
     - graylog_servers[0] in ansible_default_ipv4.address
-    - cert_update is changed or sys_update is changed or conf_update is changed or plugin_update is changed
+    - cert_update is changed or conf_update is changed or plugin_update is changed
 
 - name: Force the handler to run immediately
   meta: flush_handlers
@@ -61,7 +61,7 @@
   notify: 'Ensure graylog service is enabled'
   when:
     - graylog_servers[0] not in ansible_default_ipv4.address
-    - cert_update is changed or sys_update is changed or conf_update is changed or plugin_update is changed
+    - cert_update is changed or conf_update is changed or plugin_update is changed
 
 - name: Force the handler to run immediately
   meta: flush_handlers

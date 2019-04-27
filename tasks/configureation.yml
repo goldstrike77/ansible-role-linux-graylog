@@ -44,20 +44,12 @@
   no_log: true
   register: plugin_update
 
-- name: Graylog system configuration
+- name: Graylog server configuration
   template:
-    src: 'graylog-server.j2'
-    dest: '/etc/sysconfig/graylog-server'
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
     owner: root
     group: root
     mode: 0644
-  register: sys_update
-
-- name: Graylog server configuration
-  lineinfile:
-    state: 'present'
-    dest: '/etc/graylog/server/server.conf'
-    regexp: '{{ item.regexp }}'
-    line: '{{ item.line }}'
-  loop: "{{ graylog_conf_parameter|flatten(levels=1) }}"
+  loop: '{{ graylog_conf_scripts }}'
   register: conf_update
