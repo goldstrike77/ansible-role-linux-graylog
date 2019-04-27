@@ -12,8 +12,8 @@
     no_proxy: '{{ ansible_default_ipv4.address }}'
   register: graylog_node_status
   until: graylog_node_status.content.find("ALIVE") != -1
-  retries: 24
-  delay: 5
+  retries: 12
+  delay: 10
 
 - name: Query Graylog exists inputs
   uri:

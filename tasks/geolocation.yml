@@ -18,10 +18,6 @@
   delay: 3
   no_log: true
 
-- name: Gather Graylog exists Lookup Table variables
-  set_fact:
-    graylog_lutName: "{{ graylog_current_lut_data_adapters | json_query('json.data_adapters[*].name') }}"
-
 - name: Geolocation database download
   unarchive:
     src: 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz'
@@ -38,8 +34,7 @@
     validate_certs: 'no'
   register: graylog_geo_file_update
   ignore_errors: true
-  when:
-    - '"geo-ip-data-adapter" not in graylog_lutName'
+  when: "'geo-ip-data-adapter' not in ( graylog_current_lut_data_adapters | json_query('json.data_adapters[*].name') )"
 
 - name: Create a Geo IP Data Adapter and point it to the location
   uri:
@@ -63,7 +58,7 @@
   when:
     - 'graylog_geo_file_update is succeeded'
     - 'graylog_servers[0] in ansible_default_ipv4.address'
-    - '"geo-ip-data-adapter" not in graylog_lutName'
+    - "'geo-ip-data-adapter' not in ( graylog_current_lut_data_adapters | json_query('json.data_adapters[*].name') )"
   no_log: true
 
 - name: Create a Cache to make lookups faster
@@ -88,7 +83,7 @@
   when:
     - 'graylog_geo_file_update is succeeded'
     - 'graylog_servers[0] in ansible_default_ipv4.address'
-    - '"geo-ip-data-adapter" not in graylog_lutName'
+    - "'geo-ip-data-adapter' not in ( graylog_current_lut_data_adapters | json_query('json.data_adapters[*].name') )"
   no_log: true
 
 - name: Create MaxMind City Lookup Table
@@ -113,5 +108,5 @@
   when:
     - 'graylog_geo_file_update is succeeded'
     - 'graylog_servers[0] in ansible_default_ipv4.address'
-    - '"geo-ip-data-adapter" not in graylog_lutName'
+    - "'geo-ip-data-adapter' not in ( graylog_current_lut_data_adapters | json_query('json.data_adapters[*].name') )"
   no_log: true

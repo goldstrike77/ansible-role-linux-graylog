@@ -52,4 +52,5 @@
     group: root
     mode: 0644
   loop: '{{ graylog_conf_scripts }}'
+  no_log: true
   register: conf_update

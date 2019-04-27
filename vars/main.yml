@@ -13,5 +13,5 @@ graylog_kernel_parameters:
   - { variable: 'net.core.rmem_max', value: '{{ graylog_arg.recvbuffer_sizes }}' }
 
 graylog_conf_scripts:
-  - { src: 'server.conf.j2', dest: '/etc/sysconfig/graylog-server' }
-  - { src: 'graylog-server.j2', dest: '/etc/graylog/server/server.conf' }
+  - { src: 'graylog-server.j2', dest: '/etc/sysconfig/graylog-server' }
+  - { src: 'server.conf.j2', dest: '/etc/graylog/server/server.conf' }

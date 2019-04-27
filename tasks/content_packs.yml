@@ -18,10 +18,6 @@
   delay: 3
   no_log: true
 
-- name: Gather Graylog exists Content Packs name
-  set_fact:
-    graylog_content_packs_name: "{{ graylog_current_content_packs | json_query('json.content_packs[*].name') }}"
-
 - name: Create graylog Content Packs
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs'
@@ -43,11 +39,7 @@
   retries: 10
   delay: 3
   no_log: true
-  when: item.name not in graylog_content_packs_name
-
-- name: Gather Graylog created Content Packs ID
-  set_fact:
-    graylog_content_packs_id: "{{ graylog_content_packs_status | json_query('results[*].invocation.module_args.body.id') }}"
+  when: item.name not in ( graylog_current_content_packs | json_query('json.content_packs[*].name') )
 
 - name: Installations Graylog Content Packs
   uri:
@@ -64,7 +56,7 @@
       cache-control: 'no-cache'
   environment:
     no_proxy: '{{ ansible_default_ipv4.address }}'
-  loop: '{{ graylog_content_packs_id }}'
+  loop: "{{ graylog_content_packs_status | json_query('results[*].invocation.module_args.body.id') }}"
   register: graylog_content_packs_install
   until: graylog_content_packs_install.status == 200
   retries: 10

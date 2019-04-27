@@ -1,20 +1,4 @@
 ---
-- name: Waiting for Graylog master node ready
-  uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus'
-    method: 'GET'
-    return_content: 'yes'
-    status_code: '200'
-    headers:
-      X-Requested-By: '{{ ansible_default_ipv4.address }}'
-      cache-control: 'no-cache'
-  environment:
-    no_proxy: '{{ ansible_default_ipv4.address }}'
-  register: graylog_node_status
-  until: graylog_node_status.content.find("ALIVE") != -1
-  retries: 24
-  delay: 5
-
 - name: Search Graylog prometheus exporter user if exists
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus'
