@@ -22,7 +22,7 @@ graylog_ngx_port_https: '443' # NGinx HTTPs listen port.
 graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.
 graylog_elastic_cluster: 'graylog' # Specify name for your Elastic cluster name.
 graylog_elastic_dept: false # A boolean value, whether ElasticSearch use the same environment.
-#graylog_elastic_hosts: 'localhost' # List of Elasticsearch hosts Graylog should connect to.
+graylog_elastic_hosts: 'localhost' # List of Elasticsearch hosts Graylog should connect to.
 graylog_elastic_pass: 'password' # Elasticsearch authenticated password.
 graylog_elastic_path: '/data' # Specify the ElasticSearch data directory.
 graylog_elastic_port_rest: '9200' # Elasticsearch REST port.
@@ -33,7 +33,7 @@ graylog_elastic_heap_size: '3g' # Specify the maximum memory allocation pool for
 # MongoDB parameters #
 graylog_mongod_auth: false # A boolean value, Enable or Disable MongoDB authentication.
 graylog_mongod_dept: false # A boolean value, whether MongoDB database use the same environment.
-#graylog_mongod_hosts: 'localhost' # Group of MongoDB hosts Graylog should connect to.
+graylog_mongod_hosts: 'localhost' # Group of MongoDB hosts Graylog should connect to.
 graylog_mongod_node_role: 'replica' # Member role for ReplicaSet.
 graylog_mongod_path: '/data' # Specify the MongoDB data directory.
 graylog_mongod_pass: 'password' # MongoDB Graylog password.
@@ -120,7 +120,7 @@ graylog_elastic_arg:
   max_time_per_index: '1d' # Maximum time before a new Elasticsearch index is being created.
   max_total_connections: '{{ ansible_processor_vcpus * 10 }}' # Maximum number of total connections to Elasticsearch.
   max_total_connections_per_route: '{{ graylog_elastic_hosts | length }}' # Maximum number of total connections per Elasticsearch route.
-  replicas: '{% if ( graylog_elastic_hosts | length - 1 ) >= 2 %}2{% else %}{{ graylog_elastic_hosts - 1 }}{% endif %}' # The number of replicas for your indices.
+  replicas: '{% if ( graylog_elastic_hosts | length - 1 ) >= 2 %}2{% else %}{{ graylog_elastic_hosts | length - 1 }}{% endif %}' # The number of replicas for your indices.
   request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
   retention_strategy: 'delete' # Decide what happens with the oldest indices when the maximum number of indices is reached.
   rotation_strategy: 'count' # The strategy it uses to determine when to rotate the currently active write index.
