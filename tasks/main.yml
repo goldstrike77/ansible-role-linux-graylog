@@ -11,14 +11,6 @@
   when:
     - graylog_elastic_dept
 
-
-- debug:
-    var: graylog_mongod_hosts
-
-- debug:
-    var: graylog_elastic_hosts
-
-
 - name: Include OS-specific variables
   include_vars: '{{ ansible_os_family }}.yml'
 
