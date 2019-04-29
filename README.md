@@ -42,6 +42,12 @@ The following list of supported the graylog releases:
   * Graylog 3.0
 
 ## Role variables
+### Minimal configuration
+
+In order to get the Graylog running, you'll have to define the following properties before executing the role:
+
+*  `graylog_is_install`: A boolean value, whether install the Graylog.
+
 ### Main parameters #
 There are some variables in defaults/main.yml which can (Or needs to) be overridden:
 
@@ -185,15 +191,14 @@ There are some variables in vars/main.yml:
 - [ansible-role-linux-mongodb](https://github.com/goldstrike77/ansible-role-linux-mongodb.git) 
 - [ansible-role-linux-elasticsearch](https://github.com/goldstrike77/ansible-role-linux-elasticsearch.git)
 
-
 ## Example
 
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' graylog_cluster='syslog'
-    node02 ansible_host='192.168.1.11' graylog_cluster='syslog'
-    node03 ansible_host='192.168.1.12' graylog_cluster='syslog'
+    node01 ansible_host='192.168.1.10' graylog_is_install='true' graylog_cluster='syslog'
+    node02 ansible_host='192.168.1.11' graylog_is_install='true' graylog_cluster='syslog'
+    node03 ansible_host='192.168.1.12' graylog_is_install='true' graylog_cluster='syslog'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
@@ -201,11 +206,12 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: all
       roles:
          - role: ansible-role-linux-graylog
-           graylog_cluster: syslog
+           graylog_is_install: true
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
+    graylog_is_install: true
     graylog_cluster: 'default'
     graylog_heap_size: '2G'
     graylog_path: '/data'

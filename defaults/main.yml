@@ -1,6 +1,7 @@
 ---
 # General parameters #
-#graylog_cluster: 'default'
+graylog_is_install: false # A boolean value, whether install the Graylog.
+graylog_cluster: 'default'
 graylog_heap_size: '2G' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_path: '/data' # This directory is used to store Graylog server state.
 graylog_root_email: 'somebody@domain.com' # The email address of the root user.
