@@ -36,11 +36,11 @@
 - name: Force the handler to run immediately
   meta: flush_handlers
 
-- name: Create Graylog global inputs
-  include: 'inputs.yml'
+- name: Create Graylog Content Packs
+  include: 'content_packs.yml'
   when:
     - graylog_servers[0] in ansible_default_ipv4.address
-    - graylog_inputs_arg is defined
+    - graylog_content_packs_arg is defined
 
 - name: Reload the other Graylog node service
   shell: echo ''
@@ -52,11 +52,11 @@
 - name: Force the handler to run immediately
   meta: flush_handlers
 
-- name: Create Graylog Content Packs
-  include: 'content_packs.yml'
+- name: Create Graylog global inputs
+  include: 'inputs.yml'
   when:
     - graylog_servers[0] in ansible_default_ipv4.address
-    - graylog_content_packs_arg is defined
+    - graylog_inputs_arg is defined
 
 - name: Provide Graylog authenticated for Prometheus
   include: 'exporter.yml'
