@@ -74,7 +74,7 @@ graylog_arg:
   versionchecks: false # Software version check
   disable_sigar: true # Disable the use of SIGAR for collecting system stats.
   http_connect_timeout: '10s' # The default connect timeout for outgoing HTTP connections.
-  http_enable_cors: true # Enable CORS headers for HTTP interface.
+  http_enable_cors: '{% if graylog_ngx_dept %}false{% else %}true{% endif %}' # Enable CORS headers for HTTP interface.
   http_enable_gzip: true # This compresses API responses and therefore helps to reduce overall round trip times.
   http_enable_tls: false # Secures the communication with the HTTP interface with TLS.
   http_max_header_size: '8192' # The maximum size of the HTTP request headers in bytes.
