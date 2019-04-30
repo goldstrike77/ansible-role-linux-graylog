@@ -187,9 +187,10 @@ There are some variables in vars/main.yml:
 * `graylog_kernel_parameters`: Operating system variables.
 
 ## Dependencies
-- [ansible-role-linux-nginx](https://github.com/goldstrike77/ansible-role-linux-nginx.git)
-- [ansible-role-linux-mongodb](https://github.com/goldstrike77/ansible-role-linux-mongodb.git) 
-- [ansible-role-linux-elasticsearch](https://github.com/goldstrike77/ansible-role-linux-elasticsearch.git)
+- Ansible versions > 2.6 are supported.
+- [NGinx](https://github.com/goldstrike77/ansible-role-linux-nginx.git)
+- [MongoDB](https://github.com/goldstrike77/ansible-role-linux-mongodb.git) 
+- [Elasticsearch](https://github.com/goldstrike77/ansible-role-linux-elasticsearch.git)
 
 ## Example
 
