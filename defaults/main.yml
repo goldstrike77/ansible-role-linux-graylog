@@ -10,7 +10,7 @@ graylog_root_timezone: 'Asia/Shanghai' # The time zone setting of the root user.
 graylog_root_username: 'admin' # The default root username.
 graylog_selinux: 'false' # SELinux security policy.
 graylog_version: '3.0' # Specify the Graylog version.
-graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap' # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
+graylog_password_secret: "{{ lookup('password', '' + graylog_cluster + ':secret length=96 chars=ascii_letters,digits') }}" # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
 
 # NGinx parameters #
 graylog_ngx_dept: false # A boolean value, whether proxy web interface and API traffic using NGinx.
