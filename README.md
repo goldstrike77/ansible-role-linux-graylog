@@ -14,7 +14,6 @@ __Table of Contents__
   * [Operating systems](#operating-systems)
   * [Graylog Versions](#graylog-versions)
 - [ Role variables](#Role-variables)
-  * [Minimal Configuration](#minimal-configuration)
   * [Main Configuration](#Main-parameters)
   * [Other Configuration](#Other-parameters)
 - [Dependencies](#dependencies)
@@ -42,12 +41,6 @@ The following list of supported the graylog releases:
   * Graylog 3.0
 
 ## Role variables
-### Minimal configuration
-
-In order to get the Graylog running, you'll have to define the following properties before executing the role:
-
-*  `graylog_is_install`: A boolean value, whether install the Graylog.
-
 ### Main parameters #
 There are some variables in defaults/main.yml which can (Or needs to) be overridden:
 
