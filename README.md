@@ -251,7 +251,7 @@ You can also use the group_vars or the host_vars files for setting the variables
       transport_email_use_tls: false
       transport_email_use_ssl: false
     graylog_arg:
-      alert_check_interval: '60' and alarms are being sent.
+      alert_check_interval: '60'
       allow_highlighting: false
       allow_leading_wildcard_searches: false
       async_eventbus_processors: '2'
