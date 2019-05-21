@@ -1,0 +1,15 @@
+- name: ansible-role-linux-graylog
+  src: git+https://github.com/goldstrike77/ansible-role-linux-graylog
+  version: origin/master
+
+- name: ansible-role-linux-mongodb
+  src: git+https://github.com/goldstrike77/ansible-role-linux-mongodb
+  version: origin/master
+
+- name: ansible-role-linux-elasticsearch
+  src: git+https://github.com/goldstrike77/ansible-role-linux-elasticsearch
+  version: origin/master
+
+- name: ansible-role-linux-nginx
+  src: git+https://github.com/goldstrike77/ansible-role-linux-nginx
+  version: origin/master
