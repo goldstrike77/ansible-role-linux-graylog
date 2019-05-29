@@ -59,7 +59,14 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 ##### NGinx parameters
 * `graylog_ngx_dept`: A boolean value, whether proxy web interface and API traffic using NGinx.
 * `graylog_ngx_domain`: Defines domain name.
-* `graylog_ngx_version`:  extras or standard
+* `graylog_ngx_version`: extras or standard
+* `graylog_ngx_port_http`: NGinx HTTP listen port.
+* `graylog_ngx_port_https`: NGinx HTTPs listen port.
+* `graylog_ngx_compress`: Enables or disables compression.
+* `graylog_ngx_pagespeed`: Enables or disables pagespeed modules.
+* `graylog_ngx_block_agents`: Enables or disables block unsafe User Agents.
+* `graylog_ngx_block_string`: Enables or disables block includes Exploits / File injections / Spam / SQL injections.
+* `graylog_ngx_ssl_protocols`: intermediate or modern, defines SSL protocol profile.
 
 ##### Elasticseach connection parameters
 * `graylog_elastic_auth`: A boolean value, Enable or Disable Elasticsearch authentication.
@@ -217,8 +224,15 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_version: '3.0'
     graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap'
     graylog_ngx_dept: false
+    graylog_ngx_block_agents: false
+    graylog_ngx_block_string: false
+    graylog_ngx_compress: false
     graylog_ngx_domain: 'syslog.example.com'
-    graylog_ngx_version: 'standard'
+    graylog_ngx_pagespeed: false
+    graylog_ngx_port_http: '80'
+    graylog_ngx_port_https: '443'
+    graylog_ngx_ssl_protocols: 'modern'
+    graylog_ngx_version: 'extras'
     graylog_elastic_auth: false
     graylog_elastic_cluster: 'graylog'
     graylog_elastic_dept: false

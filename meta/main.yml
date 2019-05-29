@@ -88,6 +88,11 @@ dependencies:
       ngx_version: '{{ graylog_ngx_version }}'
       ngx_port_http: '{{ graylog_ngx_port_http }}'
       ngx_port_https: '{{ graylog_ngx_port_https }}'
+      ngx_compress: '{{ graylog_ngx_compress }}'
+      ngx_pagespeed: '{{ graylog_ngx_pagespeed }}'
+      ngx_block_agents: '{{ graylog_ngx_block_agents }}'
+      ngx_block_string: '{{ graylog_ngx_block_string }}'
+      ngx_ssl_protocols: '{{ graylog_ngx_ssl_protocols }}'
       ngx_allow_methods:
         - 'POST'
         - 'PUT'

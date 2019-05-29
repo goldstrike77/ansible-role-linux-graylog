@@ -1,7 +1,7 @@
 ---
 # General parameters #
 graylog_is_install: false # A boolean value, whether install the Graylog.
-graylog_cluster: 'default'
+graylog_cluster: 'syslog'
 graylog_heap_size: '2G' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_path: '/data' # This directory is used to store Graylog server state.
 graylog_root_email: 'somebody@domain.com' # The email address of the root user.
@@ -14,10 +14,15 @@ graylog_password_secret: "{{ lookup('password', '' + graylog_cluster + ':secret 
 
 # NGinx parameters #
 graylog_ngx_dept: false # A boolean value, whether proxy web interface and API traffic using NGinx.
+graylog_ngx_block_agents: false # Enables or disables block unsafe User Agents.
+graylog_ngx_block_string: false # Enables or disables block includes Exploits / File injections / Spam / SQL injections.
+graylog_ngx_compress: false # Enables or disables compression.
 graylog_ngx_domain: 'syslog.example.com' # Defines domain name.
-graylog_ngx_version: 'standard' # extras or standard
+graylog_ngx_pagespeed: false # Enables or disables pagespeed modules.
 graylog_ngx_port_http: '80' # NGinx HTTP listen port.
 graylog_ngx_port_https: '443' # NGinx HTTPs listen port.
+graylog_ngx_ssl_protocols: 'modern' # intermediate or modern, defines SSL protocol profile.
+graylog_ngx_version: 'extras' # extras or standard
 
 # Elastic parameters #
 graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.
