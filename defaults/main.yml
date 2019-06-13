@@ -155,10 +155,10 @@ graylog_inputs_arg: # Define the global common inputs parameters.
     port: 5556
 
 # Content Packs Variables #
-graylog_content_packs_arg: # Define the Content Packs parameters.
-  - name: 'NGinx'
-    protocol: 'udp'
-    port: '12301-12302'
+#graylog_content_packs_arg: # Define the Content Packs parameters.
+#  - name: 'NGinx'
+#    protocol: 'udp'
+#    port: '12301-12302'
 
 # Indexes Optimization Tuning#
 graylog_indexes_arg: # Define the customer index parameters.
