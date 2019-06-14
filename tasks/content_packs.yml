@@ -57,7 +57,7 @@
   no_log: true
   when: item.name not in ( graylog_current_content_packs | json_query('json.content_packs[*].name') )
 
-- name: Installations Graylog Content Packs
+- name: Installs Graylog Content Packs
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs/{{ item }}/1/installations'
     method: 'POST'
