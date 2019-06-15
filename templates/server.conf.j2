@@ -183,7 +183,7 @@ http_tls_key_file = /etc/graylog/server/ssl/server.key
 # requires authentication.
 #
 # Default: http://127.0.0.1:9200
-elasticsearch_hosts = {% if graylog_elastic_auth %}http://{{ graylog_elastic_user }}:{{ graylog_elastic_pass }}@{{ graylog_elastic_hosts | list | join(":" + graylog_elastic_port_rest + ",http://" + graylog_elastic_user + ":" + graylog_elastic_pass + "@") }}:{{ graylog_elastic_port_rest }}{% else %}http://{{ graylog_elastic_hosts | list | join(":" + graylog_elastic_port_rest + ",http://") }}:{{ graylog_elastic_port_rest }}{% endif %}
+elasticsearch_hosts = {% if graylog_elastic_auth %}http://{{ graylog_elastic_user }}:{{ graylog_elastic_pass | urlencode }}@{{ graylog_elastic_hosts | list | join(":" + graylog_elastic_port_rest + ",http://" + graylog_elastic_user + ":" + graylog_elastic_pass | urlencode + "@") }}:{{ graylog_elastic_port_rest }}{% else %}http://{{ graylog_elastic_hosts | list | join(":" + graylog_elastic_port_rest + ",http://") }}:{{ graylog_elastic_port_rest }}{% endif %}
 
 # Maximum amount of time to wait for successfull connection to Elasticsearch HTTP port.
 #
@@ -521,7 +521,7 @@ alert_check_interval = {{ graylog_arg.alert_check_interval }}
 
 # MongoDB connection string
 # See https://docs.mongodb.com/manual/reference/connection-string/ for details
-mongodb_uri = mongodb://{% if graylog_mongod_auth %}{{ graylog_mongod_user }}:{{ graylog_mongod_pass }}@{% endif %}{{ graylog_mongod_hosts | list | join(",") }}:{{ graylog_mongod_port }}/GRAYLOG{% if ( graylog_mongod_replset is defined ) and ( graylog_servers|length is not divisibleby 2 ) and ( graylog_servers|length > 2 ) %}?replicaSet={{ graylog_mongod_replset | default("GRAYLOG") | upper }}{% endif %}
+mongodb_uri = mongodb://{% if graylog_mongod_auth %}{{ graylog_mongod_user }}:{{ graylog_mongod_pass | urlencode }}@{% endif %}{{ graylog_mongod_hosts | list | join(",") }}:{{ graylog_mongod_port }}/GRAYLOG{% if ( graylog_mongod_replset is defined ) and ( graylog_servers|length is not divisibleby 2 ) and ( graylog_servers|length > 2 ) %}?replicaSet={{ graylog_mongod_replset | default("GRAYLOG") | upper }}{% endif %}
 
 # Authenticate against the MongoDB server
 # '+'-signs in the username or password need to be replaced by '%2B'
