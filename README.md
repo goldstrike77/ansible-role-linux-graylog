@@ -56,8 +56,12 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_version`: Specify the Graylog version.
 * `graylog_password_secret`: a secret that is used for password encryption and salting.
 
-##### NGinx parameters
+##### Role dependencies
+* `graylog_elastic_dept`: A boolean value, whether ElasticSearch use the same environment.
+* `graylog_mongod_dept`: A boolean value, whether MongoDB database use the same environment.
 * `graylog_ngx_dept`: A boolean value, whether proxy web interface and API traffic using NGinx.
+
+##### NGinx parameters
 * `graylog_ngx_domain`: Defines domain name.
 * `graylog_ngx_version`: extras or standard
 * `graylog_ngx_port_http`: NGinx HTTP listen port.
@@ -71,7 +75,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 ##### Elasticseach connection parameters
 * `graylog_elastic_auth`: A boolean value, Enable or Disable Elasticsearch authentication.
 * `graylog_elastic_cluster`: Specify name for your Elastic cluster name.
-* `graylog_elastic_dept`: A boolean value, whether ElasticSearch use the same environment.
 * `graylog_elastic_heap_size`: Specify the maximum memory allocation pool for a Java virtual machine.
 * `graylog_elastic_hosts`: List of Elasticsearch hosts Graylog should connect to.
 * `graylog_elastic_pass`: Elasticsearch authenticated password.
@@ -82,7 +85,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### MongoDB connection parameters
 * `graylog_mongod_auth`: A boolean value, Enable or Disable MongoDB authentication.
-* `graylog_mongod_dept`: A boolean value, whether MongoDB database use the same environment.
 * `graylog_mongod_hosts`: Group of MongoDB hosts Graylog should connect to.
 * `graylog_mongod_node_role`: Member role for ReplicaSet.
 * `graylog_mongod_path`: Specify the MongoDB data directory.
@@ -223,6 +225,8 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_version: '3.0'
     graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap'
     graylog_ngx_dept: false
+    graylog_elastic_dept: false
+    graylog_mongod_dept: false
     graylog_ngx_block_agents: false
     graylog_ngx_block_string: false
     graylog_ngx_compress: false
@@ -234,7 +238,6 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_ngx_version: 'extras'
     graylog_elastic_auth: false
     graylog_elastic_cluster: 'graylog'
-    graylog_elastic_dept: false
     graylog_elastic_hosts: 'localhost'
     graylog_elastic_heap_size: '3g'
     graylog_elastic_pass: 'password'
@@ -243,7 +246,6 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_elastic_user: 'elastic'
     graylog_elastic_version: '5.6.16'
     graylog_mongod_auth: false
-    graylog_mongod_dept: false
     graylog_mongod_hosts: 'localhost'
     graylog_mongod_node_role: 'replica'
     graylog_mongod_path: '/data'

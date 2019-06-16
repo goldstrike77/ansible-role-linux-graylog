@@ -12,8 +12,12 @@ graylog_selinux: 'false' # SELinux security policy.
 graylog_version: '3.0' # Specify the Graylog version.
 graylog_password_secret: "{{ lookup('password', '' + graylog_cluster + ':secret length=96 chars=ascii_letters,digits') }}" # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
 
-# NGinx parameters #
+# Role dependencies #
+graylog_elastic_dept: false # A boolean value, whether ElasticSearch use the same environment.
+graylog_mongod_dept: false # A boolean value, whether MongoDB database use the same environment.
 graylog_ngx_dept: false # A boolean value, whether proxy web interface and API traffic using NGinx.
+
+# NGinx parameters #
 graylog_ngx_block_agents: false # Enables or disables block unsafe User Agents.
 graylog_ngx_block_string: false # Enables or disables block includes Exploits / File injections / Spam / SQL injections.
 graylog_ngx_compress: false # Enables or disables compression.
@@ -27,7 +31,6 @@ graylog_ngx_version: 'extras' # extras or standard
 # Elastic parameters #
 graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.
 graylog_elastic_cluster: 'graylog' # Specify name for your Elastic cluster name.
-graylog_elastic_dept: false # A boolean value, whether ElasticSearch use the same environment.
 graylog_elastic_hosts: 'localhost' # List of Elasticsearch hosts Graylog should connect to.
 graylog_elastic_pass: 'password' # Elasticsearch authenticated password.
 graylog_elastic_path: '/data' # Specify the ElasticSearch data directory.
@@ -38,7 +41,6 @@ graylog_elastic_heap_size: '3g' # Specify the maximum memory allocation pool for
 
 # MongoDB parameters #
 graylog_mongod_auth: false # A boolean value, Enable or Disable MongoDB authentication.
-graylog_mongod_dept: false # A boolean value, whether MongoDB database use the same environment.
 graylog_mongod_hosts: 'localhost' # Group of MongoDB hosts Graylog should connect to.
 graylog_mongod_node_role: 'replica' # Member role for ReplicaSet.
 graylog_mongod_path: '/data' # Specify the MongoDB data directory.
