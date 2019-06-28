@@ -1,4 +1,16 @@
 ---
+#- name: Gather Graylog node variables for cluster
+#  set_fact:
+#    graylog_servers: "\
+#      {% set _graylog_servers = [] %}\
+#      {% for host in groups[group_names[-1]] %}\
+#        {% set _graylog_cluster = hostvars[host]['graylog_cluster'] | default('', true) %}\
+#        {% if ( _graylog_cluster == hostvars[host]['graylog_cluster']) %}\
+#          {% if _graylog_servers.append(hostvars[host]['ansible_host']) %}{% endif %}\
+#        {% endif %}\
+#      {% endfor %}\
+#      {{ _graylog_servers }}"
+
 - name: Sets MongoDB node variables for Cluster
   set_fact:
     graylog_mongod_hosts: '{{ mongod_servers }}'
@@ -7,7 +19,7 @@
 
 - name: Sets ElasticSearch node variables for Cluster
   set_fact:
-    graylog_elastic_hosts: '{{ mongod_servers }}'
+    graylog_elastic_hosts: '{{ elastic_servers }}'
   when:
     - graylog_elastic_dept
 
