@@ -1,11 +1,11 @@
 ---
 # General parameters #
 graylog_is_install: false # A boolean value, whether install the Graylog.
-graylog_cluster: 'syslog'
+graylog_cluster: 'syslog' # Cluster name of servers that implements distribution performance.
 graylog_heap_size: '2G' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_path: '/data' # This directory is used to store Graylog server state.
 graylog_root_email: 'somebody@domain.com' # The email address of the root user.
-graylog_root_password: 'password' # A SHA2 hash of a password for root user.
+graylog_root_password: 'changeme' # A SHA2 hash of a password for root user.
 graylog_root_timezone: 'Asia/Shanghai' # The time zone setting of the root user.
 graylog_root_username: 'admin' # The default root username.
 graylog_selinux: 'false' # SELinux security policy.
@@ -30,26 +30,26 @@ graylog_ngx_version: 'extras' # extras or standard
 
 # Elastic parameters #
 graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.
-graylog_elastic_cluster: 'graylog' # Specify name for your Elastic cluster name.
+graylog_elastic_cluster: '{{ graylog_cluster }}' # Specify name for your Elastic cluster name.
 graylog_elastic_hosts: 'localhost' # List of Elasticsearch hosts Graylog should connect to.
-graylog_elastic_pass: 'password' # Elasticsearch authenticated password.
-graylog_elastic_path: '/data' # Specify the ElasticSearch data directory.
+graylog_elastic_pass: 'changeme' # Elasticsearch authenticated password.
+graylog_elastic_path: '{{ graylog_path }}' # Specify the ElasticSearch data directory.
 graylog_elastic_port_rest: '9200' # Elasticsearch REST port.
 graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
-graylog_elastic_version: '5.6.16' # Specify the Elasticsearch version.
+graylog_elastic_version: '6.8.1' # Specify the Elasticsearch version.
 graylog_elastic_heap_size: '3g' # Specify the maximum memory allocation pool for a Java virtual machine.
 
 # MongoDB parameters #
 graylog_mongod_auth: false # A boolean value, Enable or Disable MongoDB authentication.
 graylog_mongod_hosts: 'localhost' # Group of MongoDB hosts Graylog should connect to.
 graylog_mongod_node_role: 'replica' # Member role for ReplicaSet.
-graylog_mongod_path: '/data' # Specify the MongoDB data directory.
-graylog_mongod_pass: 'password' # MongoDB Graylog password.
+graylog_mongod_path: '{{ graylog_path }}' # Specify the MongoDB data directory.
 graylog_mongod_port: '27017' # The MongoDB instance port.
-graylog_mongod_replset: 'graylog' # MongoDB ReplicaSet name.
-graylog_mongod_sa_pass: 'password' # MongoDB Superuser password.
+graylog_mongod_replset: '{{ graylog_cluster }}' # MongoDB ReplicaSet name.
+graylog_mongod_sa_pass: 'changeme' # MongoDB Superuser password.
 graylog_mongod_sa_user: 'sa' # MongoDB Superuser name.
 graylog_mongod_user: 'graylog' # MongoDB Graylog username.
+graylog_mongod_pass: 'changeme' # MongoDB Graylog password.
 graylog_mongod_version: '36' # Specify the MongoDB version, minimum 34.
 
 # Listen port #

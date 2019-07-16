@@ -70,6 +70,7 @@ dependencies:
     vars:
       mongod_servers: '{{ graylog_servers }}'
       mongod_version: '{{ graylog_mongod_version }}'
+      mongod_system_type: 'small'
       mongod_authorization: '{{ graylog_mongod_auth }}'
       mongod_node_role: '{{ graylog_mongod_node_role }}'
       mongod_path: '{{ graylog_mongod_path }}'
