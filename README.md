@@ -334,7 +334,6 @@ You can also use the group_vars or the host_vars files for setting the variables
       - name: 'CEF UDP Input'
         type: 'org.graylog.plugins.cef.input.CEFUDPInput'
         port: 5555
-        graylog_indexes_arg:
     graylog_content_packs_arg:
       - name: 'NGinx'
         protocol: 'udp'
