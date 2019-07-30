@@ -139,9 +139,6 @@ graylog_elastic_arg:
 
 # Inputs Variables #
 graylog_inputs_arg: # Define the global common inputs parameters.
-  - name: 'GELF UDP'
-    type: 'org.graylog2.inputs.gelf.udp.GELFUDPInput'
-    port: 12201
   - name: 'Syslog UDP'
     type: 'org.graylog2.inputs.syslog.udp.SyslogUDPInput'
     port: 1514
@@ -157,6 +154,9 @@ graylog_content_packs_arg: # Define the Content Packs parameters.
   - name: 'Auditbeat'
     protocol: 'tcp'
     port: '5044'
+  - name: 'GELFSyslog'
+    protocol: 'udp'
+    port: '12201'
 
 # Indexes Optimization Tuning#
 graylog_indexes_arg: # Define the customer index parameters.

@@ -326,9 +326,6 @@ You can also use the group_vars or the host_vars files for setting the variables
       shards: '1'
       socket_timeout: '60s'
     graylog_inputs_arg:
-      - name: 'GELF UDP'
-        type: 'org.graylog2.inputs.gelf.udp.GELFUDPInput'
-        port: 12201
       - name: 'Syslog UDP'
         type: 'org.graylog2.inputs.syslog.udp.SyslogUDPInput'
         port: 1514
