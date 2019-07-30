@@ -2,7 +2,7 @@
   "v": 1,
   "id": "785d8327-9d1b-42e2-bd20-0978055f480f",
   "rev": 1,
-  "name": "Operation System Log",
+  "name": "GELFSyslog",
   "summary": "Linux rsyslog & Windows event",
   "description": "",
   "vendor": "Operation System",
