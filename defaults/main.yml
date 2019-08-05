@@ -124,7 +124,7 @@ graylog_elastic_arg:
   index_optimization_jobs: '20' # Maximum number of concurrently running index optimization jobs.
   index_optimization_timeout: '1h' # Global timeout for index optimization requests.
   max_docs_per_index: '20000000' # Maximum number of documents in an Elasticsearch index before a new index is being created
-  max_number_of_indices: '20' # How many indices do you want to keep.
+  max_number_of_indices: '180' # How many indices do you want to keep.
   max_retries: '3' # Maximum number of times Graylog will retry failed requests to Elasticsearch.
   max_size_per_index: '1073741824' # Maximum size in bytes per Elasticsearch index on disk before a new index is being created.
   max_time_per_index: '1d' # Maximum time before a new Elasticsearch index is being created.
