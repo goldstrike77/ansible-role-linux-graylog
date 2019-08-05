@@ -15,3 +15,7 @@
     validate_certs: 'no'
     disable_gpg_check: 'yes'
   loop: '{{ dependent_packages|flatten(levels=1) }}'
+  register: yum_status
+  until: yum_status is succeeded
+  retries: 3
+  delay: 5

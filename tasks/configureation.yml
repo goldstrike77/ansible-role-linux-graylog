@@ -10,18 +10,18 @@
   file:
     dest: '{{ graylog_path }}/graylog'
     state: directory
-    owner: graylog
-    group: graylog
-    mode: 0755
+    owner: 'graylog'
+    group: 'graylog'
+    mode: '0755'
 
 - name: Configure kernel parameters
   sysctl:
     name: '{{ item.variable }}'
     value: '{{ item.value }}'
-    state: present
-    reload: yes
-    sysctl_set: yes
-    sysctl_file: /etc/sysctl.d/20-sysctl.conf
+    state: 'present'
+    reload: 'yes'
+    sysctl_set: 'yes'
+    sysctl_file: '/etc/sysctl.d/20-sysctl.conf'
   loop: "{{ graylog_kernel_parameters|flatten(levels=1) }}"
 
 - name: Graylog http certificate file transfer
@@ -30,7 +30,7 @@
     dest: '/etc/graylog/server/ssl'
     owner: 'root'
     group: 'root'
-    mode: 0644
+    mode: '0644'
   no_log: true
   register: cert_update
 
@@ -40,7 +40,7 @@
     dest: '/usr/share/graylog-server/plugin'
     owner: 'root'
     group: 'root'
-    mode: 0644
+    mode: '0644'
   no_log: true
   register: plugin_update
 
@@ -48,9 +48,10 @@
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
-    owner: root
-    group: root
-    mode: 0644
+    backup: 'yes'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
   loop: '{{ graylog_conf_scripts }}'
   no_log: true
   register: conf_update

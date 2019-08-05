@@ -133,7 +133,7 @@ graylog_elastic_arg:
   replicas: '{% if ( graylog_elastic_hosts | length - 1 ) >= 2 %}2{% else %}{{ graylog_elastic_hosts | length - 1 }}{% endif %}' # The number of replicas for your indices.
   request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
   retention_strategy: 'delete' # Decide what happens with the oldest indices when the maximum number of indices is reached.
-  rotation_strategy: 'count' # The strategy it uses to determine when to rotate the currently active write index.
+  rotation_strategy: 'time' # The strategy it uses to determine when to rotate the currently active write index.
   shards: '{{ graylog_elastic_hosts | length }}' # The number of shards for your indices.
   socket_timeout: '60s' # Maximum amount of time to wait for reading back a response from an Elasticsearch server.
 
