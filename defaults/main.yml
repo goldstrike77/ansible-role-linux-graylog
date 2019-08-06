@@ -142,9 +142,9 @@ graylog_inputs_arg: # Define the global common inputs parameters.
   - name: 'Syslog UDP'
     type: 'org.graylog2.inputs.syslog.udp.SyslogUDPInput'
     port: 1514
-  - name: 'CEF UDP Input'
-    type: 'org.graylog.plugins.cef.input.CEFUDPInput'
-    port: 5555
+#  - name: 'CEF UDP Input'
+#    type: 'org.graylog.plugins.cef.input.CEFUDPInput'
+#    port: 5555
 
 # Content Packs Variables #
 graylog_content_packs_arg: # Define the Content Packs parameters.

@@ -1,12 +1,12 @@
 {
-  "v": "1",
-  "id": "d7dc82ff-529b-488a-b1de-b12b32e756bb",
+  "v": 1,
+  "id": "2be9125e-44f3-4fb2-83cd-3f636bff84ed",
   "rev": 1,
   "name": "NGinx",
   "summary": "Graylog 3.0+ compatible version of nginx_json content pack",
   "description": "",
   "vendor": "Originally created by petestorey26 and updated by paulbarfuss for graylog3.0+",
-  "url": "https://github.com/paulbarfuss/graylog3-content-pack-nginx-json",
+  "url": "https://github.com/paulbarfuss/graylog3-content-pack-nginx-json ",
   "parameters": [],
   "entities": [
     {
@@ -15,281 +15,11 @@
         "name": "input",
         "version": "1"
       },
-      "id": "fa2ca431-c30d-455d-98b0-9ee703760760",
+      "id": "a4a7da54-2bed-4922-8f41-66ad0cb69fed",
       "data": {
         "title": {
           "@type": "string",
-          "@value": "NGinx 1. Access"
-        },
-        "configuration": {
-          "expand_structured_data": {
-            "@type": "boolean",
-            "@value": false
-          },
-          "recv_buffer_size": {
-            "@type": "integer",
-            "@value": {{ graylog_arg.recvbuffer_sizes }}
-          },
-          "port": {
-            "@type": "integer",
-            "@value": 12301
-          },
-          "number_worker_threads": {
-            "@type": "integer",
-            "@value": {{ graylog_arg.inputbuffer_processors }}
-          },
-          "force_rdns": {
-            "@type": "boolean",
-            "@value": false
-          },
-          "allow_override_date": {
-            "@type": "boolean",
-            "@value": true
-          },
-          "bind_address": {
-            "@type": "string",
-            "@value": "0.0.0.0"
-          },
-          "store_full_message": {
-            "@type": "boolean",
-            "@value": false
-          }
-        },
-        "static_fields": {
-          "from_nginx": {
-            "@type": "string",
-            "@value": "true"
-          },
-          "nginx_access": {
-            "@type": "string",
-            "@value": "true"
-          }
-        },
-        "type": {
-          "@type": "string",
-          "@value": "org.graylog2.inputs.syslog.udp.SyslogUDPInput"
-        },
-        "global": {
-          "@type": "boolean",
-          "@value": true
-        },
-        "extractors": [
-          {
-            "target_field": {
-              "@type": "string",
-              "@value": "json"
-            },
-            "condition_value": {
-              "@type": "string",
-              "@value": ""
-            },
-            "order": {
-              "@type": "integer",
-              "@value": 2
-            },
-            "converters": [],
-            "configuration": {
-              "replacement": {
-                "@type": "string",
-                "@value": "-"
-              },
-              "regex": {
-                "@type": "string",
-                "@value": ".*"
-              }
-            },
-            "source_field": {
-              "@type": "string",
-              "@value": "json"
-            },
-            "title": {
-              "@type": "string",
-              "@value": "Empty JSON field"
-            },
-            "type": {
-              "@type": "string",
-              "@value": "REGEX_REPLACE"
-            },
-            "cursor_strategy": {
-              "@type": "string",
-              "@value": "COPY"
-            },
-            "condition_type": {
-              "@type": "string",
-              "@value": "NONE"
-            }
-          },
-          {
-            "target_field": {
-              "@type": "string",
-              "@value": ""
-            },
-            "condition_value": {
-              "@type": "string",
-              "@value": ""
-            },
-            "order": {
-              "@type": "integer",
-              "@value": 1
-            },
-            "converters": [],
-            "configuration": {
-              "flatten": {
-                "@type": "boolean",
-                "@value": true
-              },
-              "list_separator": {
-                "@type": "string",
-                "@value": ", "
-              },
-              "kv_separator": {
-                "@type": "string",
-                "@value": "="
-              },
-              "key_prefix": {
-                "@type": "string",
-                "@value": ""
-              },
-              "key_separator": {
-                "@type": "string",
-                "@value": "_"
-              },
-              "replace_key_whitespace": {
-                "@type": "boolean",
-                "@value": false
-              },
-              "key_whitespace_replacement": {
-                "@type": "string",
-                "@value": "_"
-              }
-            },
-            "source_field": {
-              "@type": "string",
-              "@value": "json"
-            },
-            "title": {
-              "@type": "string",
-              "@value": "Extract JSON fields"
-            },
-            "type": {
-              "@type": "string",
-              "@value": "JSON"
-            },
-            "cursor_strategy": {
-              "@type": "string",
-              "@value": "COPY"
-            },
-            "condition_type": {
-              "@type": "string",
-              "@value": "NONE"
-            }
-          },
-          {
-            "target_field": {
-              "@type": "string",
-              "@value": "json"
-            },
-            "condition_value": {
-              "@type": "string",
-              "@value": ""
-            },
-            "order": {
-              "@type": "integer",
-              "@value": 0
-            },
-            "converters": [],
-            "configuration": {
-              "regex_value": {
-                "@type": "string",
-                "@value": "nginx:\\s+(.*)"
-              }
-            },
-            "source_field": {
-              "@type": "string",
-              "@value": "message"
-            },
-            "title": {
-              "@type": "string",
-              "@value": "Get JSON from syslog message"
-            },
-            "type": {
-              "@type": "string",
-              "@value": "REGEX"
-            },
-            "cursor_strategy": {
-              "@type": "string",
-              "@value": "COPY"
-            },
-            "condition_type": {
-              "@type": "string",
-              "@value": "NONE"
-            }
-          },
-          {
-            "target_field": {
-              "@type": "string",
-              "@value": "message"
-            },
-            "condition_value": {
-              "@type": "string",
-              "@value": ""
-            },
-            "order": {
-              "@type": "integer",
-              "@value": 3
-            },
-            "converters": [],
-            "configuration": {
-              "replacement": {
-                "@type": "string",
-                "@value": "$1"
-              },
-              "regex": {
-                "@type": "string",
-                "@value": ".*request\": \"(.*?)\".*"
-              }
-            },
-            "source_field": {
-              "@type": "string",
-              "@value": "message"
-            },
-            "title": {
-              "@type": "string",
-              "@value": "Reduced message to path"
-            },
-            "type": {
-              "@type": "string",
-              "@value": "REGEX_REPLACE"
-            },
-            "cursor_strategy": {
-              "@type": "string",
-              "@value": "COPY"
-            },
-            "condition_type": {
-              "@type": "string",
-              "@value": "NONE"
-            }
-          }
-        ]
-      },
-      "constraints": [
-        {
-          "type": "server-version",
-          "version": ">=3.0.0+db6cf59"
-        }
-      ]
-    },
-    {
-      "v": "1",
-      "type": {
-        "name": "input",
-        "version": "1"
-      },
-      "id": "540d1628-ceed-49d4-8960-068c5afaa993",
-      "data": {
-        "title": {
-          "@type": "string",
-          "@value": "NGinx 2. Error"
+          "@value": "NGinx Error Log"
         },
         "configuration": {
           "expand_structured_data": {
@@ -608,7 +338,344 @@
       "constraints": [
         {
           "type": "server-version",
-          "version": ">=3.0.0+db6cf59"
+          "version": ">=3.0.2+1686930"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "9a5aa7cc-6461-4b12-9b5e-e9d14f6b7e35",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "NGinx Access Log"
+        },
+        "configuration": {
+          "expand_structured_data": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": {{ graylog_arg.recvbuffer_sizes }}
+          },
+          "port": {
+            "@type": "integer",
+            "@value": 12301
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": {{ graylog_arg.inputbuffer_processors }}
+          },
+          "force_rdns": {
+            "@type": "boolean",
+            "@value": false
+          },
+          "allow_override_date": {
+            "@type": "boolean",
+            "@value": true
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "store_full_message": {
+            "@type": "boolean",
+            "@value": false
+          }
+        },
+        "static_fields": {
+          "from_nginx": {
+            "@type": "string",
+            "@value": "true"
+          },
+          "nginx_access": {
+            "@type": "string",
+            "@value": "true"
+          }
+        },
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog2.inputs.syslog.udp.SyslogUDPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": [
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "json"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": ""
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 2
+            },
+            "converters": [],
+            "configuration": {
+              "replacement": {
+                "@type": "string",
+                "@value": "-"
+              },
+              "regex": {
+                "@type": "string",
+                "@value": ".*"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "json"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "Empty JSON field"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX_REPLACE"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "NONE"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": ""
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": ""
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 1
+            },
+            "converters": [],
+            "configuration": {
+              "flatten": {
+                "@type": "boolean",
+                "@value": true
+              },
+              "list_separator": {
+                "@type": "string",
+                "@value": ", "
+              },
+              "kv_separator": {
+                "@type": "string",
+                "@value": "="
+              },
+              "key_prefix": {
+                "@type": "string",
+                "@value": ""
+              },
+              "key_separator": {
+                "@type": "string",
+                "@value": "_"
+              },
+              "replace_key_whitespace": {
+                "@type": "boolean",
+                "@value": false
+              },
+              "key_whitespace_replacement": {
+                "@type": "string",
+                "@value": "_"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "json"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "Extract JSON fields"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "JSON"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "NONE"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "json"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": ""
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 0
+            },
+            "converters": [],
+            "configuration": {
+              "regex_value": {
+                "@type": "string",
+                "@value": "nginx:\\s+(.*)"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "Get JSON from syslog message"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "NONE"
+            }
+          },
+          {
+            "target_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "condition_value": {
+              "@type": "string",
+              "@value": ""
+            },
+            "order": {
+              "@type": "integer",
+              "@value": 3
+            },
+            "converters": [],
+            "configuration": {
+              "replacement": {
+                "@type": "string",
+                "@value": "$1"
+              },
+              "regex": {
+                "@type": "string",
+                "@value": ".*request\": \"(.*?)\".*"
+              }
+            },
+            "source_field": {
+              "@type": "string",
+              "@value": "message"
+            },
+            "title": {
+              "@type": "string",
+              "@value": "Reduced message to path"
+            },
+            "type": {
+              "@type": "string",
+              "@value": "REGEX_REPLACE"
+            },
+            "cursor_strategy": {
+              "@type": "string",
+              "@value": "COPY"
+            },
+            "condition_type": {
+              "@type": "string",
+              "@value": "NONE"
+            }
+          }
+        ]
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.0.2+1686930"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "stream",
+        "version": "1"
+      },
+      "id": "0bfe27d0-144f-437d-be86-e873d74401e3",
+      "data": {
+        "alarm_callbacks": [],
+        "outputs": [],
+        "remove_matches": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "title": {
+          "@type": "string",
+          "@value": "NGinx"
+        },
+        "stream_rules": [
+          {
+            "type": {
+              "@type": "string",
+              "@value": "EXACT"
+            },
+            "field": {
+              "@type": "string",
+              "@value": "from_nginx"
+            },
+            "value": {
+              "@type": "string",
+              "@value": "true"
+            },
+            "inverted": {
+              "@type": "boolean",
+              "@value": false
+            },
+            "description": {
+              "@type": "string",
+              "@value": ""
+            }
+          }
+        ],
+        "alert_conditions": [],
+        "matching_type": {
+          "@type": "string",
+          "@value": "AND"
+        },
+        "disabled": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "description": {
+          "@type": "string",
+          "@value": "All message to nginx_access and nginx_error"
+        },
+        "default_stream": {
+          "@type": "boolean",
+          "@value": false
+        }
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.0.2+1686930"
         }
       ]
     }
