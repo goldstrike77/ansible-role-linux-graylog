@@ -94,6 +94,8 @@ dependencies:
       ngx_block_agents: '{{ graylog_ngx_block_agents }}'
       ngx_block_string: '{{ graylog_ngx_block_string }}'
       ngx_ssl_protocols: '{{ graylog_ngx_ssl_protocols }}'
+      ngx_proxy_read_timeout: '60'
+      ngx_proxy_send_timeout: '60'
       ngx_allow_methods:
         - 'POST'
         - 'PUT'
@@ -112,7 +114,7 @@ dependencies:
             - '  proxy_set_header X-Forwarded-Server $host;'
             - '  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;'
             - '  proxy_set_header X-Graylog-Server-URL https://$server_name/;'
-            - '  proxy_pass http://backend;'
+            - '  proxy_pass http://backend_{{ graylog_ngx_domain }};'
             - '}'
           backend_address: '{{ graylog_servers }}'
           backend_port: '{{ graylog_port_arg.api }}'
