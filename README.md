@@ -114,6 +114,12 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_mail_arg.transport_email_use_auth`: Enable SMTP Authentication.
 * `graylog_mail_arg.transport_email_use_tls`: Enable SMTP with STARTTLS for encrypted connections.
 * `graylog_mail_arg.transport_email_use_ssl`: Enable SMTP over SSL (SMTPS) for encrypted connections.
+* `graylog_mail_arg.transport_email_auth_username`: The SMTP clients AUTH username.
+* `graylog_mail_arg.transport_email_auth_password`: The SMTP clients AUTH password.
+* `graylog_mail_arg.transport_email_subject_prefix`: Email subject line.
+* `graylog_mail_arg.transport_email_from_email`: Specifies the e-mail address of the sender.
+* `graylog_mail_arg.transport_email_web_interface_url`: Specify this if you want to include links in alert mails.
+
 
 ##### System Variables
 * `graylog_arg.alert_check_interval`: Length of the interval in seconds in which the alert conditions for all streams should be checked and alarms are being sent.
@@ -266,6 +272,11 @@ You can also use the group_vars or the host_vars files for setting the variables
       transport_email_use_auth: false
       transport_email_use_tls: false
       transport_email_use_ssl: false
+      transport_email_auth_username: 'somebody@example.com'
+      transport_email_auth_password: 'changeme'
+      transport_email_subject_prefix: '[syslog]'
+      transport_email_from_email: 'do-not-reply@example.com'
+      transport_email_web_interface_url: 'https://{{ graylog_ngx_domain }}'
     graylog_arg:
       alert_check_interval: '60'
       allow_highlighting: false

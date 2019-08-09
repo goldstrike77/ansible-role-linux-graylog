@@ -73,6 +73,11 @@ graylog_mail_arg:
   transport_email_use_auth: false # Enable SMTP Authentication.
   transport_email_use_tls: false # Enable SMTP with STARTTLS for encrypted connections.
   transport_email_use_ssl: false # Enable SMTP over SSL (SMTPS) for encrypted connections.
+  transport_email_auth_username: 'somebody@example.com' # The SMTP clients AUTH username.
+  transport_email_auth_password: 'changeme' # The SMTP clients AUTH password.
+  transport_email_subject_prefix: '[syslog]' # Email subject line.
+  transport_email_from_email: 'do-not-reply@example.com' # Specifies the e-mail address of the sender.
+  transport_email_web_interface_url: 'https://{{ graylog_ngx_domain }}' # Specify this if you want to include links in alert mails.
 
 # System Variables #
 graylog_arg:
