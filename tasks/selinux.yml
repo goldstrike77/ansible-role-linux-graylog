@@ -25,7 +25,7 @@
     state: 'present'
   loop: '{{ graylog_port_arg|dict2items }}'
   when:
-    - graylog_selinux
+    - graylog_selinux | bool
 
 - name: Allow Graylog to listen on inputs port
   seport:
@@ -35,7 +35,7 @@
     state: 'present'
   loop: '{{ graylog_inputs_arg }}'
   when:
-    - graylog_selinux
+    - graylog_selinux | bool
     - graylog_inputs_arg is defined
 
 - name: Allow Graylog to listen on Content Packs inputs port
@@ -46,5 +46,5 @@
     state: 'present'
   loop: '{{ graylog_content_packs_arg }}'
   when:
-    - graylog_selinux
+    - graylog_selinux | bool
     - graylog_content_packs_arg is defined
