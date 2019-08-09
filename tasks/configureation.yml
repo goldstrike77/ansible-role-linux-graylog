@@ -30,6 +30,7 @@
     dest: '/etc/graylog/server/ssl'
     owner: 'root'
     group: 'root'
+    directory_mode: '0755'
     mode: '0644'
   no_log: true
   register: cert_update

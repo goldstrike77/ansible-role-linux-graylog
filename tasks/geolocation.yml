@@ -24,7 +24,7 @@
     dest: '/etc/graylog/server'
     owner: 'root'
     group: 'root'
-    mode: '0644'
+    mode: '0755'
     extra_opts: [--strip-components=1]
     exclude:
       - 'COPYRIGHT.txt'
