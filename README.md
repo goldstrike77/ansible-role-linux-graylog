@@ -38,7 +38,7 @@ This role will work on the following operating systems:
 
 The following list of supported the graylog releases:
 
-  * Graylog 3.0
+  * Graylog 3.0+
 
 ## Role variables
 ### Main parameters #

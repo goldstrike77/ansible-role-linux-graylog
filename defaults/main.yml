@@ -9,7 +9,7 @@ graylog_root_password: 'changeme' # A SHA2 hash of a password for root user.
 graylog_root_timezone: 'Asia/Shanghai' # The time zone setting of the root user.
 graylog_root_username: 'admin' # The default root username.
 graylog_selinux: 'false' # SELinux security policy.
-graylog_version: '3.0' # Specify the Graylog version.
+graylog_version: '3.1' # Specify the Graylog version.
 graylog_password_secret: "{{ lookup('password', '' + graylog_cluster + ':secret length=96 chars=ascii_letters,digits') }}" # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
 
 # Role dependencies #
@@ -36,8 +36,8 @@ graylog_elastic_pass: 'changeme' # Elasticsearch authenticated password.
 graylog_elastic_path: '{{ graylog_path }}' # Specify the ElasticSearch data directory.
 graylog_elastic_port_rest: '9200' # Elasticsearch REST port.
 graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
-graylog_elastic_version: '6.8.1' # Specify the Elasticsearch version.
-graylog_elastic_heap_size: '1g' # Specify the maximum memory allocation pool for a Java virtual machine.
+graylog_elastic_version: '6.8.2' # Specify the Elasticsearch version.
+graylog_elastic_heap_size: '2g' # Specify the maximum memory allocation pool for a Java virtual machine.
 
 # MongoDB parameters #
 graylog_mongod_auth: false # A boolean value, Enable or Disable MongoDB authentication.
@@ -139,7 +139,7 @@ graylog_elastic_arg:
   request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
   retention_strategy: 'delete' # Decide what happens with the oldest indices when the maximum number of indices is reached.
   rotation_strategy: 'time' # The strategy it uses to determine when to rotate the currently active write index.
-  shards: '{{ graylog_elastic_hosts | length }}' # The number of shards for your indices.
+  shards: '{{ graylog_elastic_hosts | length * 2 }}' # The number of shards for your indices.
   socket_timeout: '60s' # Maximum amount of time to wait for reading back a response from an Elasticsearch server.
 
 # Inputs Variables #
