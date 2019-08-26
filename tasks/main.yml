@@ -3,13 +3,13 @@
   set_fact:
     graylog_mongod_hosts: '{{ mongod_servers }}'
   when:
-    - graylog_mongod_dept
+    - graylog_mongod_dept | bool
 
 - name: Sets ElasticSearch node variables for Cluster
   set_fact:
     graylog_elastic_hosts: '{{ elastic_servers }}'
   when:
-    - graylog_elastic_dept
+    - graylog_elastic_dept | bool
 
 - name: Include OS-specific variables
   include_vars: '{{ ansible_os_family }}.yml'
@@ -61,7 +61,7 @@
 - name: Provide Graylog authenticated for Prometheus
   include: 'exporter.yml'
   when:
-    - exporter_is_install
+    - exporter_is_install | bool
     - graylog_servers[0] in ansible_default_ipv4.address
 
 - name: Graylog custom mapping
@@ -76,8 +76,8 @@
 - name: Registered with HashiCorp Consul
   include: 'register.yml'
   when: 
-    - exporter_is_install
-    - consul_public_register
+    - exporter_is_install | bool
+    - consul_public_register | bool
 
 - name: Ensure MTA service is enabled
   systemd:

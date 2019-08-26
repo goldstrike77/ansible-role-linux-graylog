@@ -65,7 +65,7 @@ dependencies:
       elastic_servers: '{{ graylog_servers }}'
       elastic_version: '{{ graylog_elastic_version }}'
       elastic_heap_size: '{{ graylog_elastic_heap_size }}'
-    when: graylog_elastic_dept
+    when: graylog_elastic_dept | bool
   - role: 'ansible-role-linux-mongodb'
     vars:
       mongod_servers: '{{ graylog_servers }}'
@@ -83,7 +83,7 @@ dependencies:
           pass: '{{ graylog_mongod_pass }}'
           dbs: 'graylog'
           role: 'readWrite'
-    when: graylog_mongod_dept
+    when: graylog_mongod_dept | bool
   - role: 'ansible-role-linux-nginx'
     vars:
       ngx_version: '{{ graylog_ngx_version }}'
@@ -120,6 +120,6 @@ dependencies:
           backend_port: '{{ graylog_port_arg.api }}'
           sticky: 'ip_hash'
           keepalive: '{{ graylog_arg.http_thread_pool_size }}'
-    when: graylog_ngx_dept
+    when: graylog_ngx_dept | bool
     changed_when: false
     failed_when: false
