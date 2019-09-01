@@ -45,6 +45,14 @@
   no_log: true
   register: plugin_update
 
+- name: Install SSO Authentication Plugin
+  get_url:
+    url: 'http://github.com/Graylog2/graylog-plugin-auth-sso/releases/download/{{ graylog_version }}.0/graylog-plugin-auth-sso-{{ graylog_version }}.0.jar'
+    dest: '/usr/share/graylog-server/plugin'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
 - name: Graylog server configuration
   template:
     src: '{{ item.src }}'
