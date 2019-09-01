@@ -52,6 +52,10 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
+  register: status
+  until: status is succeeded
+  retries: 3
+  delay: 5
 
 - name: Graylog server configuration
   template:
