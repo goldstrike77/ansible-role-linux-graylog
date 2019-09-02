@@ -11,9 +11,6 @@
   when:
     - graylog_elastic_dept | bool
 
-- name: Include OS-specific variables
-  include_vars: '{{ ansible_os_family }}.yml'
-
 - name: Include tasks for specific OS
   include: '{{ ansible_os_family }}.yml'
 
