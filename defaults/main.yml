@@ -156,13 +156,10 @@ graylog_inputs_arg: # Define the global common inputs parameters.
 # Content Packs Variables #
 graylog_content_packs_arg: # Define the Content Packs parameters.
   - name: 'NGinx'
-    protocol: 'udp'
     port: '12301-12302'
   - name: 'Auditbeat'
-    protocol: 'tcp'
     port: '5044'
-  - name: 'GELFSyslog'
-    protocol: 'udp'
+  - name: 'GELF_Collection'
     port: '12201'
 
 # Indexes Optimization Tuning#

@@ -347,7 +347,6 @@ You can also use the group_vars or the host_vars files for setting the variables
         port: 5555
     graylog_content_packs_arg:
       - name: 'NGinx'
-        protocol: 'udp'
         port: '12302-12301'
     graylog_indexes_arg:
       - refresh_interval: '30s'
