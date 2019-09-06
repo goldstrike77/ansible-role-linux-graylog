@@ -1,9 +1,9 @@
 {
   "v": 1,
-  "id": "68b224a3-c500-43f8-83af-4c9c4c3bc0d9",
+  "id": "c07c7bf5-ad3b-4499-80fe-8d55280a6091",
   "rev": 1,
   "name": "GELF_Collection",
-  "summary": "Message under graylog extended logging format. ",
+  "summary": "Message under graylog extended logging format.",
   "description": "",
   "vendor": "empty",
   "url": "",
@@ -12,10 +12,62 @@
     {
       "v": "1",
       "type": {
+        "name": "input",
+        "version": "1"
+      },
+      "id": "45a63f3c-2afe-499b-b2c6-78f144e06474",
+      "data": {
+        "title": {
+          "@type": "string",
+          "@value": "Gelf UDP driver"
+        },
+        "configuration": {
+          "recv_buffer_size": {
+            "@type": "integer",
+            "@value": {{ graylog_arg.recvbuffer_sizes }}
+          },
+          "bind_address": {
+            "@type": "string",
+            "@value": "0.0.0.0"
+          },
+          "port": {
+            "@type": "integer",
+            "@value": 12201
+          },
+          "decompress_size_limit": {
+            "@type": "integer",
+            "@value": 8388608
+          },
+          "number_worker_threads": {
+            "@type": "integer",
+            "@value": {{ graylog_arg.inputbuffer_processors }}
+          }
+        },
+        "static_fields": {},
+        "type": {
+          "@type": "string",
+          "@value": "org.graylog2.inputs.gelf.udp.GELFUDPInput"
+        },
+        "global": {
+          "@type": "boolean",
+          "@value": true
+        },
+        "extractors": []
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.1+b39ee32"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
         "name": "stream",
         "version": "1"
       },
-      "id": "06e51a26-b411-4a4e-bcd1-bab5cf04d29b",
+      "id": "06dac0b1-c80e-49bc-8b74-461a23715dea",
       "data": {
         "alarm_callbacks": [],
         "outputs": [],
@@ -72,59 +124,7 @@
       "constraints": [
         {
           "type": "server-version",
-          "version": ">=3.1.0+aa5175e"
-        }
-      ]
-    },
-    {
-      "v": "1",
-      "type": {
-        "name": "input",
-        "version": "1"
-      },
-      "id": "de0b8186-366a-46dd-9404-cabbcdbee556",
-      "data": {
-        "title": {
-          "@type": "string",
-          "@value": "Gelf UDP driver"
-        },
-        "configuration": {
-          "recv_buffer_size": {
-            "@type": "integer",
-            "@value": {{ graylog_arg.recvbuffer_sizes }}
-          },
-          "bind_address": {
-            "@type": "string",
-            "@value": "0.0.0.0"
-          },
-          "port": {
-            "@type": "integer",
-            "@value": 12201
-          },
-          "decompress_size_limit": {
-            "@type": "integer",
-            "@value": 8388608
-          },
-          "number_worker_threads": {
-            "@type": "integer",
-            "@value": {{ graylog_arg.inputbuffer_processors }}
-          }
-        },
-        "static_fields": {},
-        "type": {
-          "@type": "string",
-          "@value": "org.graylog2.inputs.gelf.udp.GELFUDPInput"
-        },
-        "global": {
-          "@type": "boolean",
-          "@value": true
-        },
-        "extractors": []
-      },
-      "constraints": [
-        {
-          "type": "server-version",
-          "version": ">=3.1.0+aa5175e"
+          "version": ">=3.1.1+b39ee32"
         }
       ]
     },
@@ -134,7 +134,7 @@
         "name": "stream",
         "version": "1"
       },
-      "id": "2afa4f4d-9831-4481-9687-9e8e396756b4",
+      "id": "97de295b-212f-4277-8f7f-f20d202569cd",
       "data": {
         "alarm_callbacks": [],
         "outputs": [],
@@ -191,7 +191,96 @@
       "constraints": [
         {
           "type": "server-version",
-          "version": ">=3.1.0+aa5175e"
+          "version": ">=3.1.1+b39ee32"
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "type": {
+        "name": "stream",
+        "version": "1"
+      },
+      "id": "08210c34-0884-49ed-8ef8-ed047242d7e4",
+      "data": {
+        "alarm_callbacks": [],
+        "outputs": [],
+        "remove_matches": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "title": {
+          "@type": "string",
+          "@value": "Apache Tomcat"
+        },
+        "stream_rules": [
+          {
+            "type": {
+              "@type": "string",
+              "@value": "EXACT"
+            },
+            "field": {
+              "@type": "string",
+              "@value": "facility"
+            },
+            "value": {
+              "@type": "string",
+              "@value": "tomcat-console"
+            },
+            "inverted": {
+              "@type": "boolean",
+              "@value": false
+            },
+            "description": {
+              "@type": "string",
+              "@value": ""
+            }
+          },
+          {
+            "type": {
+              "@type": "string",
+              "@value": "EXACT"
+            },
+            "field": {
+              "@type": "string",
+              "@value": "facility"
+            },
+            "value": {
+              "@type": "string",
+              "@value": "tomcat-access"
+            },
+            "inverted": {
+              "@type": "boolean",
+              "@value": false
+            },
+            "description": {
+              "@type": "string",
+              "@value": ""
+            }
+          }
+        ],
+        "alert_conditions": [],
+        "matching_type": {
+          "@type": "string",
+          "@value": "OR"
+        },
+        "disabled": {
+          "@type": "boolean",
+          "@value": false
+        },
+        "description": {
+          "@type": "string",
+          "@value": "Console & Access message"
+        },
+        "default_stream": {
+          "@type": "boolean",
+          "@value": false
+        }
+      },
+      "constraints": [
+        {
+          "type": "server-version",
+          "version": ">=3.1.1+b39ee32"
         }
       ]
     },
@@ -201,7 +290,7 @@
         "name": "input",
         "version": "1"
       },
-      "id": "e7a21c22-4240-4a66-9315-8670fe6ced48",
+      "id": "61661d38-84fe-4be4-9ecf-61990c9f854e",
       "data": {
         "title": {
           "@type": "string",
@@ -246,7 +335,7 @@
           },
           "max_message_size": {
             "@type": "integer",
-            "@value": {{ graylog_arg.recvbuffer_sizes }}
+            "@value": 2097152
           },
           "tls_client_auth": {
             "@type": "string",
@@ -279,7 +368,7 @@
       "constraints": [
         {
           "type": "server-version",
-          "version": ">=3.1.0+aa5175e"
+          "version": ">=3.1.1+b39ee32"
         }
       ]
     },
@@ -289,7 +378,7 @@
         "name": "stream",
         "version": "1"
       },
-      "id": "1ec605e6-e176-4417-8170-c473a0e01348",
+      "id": "bb6b74a4-2ec6-475d-8d07-c65fb946bf37",
       "data": {
         "alarm_callbacks": [],
         "outputs": [],
@@ -346,7 +435,7 @@
       "constraints": [
         {
           "type": "server-version",
-          "version": ">=3.1.0+aa5175e"
+          "version": ">=3.1.1+b39ee32"
         }
       ]
     }
