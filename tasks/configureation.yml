@@ -1,7 +1,7 @@
 ---
 - name: Generate root password
-  shell: "echo -n {{ graylog_root_password }} | shasum -a 256|awk '{ print $0 }'|cut -d ' ' -f 1"
-  register: graylog_root_password_sha2
+  shell: "echo -n {{ graylog_root_pass }} | shasum -a 256|awk '{ print $0 }'|cut -d ' ' -f 1"
+  register: graylog_root_pass_sha2
   changed_when: false
   failed_when: false
   no_log: true

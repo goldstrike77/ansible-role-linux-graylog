@@ -3,8 +3,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/adapters'
     method: 'GET'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     force_basic_auth: 'yes'
     status_code: '200'
     headers:
@@ -40,8 +40,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/adapters'
     method: 'POST'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     body: '{"title":"Geo IP Data Adapter","description":"Geo IP Data Adapter","name":"geo-ip-data-adapter","content_pack":null,"config":{"type":"maxmind_geoip","path":"/etc/graylog/server/GeoLite2-City.mmdb","database_type":"MAXMIND_CITY","check_interval":60,"check_interval_unit":"MINUTES"}}'
     force_basic_auth: 'yes'
     body_format: 'json'
@@ -65,8 +65,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/caches'
     method: 'POST'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     body: '{"config":{"type":"guava_cache","max_size":100000,"expire_after_access":60,"expire_after_access_unit":"MINUTES","expire_after_write":0,"expire_after_write_unit":null},"title":"Geo IP Data Cache","description":"Geo IP Data Cache","name":"geo-ip-data-cache","content_pack":null}'
     force_basic_auth: 'yes'
     body_format: 'json'
@@ -90,8 +90,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/tables'
     method: 'POST'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     body: '{"title":"Geo Location","description":"Geo Location","name":"geo-location","cache_id":"{{ graylog_lut_caches.json.id }}","data_adapter_id":"{{ graylog_lut_data_adapters.json.id }}","content_pack":null,"default_single_value":"","default_single_value_type":"NULL","default_multi_value":"","default_multi_value_type":"NULL"}'
     force_basic_auth: 'yes'
     body_format: 'json'

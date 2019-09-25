@@ -5,12 +5,10 @@ graylog_cluster: 'syslog' # Cluster name of servers that implements distribution
 graylog_heap_size: '1G' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_path: '/data' # This directory is used to store Graylog server state.
 graylog_root_email: 'somebody@domain.com' # The email address of the root user.
-graylog_root_password: 'changeme' # A SHA2 hash of a password for root user.
+graylog_root_user: 'admin' # The default root username.
+graylog_root_pass: 'changeme' # A SHA2 hash of a password for root user.
 graylog_root_timezone: 'Asia/Shanghai' # The time zone setting of the root user.
-graylog_root_username: 'admin' # The default root username.
-graylog_selinux: 'false' # SELinux security policy.
 graylog_version: '3.1' # Specify the Graylog version.
-graylog_password_secret: "{{ lookup('password', '' + graylog_cluster + ':secret length=96 chars=ascii_letters,digits') }}" # a secret that is used for password encryption and salting, Generate with [pwgen -N 1 -s 96].
 
 # Role dependencies #
 graylog_elastic_dept: false # A boolean value, whether ElasticSearch use the same environment.
@@ -36,7 +34,7 @@ graylog_elastic_pass: 'changeme' # Elasticsearch authenticated password.
 graylog_elastic_path: '{{ graylog_path }}' # Specify the ElasticSearch data directory.
 graylog_elastic_port_rest: '9200' # Elasticsearch REST port.
 graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
-graylog_elastic_version: '6.8.2' # Specify the Elasticsearch version.
+graylog_elastic_version: '6.8.3' # Specify the Elasticsearch version.
 graylog_elastic_heap_size: '2g' # Specify the maximum memory allocation pool for a Java virtual machine.
 
 # MongoDB parameters #
@@ -109,8 +107,8 @@ graylog_arg:
   message_journal_enabled: true # Enable the disk based message journal.
   message_journal_flush_age: '1m' # Specify a time interval at which we will force an fsync of data written to the log.
   message_journal_flush_interval: '1000000' # Specify an interval at which we will force an fsync of data written to the log.
-  message_journal_max_age: '12h' # The maximum hours for journal hold messages before they could be written.
-  message_journal_max_size: '10gb' # # The maximum size for journal hold messages before they could be written.
+  message_journal_max_age: '24h' # The maximum hours for journal hold messages before they could be written.
+  message_journal_max_size: '30gb' # # The maximum size for journal hold messages before they could be written.
   message_journal_segment_age: '1h' # Controls the period of time which Graylog will force the log to roll even
   message_journal_segment_size: '200mb' # The segment size of message journal.
   mongod_max_connections: '1000' # The maximum connections your MongoDB server can handle from a single client.
@@ -135,10 +133,10 @@ graylog_elastic_arg:
   index_optimization_jobs: '20' # Maximum number of concurrently running index optimization jobs.
   index_optimization_timeout: '1h' # Global timeout for index optimization requests.
   max_docs_per_index: '20000000' # Maximum number of documents in an Elasticsearch index before a new index is being created
-  max_number_of_indices: '180' # How many indices do you want to keep.
+  max_number_of_indices: '720' # How many indices do you want to keep.
   max_retries: '3' # Maximum number of times Graylog will retry failed requests to Elasticsearch.
   max_size_per_index: '1073741824' # Maximum size in bytes per Elasticsearch index on disk before a new index is being created.
-  max_time_per_index: '1d' # Maximum time before a new Elasticsearch index is being created.
+  max_time_per_index: '6h' # Maximum time before a new Elasticsearch index is being created.
   max_total_connections: '{{ ansible_processor_vcpus * 10 }}' # Maximum number of total connections to Elasticsearch.
   max_total_connections_per_route: '{{ graylog_elastic_hosts | length }}' # Maximum number of total connections per Elasticsearch route.
   replicas: '{% if ( graylog_elastic_hosts | length - 1 ) >= 2 %}2{% else %}{{ graylog_elastic_hosts | length - 1 }}{% endif %}' # The number of replicas for your indices.

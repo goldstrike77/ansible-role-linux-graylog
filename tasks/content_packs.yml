@@ -19,8 +19,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs'
     method: 'GET'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     force_basic_auth: 'yes'
     status_code: '200'
     headers:
@@ -38,8 +38,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs'
     method: 'POST'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     body: '{{ lookup("template","content_packs/{{ item.name }}.json") }}'
     force_basic_auth: 'yes'
     body_format: 'json'
@@ -54,15 +54,15 @@
   until: graylog_content_packs_status.status == 201
   retries: 10
   delay: 3
-#  no_log: true
+  no_log: true
   when: item.name not in ( graylog_current_content_packs | json_query('json.content_packs[*].name') )
 
 - name: Installs Graylog Content Packs
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs/{{ item }}/1/installations'
     method: 'POST'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     body: '{"comment":"","parameters":{}}'
     force_basic_auth: 'yes'
     body_format: 'json'

@@ -3,8 +3,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs'
     method: 'GET'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     force_basic_auth: 'yes'
     status_code: '200'
     headers:
@@ -22,8 +22,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs'
     method: 'POST'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     body: '{"title":"{{ lookup("password", "/dev/null length=8 chars=ascii_letters,digits") | upper }}","type":"{{ item.type }}","configuration":{"bind_address":"0.0.0.0","port":{{ item.port }},"recv_buffer_size":{{ graylog_arg.recvbuffer_sizes }},"override_source":null,"decompress_size_limit":8388608,"number_worker_threads":{{ graylog_arg.inputbuffer_processors }}{% if item.name == "CEF UDP Input" %},"timezone":"{{ graylog_root_timezone }}"{% else %}{% endif %}},"global":true}'
     force_basic_auth: 'yes'
     body_format: 'json'
@@ -49,8 +49,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/cluster/inputstates/{{ item }}'
     method: 'PUT'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     force_basic_auth: 'yes'
     status_code: '200'
     headers:

@@ -49,12 +49,10 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_heap_size`: Specify the maximum memory allocation pool for a Java virtual machine.
 * `graylog_path`: This directory is used to store Graylog server state.
 * `graylog_root_email`: The email address of the root user.
-* `graylog_root_password`: A SHA2 hash of a password for root user.
+* `graylog_root_pass`: A SHA2 hash of a password for root user.
 * `graylog_root_timezone`: The time zone setting of the root user.
-* `graylog_root_username`: The default root username.
-* `graylog_selinux`: SELinux security policy.
+* `graylog_root_user`: The default root username.
 * `graylog_version`: Specify the Graylog version.
-* `graylog_password_secret`: a secret that is used for password encryption and salting.
 
 ##### Role dependencies
 * `graylog_elastic_dept`: A boolean value, whether ElasticSearch use the same environment.
@@ -222,15 +220,13 @@ Including an example of how to use your role (for instance, with variables passe
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
     graylog_cluster: 'syslog'
-    graylog_heap_size: '2G'
+    graylog_heap_size: '1G'
     graylog_path: '/data'
     graylog_root_email: 'somebody@domain.com'
-    graylog_root_password: 'password'
+    graylog_root_pass: 'password'
     graylog_root_timezone: 'Asia/Shanghai'
-    graylog_root_username: 'admin'
-    graylog_selinux: 'false'
-    graylog_version: '3.0'
-    graylog_password_secret: 'yEgvvXw0XsRJrMrtfA6oLUpIWoD38kVJtYrknhNsxhkEEMa8AfxPhebUmKQMoQ9wXQwp2jZQMbPHjjMFMjBMcBMyaKFBVcap'
+    graylog_root_user: 'admin'
+    graylog_version: '3.1'
     graylog_ngx_dept: false
     graylog_elastic_dept: false
     graylog_mongod_dept: false
@@ -251,7 +247,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_elastic_path: '/data'
     graylog_elastic_port_rest: '9200'
     graylog_elastic_user: 'elastic'
-    graylog_elastic_version: '5.6.16'
+    graylog_elastic_version: '6.8.3'
     graylog_mongod_auth: false
     graylog_mongod_hosts: 'localhost'
     graylog_mongod_node_role: 'replica'
@@ -324,16 +320,16 @@ You can also use the group_vars or the host_vars files for setting the variables
       index_optimization_jobs: '20'
       index_optimization_timeout: '1h'
       max_docs_per_index: '20000000'
-      max_number_of_indices: '20'
+      max_number_of_indices: '720'
       max_retries: '3'
       max_size_per_index: '1073741824'
-      max_time_per_index: '1d'
+      max_time_per_index: '6h'
       max_total_connections: '20'
       max_total_connections_per_route: '3'
       replicas: '0'
       request_timeout: '1m'
       retention_strategy: 'delete'
-      rotation_strategy: 'count'
+      rotation_strategy: 'time'
       shards: '1'
       socket_timeout: '60s'
     graylog_inputs_arg:

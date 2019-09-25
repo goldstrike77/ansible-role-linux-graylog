@@ -3,8 +3,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus'
     method: 'GET'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     force_basic_auth: 'yes'
     status_code: '200'
     headers:
@@ -20,8 +20,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users'
     method: 'POST'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     body: '{"username":"prometheus","password":"password","email":"prometheus@domain.com","full_name":"prometheus","permissions":["users:edit:prometheus","users:tokencreate:prometheus","users:tokenlist:prometheus","users:tokenremove:prometheus","users:passwordchange:prometheus","clusterconfigentry:read","indexercluster:read","messagecount:read","journal:read","messages:analyze","inputs:read","metrics:read","savedsearches:edit","fieldnames:read","buffers:read","system:read","savedsearches:create","jvmstats:read","decorators:read","throughput:read","savedsearches:read","messages:read"],"timezone":"Asia/Shanghai","session_timeout_ms":3600000,"startpage":null,"roles":["Reader"]}'
     force_basic_auth: 'yes'
     status_code: '201'
@@ -42,8 +42,8 @@
   uri:
     url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus/tokens/default'
     method: 'POST'
-    user: '{{ graylog_root_username }}'
-    password: '{{ graylog_root_password }}'
+    user: '{{ graylog_root_user }}'
+    password: '{{ graylog_root_pass }}'
     force_basic_auth: 'yes'
     status_code: '200'
     headers:
