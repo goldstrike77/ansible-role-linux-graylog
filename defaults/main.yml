@@ -20,11 +20,11 @@ graylog_ngx_block_agents: true # Enables or disables block unsafe User Agents.
 graylog_ngx_block_string: true # Enables or disables block includes Exploits / File injections / Spam / SQL injections.
 graylog_ngx_compress: true # Enables or disables compression.
 graylog_ngx_domain: 'syslog.example.com' # Defines domain name.
-graylog_ngx_pagespeed: true # Enables or disables pagespeed modules.
+graylog_ngx_pagespeed: false # Enables or disables pagespeed modules.
 graylog_ngx_port_http: '80' # NGinx HTTP listen port.
 graylog_ngx_port_https: '443' # NGinx HTTPs listen port.
 graylog_ngx_ssl_protocols: 'modern' # intermediate or modern, defines SSL protocol profile.
-graylog_ngx_version: 'extras' # extras or standard
+graylog_ngx_version: 'standard' # extras or standard
 
 # Elastic parameters #
 graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.
