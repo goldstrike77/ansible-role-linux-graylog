@@ -8,7 +8,7 @@ graylog_root_email: 'somebody@domain.com' # The email address of the root user.
 graylog_root_user: 'admin' # The default root username.
 graylog_root_pass: 'changeme' # A SHA2 hash of a password for root user.
 graylog_root_timezone: 'Asia/Shanghai' # The time zone setting of the root user.
-graylog_version: '3.1' # Specify the Graylog version.
+graylog_version: '3.0' # Specify the Graylog version.
 
 # Role dependencies #
 graylog_elastic_dept: false # A boolean value, whether ElasticSearch use the same environment.
@@ -19,7 +19,7 @@ graylog_ngx_dept: false # A boolean value, whether proxy web interface and API t
 graylog_ngx_block_agents: true # Enables or disables block unsafe User Agents.
 graylog_ngx_block_string: true # Enables or disables block includes Exploits / File injections / Spam / SQL injections.
 graylog_ngx_compress: true # Enables or disables compression.
-graylog_ngx_domain: 'syslog.example.com' # Defines domain name.
+#graylog_ngx_domain: 'syslog.example.com' # Defines domain name.
 graylog_ngx_pagespeed: false # Enables or disables pagespeed modules.
 graylog_ngx_port_http: '80' # NGinx HTTP listen port.
 graylog_ngx_port_https: '443' # NGinx HTTPs listen port.
@@ -34,7 +34,7 @@ graylog_elastic_pass: 'changeme' # Elasticsearch authenticated password.
 graylog_elastic_path: '{{ graylog_path }}' # Specify the ElasticSearch data directory.
 graylog_elastic_port_rest: '9200' # Elasticsearch REST port.
 graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
-graylog_elastic_version: '6.8.3' # Specify the Elasticsearch version.
+graylog_elastic_version: '6.8.5' # Specify the Elasticsearch version.
 graylog_elastic_heap_size: '2g' # Specify the maximum memory allocation pool for a Java virtual machine.
 
 # MongoDB parameters #
@@ -81,7 +81,7 @@ graylog_mail_arg:
   transport_email_auth_password: 'changeme' # The SMTP clients AUTH password.
   transport_email_subject_prefix: '[syslog]' # Email subject line.
   transport_email_from_email: 'do-not-reply@example.com' # Specifies the e-mail address of the sender.
-  transport_email_web_interface_url: 'https://{{ graylog_ngx_domain }}' # Specify this if you want to include links in alert mails.
+  transport_email_web_interface_url: 'https://{% if graylog_ngx_domain is defined %}{{ graylog_ngx_domain }}{% else %}{{ ansible_default_ipv4.address }}{% endif %}' # Specify this if you want to include links in alert mails.
 
 # System Variables #
 graylog_arg:

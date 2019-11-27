@@ -101,7 +101,7 @@ dependencies:
         - 'HEAD'
         - 'DELETE'
       ngx_site:
-        - domain: '{{ graylog_ngx_domain }}'
+        - domain: '{% if graylog_ngx_domain is defined %}{{ graylog_ngx_domain }}{% else %}{{ ansible_default_ipv4.address }}{% endif %}'
           syntax:
             - 'location / {'
             - '  expires off;'
@@ -119,7 +119,7 @@ dependencies:
             - '  proxy_set_header X-Forwarded-Server $host;'
             - '  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;'
             - '  proxy_set_header X-Graylog-Server-URL https://$server_name/;'
-            - '  proxy_pass http://backend_{{ graylog_ngx_domain }};'
+            - '  proxy_pass http://backend_{% if graylog_ngx_domain is defined %}{{ graylog_ngx_domain }}{% else %}{{ ansible_default_ipv4.address }}{% endif %};'
             - '}'
           backend_address: '{{ graylog_servers }}'
           backend_port: '{{ graylog_port_arg.api }}'
