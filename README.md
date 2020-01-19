@@ -247,7 +247,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_elastic_path: '/data'
     graylog_elastic_port_rest: '9200'
     graylog_elastic_user: 'elastic'
-    graylog_elastic_version: '6.8.3'
+    graylog_elastic_version: '6.8.6'
     graylog_mongod_auth: false
     graylog_mongod_hosts: 'localhost'
     graylog_mongod_node_role: 'replica'
