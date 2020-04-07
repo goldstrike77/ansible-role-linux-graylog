@@ -34,7 +34,7 @@ graylog_elastic_pass: 'changeme' # Elasticsearch authenticated password.
 graylog_elastic_path: '{{ graylog_path }}' # Specify the ElasticSearch data directory.
 graylog_elastic_port_rest: '9200' # Elasticsearch REST port.
 graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
-graylog_elastic_version: '6.8.7' # Specify the Elasticsearch version.
+graylog_elastic_version: '6.8.8' # Specify the Elasticsearch version.
 graylog_elastic_heap_size: '2g' # Specify the maximum memory allocation pool for a Java virtual machine.
 
 # MongoDB parameters #

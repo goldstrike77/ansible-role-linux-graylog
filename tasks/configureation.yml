@@ -68,3 +68,12 @@
   loop: '{{ graylog_conf_scripts }}'
   no_log: true
   register: conf_update
+
+- name: Graylog server LB status check script taansfer
+  template:
+    src: 'graylog_lbstatus.sh.j2'
+    dest: '/usr/local/bin/graylog_lbstatus.sh'
+    backup: 'yes'
+    owner: 'root'
+    group: 'root'
+    mode: '755'
