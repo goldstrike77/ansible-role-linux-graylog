@@ -8,7 +8,7 @@ graylog_root_email: 'somebody@domain.com' # The email address of the root user.
 graylog_root_user: 'admin' # The default root username.
 graylog_root_pass: 'changeme' # A SHA2 hash of a password for root user.
 graylog_root_timezone: 'Asia/Shanghai' # The time zone setting of the root user.
-graylog_version: '3.2' # Specify the Graylog version.
+graylog_version: '3.1' # Specify the Graylog version.
 
 # Role dependencies #
 graylog_elastic_dept: false # A boolean value, whether ElasticSearch use the same environment.
