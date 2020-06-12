@@ -10,6 +10,7 @@ ___
 __Table of Contents__
 
 - [Overview](#overview)
+  * [Architecture](#Architecture)
 - [Requirements](#requirements)
   * [Operating systems](#operating-systems)
   * [Graylog Versions](#graylog-versions)
@@ -27,6 +28,9 @@ __Table of Contents__
 
 ## Overview
 This Ansible role installs Graylog on linux operating system, including establishing a filesystem structure and server configuration with some common operational features. Graylog is a leading centralized log management solution built to open standards for capturing, storing, and enabling real-time analysis of terabytes of machine data. Graylog deliver a better user experience by making analysis ridiculously fast and efficient using a more cost-effective and flexible architecture. Many of IT professionals rely on Graylog’s scalability, comprehensive access to complete data, and exceptional user experience to solve security, compliance, operational, and DevOps issues every day. Purpose-built for modern log analytics, Graylog removes complexity from data exploration, compliance audits, and threat hunting so you can quickly and easily find meaning in data and take action faster.
+
+### Architecture
+<p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/graylog-arch.png" /></p>
 
 ## Requirements
 ### Operating systems
