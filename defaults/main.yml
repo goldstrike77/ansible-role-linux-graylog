@@ -7,7 +7,7 @@ graylog_path: '/data' # This directory is used to store Graylog server state.
 graylog_root_email: 'somebody@domain.com' # The email address of the root user.
 graylog_https: false # A boolean value, whether Encrypting HTTP client communications.
 graylog_root_user: 'admin' # The default root username.
-graylog_root_pass: 'changeme' # A SHA2 hash of a password for root user.
+graylog_root_pass: 'changeme' # The password for root user.
 graylog_root_timezone: 'Asia/Shanghai' # The time zone setting of the root user.
 graylog_version: '3.1' # Specify the Graylog version.
 
@@ -49,8 +49,8 @@ graylog_mongod_port: '27017' # The MongoDB instance port.
 graylog_mongod_replset: '{{ graylog_cluster }}' # MongoDB ReplicaSet name.
 graylog_mongod_sa_pass: 'changeme' # MongoDB Superuser password.
 graylog_mongod_sa_user: 'sa' # MongoDB Superuser name.
-graylog_mongod_user: 'graylog' # MongoDB Graylog username.
-graylog_mongod_pass: 'changeme' # MongoDB Graylog password.
+graylog_mongod_user: 'graylog' # MongoDB Graylog database authenticate username.
+graylog_mongod_pass: 'changeme' # MongoDB Graylog database authenticate password.
 graylog_mongod_version: '36' # Specify the MongoDB version, minimum 34.
 
 # Listen port #
@@ -172,3 +172,4 @@ consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # Public Co
 consul_public_http_prot: 'https' # The consul Hypertext Transfer Protocol.
 consul_public_http_port: '8500' # The consul HTTP API port.
 consul_public_clients: # List of public consul clients.
+  - '127.0.0.1'

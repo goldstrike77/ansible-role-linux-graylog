@@ -49,7 +49,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_heap_size`: Specify the maximum memory allocation pool for a Java virtual machine.
 * `graylog_path`: This directory is used to store Graylog server state.
 * `graylog_root_email`: The email address of the root user.
-* `graylog_root_pass`: A SHA2 hash of a password for root user.
+* `graylog_root_pass`: The password for root user.
 * `graylog_root_timezone`: The time zone setting of the root user.
 * `graylog_root_user`: The default root username.
 * `graylog_https`: A boolean value, whether Encrypting HTTP client communications.
@@ -62,7 +62,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### NGinx parameters
 * `graylog_ngx_domain`: Defines domain name.
-* `graylog_ngx_version`: extras or standard
+* `graylog_ngx_version`: extras or standard.
 * `graylog_ngx_port_http`: NGinx HTTP listen port.
 * `graylog_ngx_port_https`: NGinx HTTPs listen port.
 * `graylog_ngx_compress`: Enables or disables compression.
@@ -77,10 +77,10 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_elastic_cluster`: Specify name for your Elastic cluster name.
 * `graylog_elastic_heap_size`: Specify the maximum memory allocation pool for a Java virtual machine.
 * `graylog_elastic_hosts`: List of Elasticsearch hosts Graylog should connect to.
-* `graylog_elastic_pass`: Elasticsearch authenticated password.
 * `graylog_elastic_path`: Specify the ElasticSearch data directory.
 * `graylog_elastic_port_rest`: Elasticsearch REST port.
 * `graylog_elastic_user`: Elasticsearch authenticated user.
+* `graylog_elastic_pass`: Elasticsearch authenticated password.
 * `graylog_elastic_version`: Specify the Elasticsearch version.
 * `graylog_elastic_memory_lock`: A boolean value, whether lock the process address space into memory on startup.
 
@@ -89,12 +89,12 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_mongod_hosts`: Group of MongoDB hosts Graylog should connect to.
 * `graylog_mongod_node_role`: Member role for ReplicaSet.
 * `graylog_mongod_path`: Specify the MongoDB data directory.
-* `graylog_mongod_pass`: MongoDB Graylog password.
 * `graylog_mongod_port`: The MongoDB instance port.
 * `graylog_mongod_replset`: MongoDB ReplicaSet name.
-* `graylog_mongod_sa_pass`: MongoDB Superuser password.
 * `graylog_mongod_sa_user`: MongoDB Superuser name.
-* `graylog_mongod_user`: MongoDB Graylog username.
+* `graylog_mongod_sa_pass`: MongoDB Superuser password.
+* `graylog_mongod_user`: MongoDB Graylog database authenticate username.
+* `graylog_mongod_pass`: MongoDB Graylog database authenticate password.
 * `graylog_mongod_version`: Specify the MongoDB version, minimum 34.
 
 ##### Listen port
@@ -231,9 +231,9 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_heap_size: '1G'
     graylog_path: '/data'
     graylog_root_email: 'somebody@domain.com'
-    graylog_root_pass: 'password'
     graylog_root_timezone: 'Asia/Shanghai'
     graylog_root_user: 'admin'
+    graylog_root_pass: 'changeme'
     graylog_https: false
     graylog_version: '3.1'
     graylog_ngx_dept: false
@@ -254,21 +254,21 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_elastic_hosts: 'localhost'
     graylog_elastic_heap_size: '3g'
     graylog_elastic_memory_lock: false
-    graylog_elastic_pass: 'password'
     graylog_elastic_path: '/data'
     graylog_elastic_port_rest: '9200'
     graylog_elastic_user: 'elastic'
+    graylog_elastic_pass: 'changeme'
     graylog_elastic_version: '6.8.10'
     graylog_mongod_auth: false
     graylog_mongod_hosts: 'localhost'
     graylog_mongod_node_role: 'replica'
     graylog_mongod_path: '/data'
-    graylog_mongod_pass: 'password'
     graylog_mongod_port: '27017'
     graylog_mongod_replset: 'graylog'
-    graylog_mongod_sa_pass: 'password'
     graylog_mongod_sa_user: 'sa'
+    graylog_mongod_sa_pass: 'changeme'
     graylog_mongod_user: 'graylog'
+    graylog_mongod_pass: 'changeme'
     graylog_mongod_version: '36'
     graylog_port_arg:
       api: '9099'
