@@ -26,7 +26,7 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-This Ansible role installs Graylog on linux operating system, including establishing a filesystem structure and server configuration with some common operational features.
+This Ansible role installs Graylog on linux operating system, including establishing a filesystem structure and server configuration with some common operational features. Graylog is a leading centralized log management solution built to open standards for capturing, storing, and enabling real-time analysis of terabytes of machine data. Graylog deliver a better user experience by making analysis ridiculously fast and efficient using a more cost-effective and flexible architecture. Many of IT professionals rely on Graylog’s scalability, comprehensive access to complete data, and exceptional user experience to solve security, compliance, operational, and DevOps issues every day. Purpose-built for modern log analytics, Graylog removes complexity from data exploration, compliance audits, and threat hunting so you can quickly and easily find meaning in data and take action faster.
 
 ## Requirements
 ### Operating systems
@@ -52,6 +52,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_root_pass`: A SHA2 hash of a password for root user.
 * `graylog_root_timezone`: The time zone setting of the root user.
 * `graylog_root_user`: The default root username.
+* `graylog_https`: A boolean value, whether Encrypting HTTP client communications.
 * `graylog_version`: Specify the Graylog version.
 
 ##### Role dependencies
@@ -72,6 +73,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Elasticseach connection parameters
 * `graylog_elastic_auth`: A boolean value, Enable or Disable Elasticsearch authentication.
+* `graylog_elastic_https`: A boolean value, whether Encrypting HTTP client communications.
 * `graylog_elastic_cluster`: Specify name for your Elastic cluster name.
 * `graylog_elastic_heap_size`: Specify the maximum memory allocation pool for a Java virtual machine.
 * `graylog_elastic_hosts`: List of Elasticsearch hosts Graylog should connect to.
@@ -80,6 +82,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_elastic_port_rest`: Elasticsearch REST port.
 * `graylog_elastic_user`: Elasticsearch authenticated user.
 * `graylog_elastic_version`: Specify the Elasticsearch version.
+* `graylog_elastic_memory_lock`: A boolean value, whether lock the process address space into memory on startup.
 
 ##### MongoDB connection parameters
 * `graylog_mongod_auth`: A boolean value, Enable or Disable MongoDB authentication.
@@ -120,7 +123,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_arg.http_connect_timeout`: The default connect timeout for outgoing HTTP connections.
 * `graylog_arg.http_enable_cors`: Enable CORS headers for HTTP interface.
 * `graylog_arg.http_enable_gzip`: This compresses API responses and therefore helps to reduce overall round trip times.
-* `graylog_arg.http_enable_tls`: Secures the communication with the HTTP interface with TLS.
 * `graylog_arg.http_max_header_size`: The maximum size of the HTTP request headers in bytes.
 * `graylog_arg.http_read_timeout`: The default read timeout for outgoing HTTP connections.
 * `graylog_arg.http_thread_pool_size`: The size of the thread pool used exclusively for serving the HTTP interface.
@@ -206,9 +208,13 @@ There are some variables in vars/main.yml:
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' graylog_cluster='syslog'
-    node02 ansible_host='192.168.1.11' graylog_cluster='syslog'
-    node03 ansible_host='192.168.1.12' graylog_cluster='syslog'
+    [syslog:vars]
+    graylog_cluster='syslog'
+
+    [syslog]
+    node01 ansible_host='192.168.1.10'
+    node02 ansible_host='192.168.1.11'
+    node03 ansible_host='192.168.1.12'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
@@ -216,7 +222,7 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: all
       roles:
          - role: ansible-role-linux-graylog
-           graylog_cluster='syslog'
+           graylog_cluster: 'syslog'
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
@@ -228,6 +234,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_root_pass: 'password'
     graylog_root_timezone: 'Asia/Shanghai'
     graylog_root_user: 'admin'
+    graylog_https: false
     graylog_version: '3.1'
     graylog_ngx_dept: false
     graylog_elastic_dept: false
@@ -242,14 +249,16 @@ You can also use the group_vars or the host_vars files for setting the variables
     graylog_ngx_ssl_protocols: 'modern'
     graylog_ngx_version: 'extras'
     graylog_elastic_auth: false
+    graylog_elastic_https: false
     graylog_elastic_cluster: 'graylog'
     graylog_elastic_hosts: 'localhost'
     graylog_elastic_heap_size: '3g'
+    graylog_elastic_memory_lock: false
     graylog_elastic_pass: 'password'
     graylog_elastic_path: '/data'
     graylog_elastic_port_rest: '9200'
     graylog_elastic_user: 'elastic'
-    graylog_elastic_version: '6.8.8'
+    graylog_elastic_version: '6.8.10'
     graylog_mongod_auth: false
     graylog_mongod_hosts: 'localhost'
     graylog_mongod_node_role: 'replica'
@@ -285,7 +294,6 @@ You can also use the group_vars or the host_vars files for setting the variables
       http_connect_timeout: '10s'
       http_enable_cors: true
       http_enable_gzip: true
-      http_enable_tls: false
       http_max_header_size: '8192'
       http_read_timeout: '20s'
       http_thread_pool_size: '12'

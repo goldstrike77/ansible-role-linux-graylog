@@ -24,17 +24,6 @@
     sysctl_file: '/etc/sysctl.d/20-sysctl.conf'
   loop: "{{ graylog_kernel_parameters|flatten(levels=1) }}"
 
-- name: Graylog http certificate file transfer
-  copy:
-    src: 'ssl/'
-    dest: '/etc/graylog/server/ssl'
-    owner: 'root'
-    group: 'root'
-    directory_mode: '0755'
-    mode: '0644'
-  no_log: true
-  register: cert_update
-
 - name: Graylog plugin file transfer
   copy:
     src: 'plugin/'
@@ -62,14 +51,14 @@
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
     backup: 'yes'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
+    owner: 'graylog'
+    group: 'graylog'
+    mode: '0640'
   loop: '{{ graylog_conf_scripts }}'
   no_log: true
   register: conf_update
 
-- name: Graylog server LB status check script taansfer
+- name: Graylog server LB status check script transfer
   template:
     src: 'graylog_lbstatus.sh.j2'
     dest: '/usr/local/bin/graylog_lbstatus.sh'

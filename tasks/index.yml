@@ -1,13 +1,14 @@
 ---
 - name: Apply the additional index mapping
   uri:
-    url: 'http://{{ graylog_elastic_hosts[0] }}:{{ graylog_elastic_port_rest }}/_template/graylog-custom-mapping?pretty'
+    url: '{% if graylog_elastic_auth | bool and graylog_elastic_https | bool %}https{% else %}http{% endif %}://{{ graylog_elastic_hosts[0] }}:{{ graylog_elastic_port_rest }}/_template/graylog-custom-mapping?pretty'
     method: 'PUT'
     user: '{{ graylog_elastic_user }}'
     password: '{{ graylog_elastic_pass }}'
     body: '{"template":"graylog_*","settings":{"index":{{ graylog_indexes_arg[0] | to_json | replace("\n", "")}}}}'
     force_basic_auth: 'yes'
     status_code: '200'
+    validate_certs: 'no'
     body_format: 'json'
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
@@ -16,18 +17,19 @@
     no_proxy: '{{ graylog_elastic_hosts[0] }}'
   register: register_status
   until: register_status.status == 200
-  retries: 10
-  delay: 3
+  retries: 5
+  delay: 2
   no_log: true
 
 - name: Manually rotating the active write index
   uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/deflector/cycle'
+    url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/deflector/cycle'
     method: 'POST'
     user: '{{ graylog_root_user }}'
     password: '{{ graylog_root_pass }}'
     force_basic_auth: 'yes'
     status_code: '204'
+    validate_certs: 'no'
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'
@@ -35,6 +37,6 @@
     no_proxy: '{{ ansible_default_ipv4.address }}'
   register: register_status
   until: register_status.status == 204
-  retries: 10
-  delay: 3
+  retries: 5
+  delay: 2
   no_log: true

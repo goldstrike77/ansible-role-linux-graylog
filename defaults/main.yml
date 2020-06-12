@@ -5,6 +5,7 @@ graylog_cluster: 'syslog' # Cluster name of servers that implements distribution
 graylog_heap_size: '1G' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_path: '/data' # This directory is used to store Graylog server state.
 graylog_root_email: 'somebody@domain.com' # The email address of the root user.
+graylog_https: false # A boolean value, whether Encrypting HTTP client communications.
 graylog_root_user: 'admin' # The default root username.
 graylog_root_pass: 'changeme' # A SHA2 hash of a password for root user.
 graylog_root_timezone: 'Asia/Shanghai' # The time zone setting of the root user.
@@ -28,14 +29,16 @@ graylog_ngx_version: 'standard' # extras or standard
 
 # Elastic parameters #
 graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.
+graylog_elastic_https: false # A boolean value, whether Encrypting HTTP client communications.
 graylog_elastic_cluster: '{{ graylog_cluster }}' # Specify name for your Elastic cluster name.
 graylog_elastic_hosts: 'localhost' # List of Elasticsearch hosts Graylog should connect to.
 graylog_elastic_pass: 'changeme' # Elasticsearch authenticated password.
 graylog_elastic_path: '{{ graylog_path }}' # Specify the ElasticSearch data directory.
 graylog_elastic_port_rest: '9200' # Elasticsearch REST port.
 graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
-graylog_elastic_version: '6.8.8' # Specify the Elasticsearch version.
+graylog_elastic_version: '6.8.10' # Specify the Elasticsearch version.
 graylog_elastic_heap_size: '2g' # Specify the maximum memory allocation pool for a Java virtual machine.
+graylog_elastic_memory_lock: false # A boolean value, whether lock the process address space into memory on startup.
 
 # MongoDB parameters #
 graylog_mongod_auth: false # A boolean value, Enable or Disable MongoDB authentication.
@@ -79,7 +82,6 @@ graylog_arg:
   http_connect_timeout: '10s' # The default connect timeout for outgoing HTTP connections.
   http_enable_cors: '{% if graylog_ngx_dept %}false{% else %}true{% endif %}' # Enable CORS headers for HTTP interface.
   http_enable_gzip: true # This compresses API responses and therefore helps to reduce overall round trip times.
-  http_enable_tls: false # Secures the communication with the HTTP interface with TLS.
   http_max_header_size: '8192' # The maximum size of the HTTP request headers in bytes.
   http_read_timeout: '20s' # The default read timeout for outgoing HTTP connections.
   http_thread_pool_size: '{{ ansible_processor_vcpus * 6 }}' # The size of the thread pool used exclusively for serving the HTTP interface.
@@ -124,7 +126,7 @@ graylog_elastic_arg:
   max_time_per_index: '6h' # Maximum time before a new Elasticsearch index is being created.
   max_total_connections: '{{ ansible_processor_vcpus * 10 }}' # Maximum number of total connections to Elasticsearch.
   max_total_connections_per_route: '{{ graylog_elastic_hosts | length }}' # Maximum number of total connections per Elasticsearch route.
-  replicas: '{% if ( graylog_elastic_hosts | length - 1 ) >= 2 %}2{% else %}{{ graylog_elastic_hosts | length - 1 }}{% endif %}' # The number of replicas for your indices.
+  replicas: '{% if graylog_elastic_hosts | length > 1 %}1{% else %}0{% endif %}' # The number of replicas for your indices.
   request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
   retention_strategy: 'delete' # Decide what happens with the oldest indices when the maximum number of indices is reached.
   rotation_strategy: 'time' # The strategy it uses to determine when to rotate the currently active write index.

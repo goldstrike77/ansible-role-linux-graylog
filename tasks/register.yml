@@ -15,14 +15,14 @@
   uri:
     url: '{{ consul_public_http_prot }}://{{ ansible_default_ipv4.address }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'PUT'
-    body: '{"tags":["graylog"],"ID":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-graylog","name":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-graylog","address":"{{ ansible_default_ipv4.address }}","port":{{ graylog_port_arg.api }},"checks":[{"args":["/usr/local/bin/graylog_lbstatus.sh"],"interval":"10s","timeout":"10s"},{"http":"http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus","interval":"10s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
+    body: '{"tags":["graylog"],"ID":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-graylog","name":"{{ group_names[-1] | upper | regex_replace("_", "-") }}-{{ environments | upper | regex_replace("_", "-") }}-graylog","address":"{{ ansible_default_ipv4.address }}","port":{{ graylog_port_arg.api }},"checks":[{"args":["/usr/local/bin/graylog_lbstatus.sh"],"interval":"10s","timeout":"10s"},{"http":"{% if graylog_elastic_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus","interval":"10s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
     body_format: 'json'
     status_code: '200'
+    validate_certs: 'no'
     headers:
       X-Consul-Token: '{{ consul_public_exporter_token }}'
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'
-    validate_certs: 'no'
   environment:
     no_proxy: '{{ ansible_default_ipv4.address }}'
   when: check_consul_local.status == 405
@@ -36,10 +36,11 @@
 
 - name: Waiting for other Graylog node ready
   uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus'
+    url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus'
     method: 'GET'
     return_content: 'yes'
     status_code: '200'
+    validate_certs: 'no'
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'
@@ -53,12 +54,13 @@
 
 - name: Get Graylog prometheus exporter user token
   uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus/tokens'
+    url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus/tokens'
     method: 'GET'
     user: '{{ graylog_root_user }}'
     password: '{{ graylog_root_pass }}'
     force_basic_auth: 'yes'
     status_code: '200'
+    validate_certs: 'no'
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'
@@ -84,14 +86,14 @@
   uri:
     url: '{{ consul_public_http_prot }}://{{ item.client }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'PUT'
-    body: '{"tags":["prometheus","exporter"],"ID":"{{ inventory_hostname | upper }}_graylog_exporter","name":"graylog_exporter","address":"{{ ansible_default_ipv4.address }}","port":{{ graylog_port_arg.api }},"meta":{"metrics_path":"/api/plugins/org.graylog.plugins.metrics.prometheus/metrics","instance":"{{ inventory_hostname | upper }}","group":"{{ group_names[-1] | upper }}","environment":"{{ environments | upper }}","cluster":"{{ graylog_cluster | upper }}"{% if tags is defined %},{{ tags | to_json | regex_replace("{") | regex_replace("}") }}{% endif %}},"checks":[{"http":"http://{{ (graylog_exporter_user_token | json_query("json.tokens[*].token"))[0] }}:token@{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/plugins/org.graylog.plugins.metrics.prometheus/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
+    body: '{"tags":["prometheus","exporter"],"ID":"{{ inventory_hostname | upper }}_graylog_exporter","name":"graylog_exporter","address":"{{ ansible_default_ipv4.address }}","port":{{ graylog_port_arg.api }},"meta":{"metrics_path":"/api/plugins/org.graylog.plugins.metrics.prometheus/metrics","instance":"{{ inventory_hostname | upper }}","group":"{{ group_names[-1] | upper }}","environment":"{{ environments | upper }}","cluster":"{{ graylog_cluster | upper }}"{% if tags is defined %},{{ tags | to_json | regex_replace("{") | regex_replace("}") }}{% endif %}},"checks":[{"http":"{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ (graylog_exporter_user_token | json_query("json.tokens[*].token"))[0] }}:token@{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/plugins/org.graylog.plugins.metrics.prometheus/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
     body_format: 'json'
     status_code: '200'
+    validate_certs: 'no'
     headers:
       X-Consul-Token: '{{ consul_public_exporter_token }}'
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'
-    validate_certs: 'no'
   environment:
     no_proxy: '{{ item.client }}'
   loop: "{{ check_consul_reg.results | json_query('[*].{client:item,status:status}') }}"

@@ -17,3 +17,11 @@ graylog_kernel_parameters:
 graylog_conf_scripts:
   - { src: 'graylog-server.j2', dest: '/etc/sysconfig/graylog-server' }
   - { src: 'server.conf.j2', dest: '/etc/graylog/server/server.conf' }
+
+graylog_cert_path: '/etc/graylog/server/ssl'
+
+graylog_pypi_url: 'pypi.tuna.tsinghua.edu.cn'
+
+graylog_python_dependent_packages:
+  - 'pip'
+  - 'cryptography'

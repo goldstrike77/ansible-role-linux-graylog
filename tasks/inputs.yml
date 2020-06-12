@@ -1,12 +1,13 @@
 ---
 - name: Query Graylog exists inputs
   uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs'
+    url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs'
     method: 'GET'
     user: '{{ graylog_root_user }}'
     password: '{{ graylog_root_pass }}'
     force_basic_auth: 'yes'
     status_code: '200'
+    validate_certs: 'no'
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'
@@ -20,7 +21,7 @@
 
 - name: Create graylog global inputs
   uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs'
+    url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/inputs'
     method: 'POST'
     user: '{{ graylog_root_user }}'
     password: '{{ graylog_root_pass }}'
@@ -28,6 +29,7 @@
     force_basic_auth: 'yes'
     body_format: 'json'
     status_code: '201'
+    validate_certs: 'no'
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'
@@ -47,12 +49,13 @@
 
 - name: Start or restart inputs in all nodes
   uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/cluster/inputstates/{{ item }}'
+    url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/cluster/inputstates/{{ item }}'
     method: 'PUT'
     user: '{{ graylog_root_user }}'
     password: '{{ graylog_root_pass }}'
     force_basic_auth: 'yes'
     status_code: '200'
+    validate_certs: 'no'
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'

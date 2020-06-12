@@ -117,7 +117,7 @@ http_bind_address = {{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }
 # This configuration setting *must not* contain a wildcard address!
 #
 # Default: http://$http_bind_address/
-http_publish_uri = http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/
+http_publish_uri = {% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/
 
 #### External Graylog URI
 #
@@ -161,10 +161,10 @@ http_thread_pool_size = {{ graylog_arg.http_thread_pool_size }}
 # This secures the communication with the HTTP interface with TLS to prevent request forgery and eavesdropping.
 #
 # Default: false
-http_enable_tls = {{ graylog_arg.http_enable_tls | bool | to_json }}
+http_enable_tls = {{ graylog_https | bool | to_json }}
 
 # The X.509 certificate chain file in PEM format to use for securing the HTTP interface.
-http_tls_cert_file = /etc/graylog/server/ssl/certificate.pem
+http_tls_cert_file = /etc/graylog/server/ssl/server.crt
 
 # The PKCS#8 private key file in PEM format to use for securing the HTTP interface.
 http_tls_key_file = /etc/graylog/server/ssl/server.key
@@ -183,7 +183,13 @@ http_tls_key_file = /etc/graylog/server/ssl/server.key
 # requires authentication.
 #
 # Default: http://127.0.0.1:9200
-elasticsearch_hosts = {% if graylog_elastic_auth %}http://{{ graylog_elastic_user }}:{{ graylog_elastic_pass | urlencode }}@{{ graylog_elastic_hosts | list | join(":" + graylog_elastic_port_rest + ",http://" + graylog_elastic_user + ":" + graylog_elastic_pass | urlencode + "@") }}:{{ graylog_elastic_port_rest }}{% else %}http://{{ graylog_elastic_hosts | list | join(":" + graylog_elastic_port_rest + ",http://") }}:{{ graylog_elastic_port_rest }}{% endif %}
+{% if graylog_elastic_https | bool and graylog_elastic_auth | bool %}
+elasticsearch_hosts = https://{{ graylog_elastic_user }}:{{ graylog_elastic_pass | urlencode }}@{{ graylog_elastic_hosts | list | join(":" + graylog_elastic_port_rest + ",https://" + graylog_elastic_user + ":" + graylog_elastic_pass | urlencode + "@") }}:{{ graylog_elastic_port_rest }}
+{% elif not graylog_elastic_https | bool and graylog_elastic_auth | bool %}
+elasticsearch_hosts = http://{{ graylog_elastic_user }}:{{ graylog_elastic_pass | urlencode }}@{{ graylog_elastic_hosts | list | join(":" + graylog_elastic_port_rest + ",http://" + graylog_elastic_user + ":" + graylog_elastic_pass | urlencode + "@") }}:{{ graylog_elastic_port_rest }}
+{% else %}
+elasticsearch_hosts = http://{{ graylog_elastic_hosts | list | join(":" + graylog_elastic_port_rest + ",http://") }}:{{ graylog_elastic_port_rest }}
+{% endif %}
 
 # Maximum amount of time to wait for successfull connection to Elasticsearch HTTP port.
 #

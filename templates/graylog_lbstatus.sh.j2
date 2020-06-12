@@ -1,2 +1,2 @@
 #!/bin/sh
-curl -k -s http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus | awk '{if ($0=="ALIVE") exit 0; else exit 2}'
+curl -k -s {% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus | awk '{if ($0=="ALIVE") exit 0; else exit 2}'

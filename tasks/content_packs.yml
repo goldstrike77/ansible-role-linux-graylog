@@ -1,10 +1,11 @@
 ---
 - name: Waiting for Graylog master node ready
   uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus'
+    url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus'
     method: 'GET'
     return_content: 'yes'
     status_code: '200'
+    validate_certs: 'no'
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'
@@ -12,17 +13,18 @@
     no_proxy: '{{ ansible_default_ipv4.address }}'
   register: graylog_node_status
   until: graylog_node_status.content.find("ALIVE") != -1
-  retries: 12
+  retries: 30
   delay: 10
 
 - name: Query Graylog exits Content Packs
   uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs'
+    url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs'
     method: 'GET'
     user: '{{ graylog_root_user }}'
     password: '{{ graylog_root_pass }}'
     force_basic_auth: 'yes'
     status_code: '200'
+    validate_certs: 'no'
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'
@@ -36,7 +38,7 @@
 
 - name: Create graylog Content Packs
   uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs'
+    url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs'
     method: 'POST'
     user: '{{ graylog_root_user }}'
     password: '{{ graylog_root_pass }}'
@@ -44,6 +46,7 @@
     force_basic_auth: 'yes'
     body_format: 'json'
     status_code: '201'
+    validate_certs: 'no'
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'
@@ -59,7 +62,7 @@
 
 - name: Installs Graylog Content Packs
   uri:
-    url: 'http://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs/{{ item }}/1/installations'
+    url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs/{{ item }}/1/installations'
     method: 'POST'
     user: '{{ graylog_root_user }}'
     password: '{{ graylog_root_pass }}'
@@ -67,6 +70,7 @@
     force_basic_auth: 'yes'
     body_format: 'json'
     status_code: '200'
+    validate_certs: 'no'
     headers:
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'

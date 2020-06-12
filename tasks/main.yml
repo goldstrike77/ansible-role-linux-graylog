@@ -23,12 +23,16 @@
 - name: Configuration the Graylog
   include: 'configureation.yml'
 
+- name: Include certificate tasks
+  include: 'certificates.yml'
+  when: graylog_https | bool or ( graylog_elastic_auth | bool and graylog_elastic_https | bool )
+
 - name: Reload the Master node Graylog service
   shell: echo ''
   notify: 'Ensure graylog service is enabled'
   when:
     - graylog_servers[0] in ansible_default_ipv4.address
-    - cert_update is changed or conf_update is changed or plugin_update is changed
+    - conf_update is changed or plugin_update is changed
 
 - name: Force the handler to run immediately
   meta: flush_handlers
@@ -44,7 +48,7 @@
   notify: 'Ensure graylog service is enabled'
   when:
     - graylog_servers[0] not in ansible_default_ipv4.address
-    - cert_update is changed or conf_update is changed or plugin_update is changed
+    - conf_update is changed or plugin_update is changed
 
 - name: Force the handler to run immediately
   meta: flush_handlers
