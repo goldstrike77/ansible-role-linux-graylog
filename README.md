@@ -11,7 +11,7 @@ __Table of Contents__
 
 - [Overview](#overview)
   * [Architecture](#Architecture)
-  * [Key Difference Between Graylog vs ELK](#key-difference-between-graylog-vs-elk)
+  * [Log Management Comparison](#log-management-comparison)
 - [Requirements](#requirements)
   * [Operating systems](#operating-systems)
   * [Graylog Versions](#graylog-versions)
@@ -33,7 +33,7 @@ This Ansible role installs Graylog on linux operating system, including establis
 ### Architecture
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/graylog-arch.png" /></p>
 
-### Key Difference Between Graylog vs ELK
+### Log Management Comparison
 Graylog server combined with MongoDB and Elasticsearch, is often compared to the ELK stack (Elasticsearch, Logstash, and Kibana). Though both solutions are pretty similar in terms of feature-set, there are a few differences to consider. Both the tools have their own pros and cons, selecting a tool is completely based on the system environment and its requirements. Graylog is very powerful and its GUI is very user friendly whereas ELK stack is modularized and flexible. It is up to the users to decide which suits them better. ELK stack and Graylog are both open source tools till a certain extent for the users to get hands on experience, continuous support and all the premium features are licensed. Everyone has different specifications, which should guide your decision. Be sure to keep cost in mind, as well as maintenance requirements.
 
 - ELK is a stack, it collects, indexes and stores data using elastic search, logstash is the tool to analyze all the information that is stored in elastic search, this information could be log data. All the inferences and observations made by them are visualized by kibana using its interactive dashboard. Graylog is positioned as a powerful logging solution, while ELK is a Big Data solution. Graylog can receive structured logs and standard syslog directly from an application through the network protocol. On the contrary, ELK is the solution that analyzes already collected plain text logs using Logstash and then parses them to ElasticSearch.
