@@ -13,7 +13,7 @@
 
 - name: Install the Graylog packages
   yum:
-    name: '{{ dependent_packages }}'
+    name: '{{ graylog_dependent_packages }}'
     state: 'present'
     validate_certs: 'no'
     disable_gpg_check: 'yes'

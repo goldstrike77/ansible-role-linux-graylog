@@ -53,23 +53,18 @@
 - name: Force the handler to run immediately
   meta: flush_handlers
 
-- name: Create Graylog global inputs
-  include: 'inputs.yml'
-  when:
-    - graylog_servers[0] in ansible_default_ipv4.address
-    - graylog_inputs_arg is defined
-
-- name: Provide Graylog authenticated for Prometheus
-  include: 'exporter.yml'
-  when:
-    - exporter_is_install | bool
-    - graylog_servers[0] in ansible_default_ipv4.address
-
-- name: Graylog custom mapping
-  include: 'index.yml'
-  when:
-    - graylog_indexes_arg is defined
-    - graylog_servers[0] in ansible_default_ipv4.address
+- name: Initial operation.
+  block:
+    - name: Create Graylog global inputs
+      include: 'inputs.yml'
+      when: graylog_inputs_arg is defined
+    - name: Provide Graylog authenticated for Prometheus
+      include: 'exporter.yml'
+      when: exporter_is_install | bool
+    - name: Graylog custom mapping
+      include: 'index.yml'
+      when: graylog_indexes_arg is defined
+  when: graylog_servers[0] in ansible_default_ipv4.address
 
 - name: Configure the geolocation resolution
   include: 'geolocation.yml'
