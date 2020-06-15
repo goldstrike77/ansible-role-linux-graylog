@@ -2,11 +2,9 @@
 graylog_servers: "\
   {% set _graylog_servers = [] %}\
   {% for host in groups[group_names[-1]] %}\
-    {% if hostvars[host]['graylog_cluster'] is defined %}\
-      {% set _graylog_cluster = hostvars[host]['graylog_cluster'] | default('') %}\
-      {% if ( _graylog_cluster == hostvars[host]['graylog_cluster']) %}\
-        {% if _graylog_servers.append(hostvars[host]['ansible_host']) %}{% endif %}\
-      {% endif %}\
+    {% set _graylog_cluster = graylog_cluster | default('', true) %}\
+    {% if ( _graylog_cluster == graylog_cluster ) %}\
+      {% if _graylog_servers.append(hostvars[host]['ansible_host']) %}{% endif %}\
     {% endif %}\
   {% endfor %}\
   {{ _graylog_servers }}"

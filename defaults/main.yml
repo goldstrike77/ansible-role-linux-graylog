@@ -74,8 +74,8 @@ graylog_mail_arg:
 # System Variables #
 graylog_arg:
   alert_check_interval: '60' # Length of the interval in seconds in which the alert conditions for all streams should be checked and alarms are being sent.
-  allow_highlighting: false # Allow searches to be highlighted.
-  allow_leading_wildcard_searches: false # Allow searches with leading wildcards.
+  allow_highlighting: true # Allow searches to be highlighted.
+  allow_leading_wildcard_searches: true # Allow searches with leading wildcards.
   async_eventbus_processors: '{% if ansible_processor_vcpus > 2 %}2{% else %}1{% endif %}' # Number of threads used exclusively for dispatching internal events.
   versionchecks: false # Software version check
   disable_sigar: true # Disable the use of SIGAR for collecting system stats.
@@ -121,7 +121,7 @@ graylog_elastic_arg:
   index_optimization_timeout: '1h' # Global timeout for index optimization requests.
   max_docs_per_index: '20000000' # Maximum number of documents in an Elasticsearch index before a new index is being created
   max_number_of_indices: '720' # How many indices do you want to keep.
-  max_retries: '3' # Maximum number of times Graylog will retry failed requests to Elasticsearch.
+  max_retries: '5' # Maximum number of times Graylog will retry failed requests to Elasticsearch.
   max_size_per_index: '1073741824' # Maximum size in bytes per Elasticsearch index on disk before a new index is being created.
   max_time_per_index: '6h' # Maximum time before a new Elasticsearch index is being created.
   max_total_connections: '{{ ansible_processor_vcpus * 10 }}' # Maximum number of total connections to Elasticsearch.
@@ -130,7 +130,7 @@ graylog_elastic_arg:
   request_timeout: '1m' # Global request timeout for Elasticsearch requests based on a best-effort to restrict the runtime of Elasticsearch operations.
   retention_strategy: 'delete' # Decide what happens with the oldest indices when the maximum number of indices is reached.
   rotation_strategy: 'time' # The strategy it uses to determine when to rotate the currently active write index.
-  shards: '{{ graylog_elastic_hosts | length * 2 }}' # The number of shards for your indices.
+  shards: '{{ graylog_elastic_hosts | length }}' # The number of shards for your indices.
   socket_timeout: '60s' # Maximum amount of time to wait for reading back a response from an Elasticsearch server.
 
 # Inputs Variables #

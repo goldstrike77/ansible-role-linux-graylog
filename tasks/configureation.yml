@@ -9,7 +9,7 @@
 - name: Creating Graylog folder
   file:
     dest: '{{ graylog_path }}/graylog'
-    state: directory
+    state: 'directory'
     owner: 'graylog'
     group: 'graylog'
     mode: '0755'

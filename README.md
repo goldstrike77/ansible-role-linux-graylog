@@ -148,7 +148,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_arg.allow_highlighting`: Allow searches to be highlighted.
 * `graylog_arg.allow_leading_wildcard_searches`: Allow searches with leading wildcards.
 * `graylog_arg.async_eventbus_processors`: Number of threads used exclusively for dispatching internal events.
-* `graylog_arg.versionchecks`: Software version check
+* `graylog_arg.versionchecks`: Software version check.
 * `graylog_arg.disable_sigar`: Disable the use of SIGAR for collecting system stats.
 * `graylog_arg.http_connect_timeout`: The default connect timeout for outgoing HTTP connections.
 * `graylog_arg.http_enable_cors`: Enable CORS headers for HTTP interface.
@@ -174,7 +174,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_arg.output_flush_interval`: Flush interval (in seconds) for the Elasticsearch output.
 * `graylog_arg.outputbuffer_processors`:Raise this number if your buffers are filling up.
 * `graylog_arg.processbuffer_processors`: The number of parallel running processors.
-* `graylog_arg.processor_wait_strategy`: Wait strategy describing how buffer processors wait on a cursor sequence
+* `graylog_arg.processor_wait_strategy`: Wait strategy describing how buffer processors wait on a cursor sequence.
 * `graylog_arg.ring_size`: Size of internal ring buffers.
 * `graylog_arg.recvbuffer_sizes`: UDP receive buffer size for all message inputs.
 
@@ -257,7 +257,7 @@ Including an example of how to use your role (for instance, with variables passe
 ```
 
 ### Combination of group vars and playbook
-You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
+You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`.
 
 ```yaml
 graylog_cluster: 'syslog'
@@ -319,8 +319,8 @@ graylog_mail_arg:
   transport_email_web_interface_url: 'https://{{ graylog_ngx_domain }}'
 graylog_arg:
   alert_check_interval: '60'
-  allow_highlighting: false
-  allow_leading_wildcard_searches: false
+  allow_highlighting: true
+  allow_leading_wildcard_searches: true
   async_eventbus_processors: '2'
   versionchecks: false
   disable_sigar: true
