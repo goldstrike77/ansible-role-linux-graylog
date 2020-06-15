@@ -11,6 +11,7 @@ __Table of Contents__
 
 - [Overview](#overview)
   * [Architecture](#Architecture)
+  * [SIEM Solution](#SIEM-Solution)
   * [Log Management Comparison](#log-management-comparison)
 - [Requirements](#requirements)
   * [Operating systems](#operating-systems)
@@ -33,6 +34,20 @@ This Ansible role installs Graylog on linux operating system, including establis
 ### Architecture
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/graylog-arch.png" /></p>
 
+### SIEM Solution
+Every SIEM(Security information and event management) solution should have a clear and a straightforward way to present gathered data and make your life (and the lives of your security analysts) that much simpler. SIEMs should do the following:
+
+- Correlate security events. It will link events based on common attributes and present that set of information as a bundle. This functionality is one of the most important features of SIEM, since security breach attempts are usually characterized by repetitive actions.
+
+- Long-term log storage. Having access to long-term data is crucial in forensic security breach investigations. Catching someone in the act just as they try to make an attempt on your network is highly unlikely.
+
+- Forensic search capabilities. Inputting certain criteria should be sufficient for you to get what are you looking for.
+
+- Sound the alarm when necessary. The solution should recognize suspicious activity (for example, a huge number of unsuccessful login attempts from the same IP address) and notify your team through a dashboard, email, or even via text message.
+
+- Reporting
+All security information should be presented in easy-to-understand format. This visualization allows for easy data interpretation. Also, through reporting, you will gain access to compliance data and thus the compliance reports. These reports are crucial in existing security, governance, and auditing processes.
+
 ### Log Management Comparison
 Graylog server combined with MongoDB and Elasticsearch, is often compared to the ELK stack (Elasticsearch, Logstash, and Kibana). Though both solutions are pretty similar in terms of feature-set, there are a few differences to consider, Both the tools have their own pros and cons, Everyone has different specifications, selecting a tool is completely based on the system environment and its requirements, It is up to the users to decide which suits them better. Graylog is very powerful and its GUI is very user friendly whereas ELK stack is modularized and flexible. ELK stack and Graylog are both open-source tools to a certain extent for the users to get hands-on experience, continuous support and all the premium features are licensed. Be sure to keep cost in mind, as well as maintenance requirements.
 
@@ -43,6 +58,7 @@ Graylog server combined with MongoDB and Elasticsearch, is often compared to the
 - Being an advanced suite of products, ELK has a fairly steep learning curve, Additionally, it is difficult to maintain. With that said, though, it allows you to do almost everything you need from a single tool, Once you get over the learning curve, it can be a great solution, Logs, metrics, and visualizations are good, and if you want additional functionality, you can search the wide ecosystem of available plugins. But Even though it’s “free,” ELK stack has hidden costs that add up quickly. Graylog has a pretty simple learning curve, which allows you to have an almost fully functional set up in a relatively small amount of time, Another feature that makes Graylog a pleasure to use is that all-important items are easy to find in the GUI, but for anything else out of its scope, you will have to add other tools.
 
 - Graylog is used in many security applications and it is centralized. Data in huge scales (Terabytes) can be analyzed from multiple log sources as well as multiple geographic locations as all the data is centralized and therefore it can be accessed anywhere. DevOps engineers and SREs mostly care about speed, reliability, and flexibility in queries and visualizations. For this, the ELK stack is a better choice. Additional elements to consider are alerting, proactivity, live tail, automatic insights and integration with their workflow.
+
 
 ## Requirements
 ### Operating systems
@@ -236,160 +252,160 @@ See tests/inventory for an example.
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```yaml
-    - hosts: all
-      roles:
-         - role: ansible-role-linux-graylog
-           graylog_cluster: 'syslog'
+- hosts: all
+  roles:
+     - role: ansible-role-linux-graylog
+       graylog_cluster: 'syslog'
 ```
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
 ```yaml
-    graylog_cluster: 'syslog'
-    graylog_heap_size: '1G'
-    graylog_path: '/data'
-    graylog_root_email: 'somebody@domain.com'
-    graylog_root_timezone: 'Asia/Shanghai'
-    graylog_root_user: 'admin'
-    graylog_root_pass: 'changeme'
-    graylog_https: false
-    graylog_version: '3.1'
-    graylog_ngx_dept: false
-    graylog_elastic_dept: false
-    graylog_mongod_dept: false
-    graylog_ngx_block_agents: false
-    graylog_ngx_block_string: false
-    graylog_ngx_compress: false
-    graylog_ngx_domain: 'syslog.example.com'
-    graylog_ngx_pagespeed: false
-    graylog_ngx_port_http: '80'
-    graylog_ngx_port_https: '443'
-    graylog_ngx_ssl_protocols: 'modern'
-    graylog_ngx_version: 'extras'
-    graylog_elastic_auth: false
-    graylog_elastic_https: false
-    graylog_elastic_cluster: 'graylog'
-    graylog_elastic_hosts: 'localhost'
-    graylog_elastic_heap_size: '3g'
-    graylog_elastic_memory_lock: false
-    graylog_elastic_path: '/data'
-    graylog_elastic_port_rest: '9200'
-    graylog_elastic_user: 'elastic'
-    graylog_elastic_pass: 'changeme'
-    graylog_elastic_version: '6.8.10'
-    graylog_mongod_auth: false
-    graylog_mongod_hosts: 'localhost'
-    graylog_mongod_node_role: 'replica'
-    graylog_mongod_path: '/data'
-    graylog_mongod_port: '27017'
-    graylog_mongod_replset: 'graylog'
-    graylog_mongod_sa_user: 'sa'
-    graylog_mongod_sa_pass: 'changeme'
-    graylog_mongod_user: 'graylog'
-    graylog_mongod_pass: 'changeme'
-    graylog_mongod_version: '36'
-    graylog_port_arg:
-      api: '9099'
-    graylog_mail_arg:
-      transport_email_enabled: false
-      transport_email_hostname: 'localhost'
-      transport_email_port: '25'
-      transport_email_use_auth: false
-      transport_email_use_tls: false
-      transport_email_use_ssl: false
-      transport_email_auth_username: 'somebody@example.com'
-      transport_email_auth_password: 'changeme'
-      transport_email_subject_prefix: '[syslog]'
-      transport_email_from_email: 'do-not-reply@example.com'
-      transport_email_web_interface_url: 'https://{{ graylog_ngx_domain }}'
-    graylog_arg:
-      alert_check_interval: '60'
-      allow_highlighting: false
-      allow_leading_wildcard_searches: false
-      async_eventbus_processors: '2'
-      versionchecks: false
-      disable_sigar: true
-      http_connect_timeout: '10s'
-      http_enable_cors: true
-      http_enable_gzip: true
-      http_max_header_size: '8192'
-      http_read_timeout: '20s'
-      http_thread_pool_size: '12'
-      http_write_timeout: '20s'
-      index_ranges_cleanup_interval: '1h'
-      inputbuffer_processors: '2'
-      inputbuffer_ring_size: '65536'
-      inputbuffer_wait_strategy: 'blocking'
-      message_journal_dir: '{{ graylog_path }}/graylog/journal'
-      message_journal_enabled: true
-      message_journal_flush_age: '1m'
-      message_journal_flush_interval: '1000000'
-      message_journal_max_age: '12h'
-      message_journal_max_size: '10gb'
-      message_journal_segment_age: '1h'
-      message_journal_segment_size: '200mb'
-      mongod_max_connections: '1000'
-      output_batch_size: '500'
-      output_flush_interval: '1'
-      outputbuffer_processors: '2'
-      processbuffer_processors: '2'
-      processor_wait_strategy: 'blocking'
-      ring_size: '65536'
-      recvbuffer_sizes: '2097152'
-    graylog_elastic_arg:
-      compression_enabled: true
-      connect_timeout: '10s'
-      disable_index_optimization: false
-      disable_version_check: true
-      discovery_enabled: false
-      discovery_filter: ''
-      discovery_frequency: '30s'
-      idle_timeout: '600s'
-      index_optimization_jobs: '20'
-      index_optimization_timeout: '1h'
-      max_docs_per_index: '20000000'
-      max_number_of_indices: '720'
-      max_retries: '3'
-      max_size_per_index: '1073741824'
-      max_time_per_index: '6h'
-      max_total_connections: '20'
-      max_total_connections_per_route: '3'
-      replicas: '0'
-      request_timeout: '1m'
-      retention_strategy: 'delete'
-      rotation_strategy: 'time'
-      shards: '1'
-      socket_timeout: '60s'
-    graylog_inputs_arg:
-      - name: 'Syslog UDP'
-        type: 'org.graylog2.inputs.syslog.udp.SyslogUDPInput'
-        port: 1514
-      - name: 'CEF UDP Input'
-        type: 'org.graylog.plugins.cef.input.CEFUDPInput'
-        port: 5555
-    graylog_content_packs_arg:
-      - name: 'NGinx'
-        port: '12302-12301'
-    graylog_indexes_arg:
-      - refresh_interval: '30s'
-        translog:
-          sync_interval: '30s'
-          durability: 'async'
-    environments: 'Development'
-    tags:
-      subscription: 'default'
-      owner: 'nobody'
-      department: 'Infrastructure'
-      organization: 'The Company'
-      region: 'IDC01'
-    exporter_is_install: false
-    consul_public_register: false
-    consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
-    consul_public_http_prot: 'https'
-    consul_public_http_port: '8500'
-    consul_public_clients:
-      - '127.0.0.1'
+graylog_cluster: 'syslog'
+graylog_heap_size: '1G'
+graylog_path: '/data'
+graylog_root_email: 'somebody@domain.com'
+graylog_root_timezone: 'Asia/Shanghai'
+graylog_root_user: 'admin'
+graylog_root_pass: 'changeme'
+graylog_https: false
+graylog_version: '3.1'
+graylog_ngx_dept: false
+graylog_elastic_dept: false
+graylog_mongod_dept: false
+graylog_ngx_block_agents: false
+graylog_ngx_block_string: false
+graylog_ngx_compress: false
+graylog_ngx_domain: 'syslog.example.com'
+graylog_ngx_pagespeed: false
+graylog_ngx_port_http: '80'
+graylog_ngx_port_https: '443'
+graylog_ngx_ssl_protocols: 'modern'
+graylog_ngx_version: 'extras'
+graylog_elastic_auth: false
+graylog_elastic_https: false
+graylog_elastic_cluster: 'graylog'
+graylog_elastic_hosts: 'localhost'
+graylog_elastic_heap_size: '3g'
+graylog_elastic_memory_lock: false
+graylog_elastic_path: '/data'
+graylog_elastic_port_rest: '9200'
+graylog_elastic_user: 'elastic'
+graylog_elastic_pass: 'changeme'
+graylog_elastic_version: '6.8.10'
+graylog_mongod_auth: false
+graylog_mongod_hosts: 'localhost'
+graylog_mongod_node_role: 'replica'
+graylog_mongod_path: '/data'
+graylog_mongod_port: '27017'
+graylog_mongod_replset: 'graylog'
+graylog_mongod_sa_user: 'sa'
+graylog_mongod_sa_pass: 'changeme'
+graylog_mongod_user: 'graylog'
+graylog_mongod_pass: 'changeme'
+graylog_mongod_version: '36'
+graylog_port_arg:
+  api: '9099'
+graylog_mail_arg:
+  transport_email_enabled: false
+  transport_email_hostname: 'localhost'
+  transport_email_port: '25'
+  transport_email_use_auth: false
+  transport_email_use_tls: false
+  transport_email_use_ssl: false
+  transport_email_auth_username: 'somebody@example.com'
+  transport_email_auth_password: 'changeme'
+  transport_email_subject_prefix: '[syslog]'
+  transport_email_from_email: 'do-not-reply@example.com'
+  transport_email_web_interface_url: 'https://{{ graylog_ngx_domain }}'
+graylog_arg:
+  alert_check_interval: '60'
+  allow_highlighting: false
+  allow_leading_wildcard_searches: false
+  async_eventbus_processors: '2'
+  versionchecks: false
+  disable_sigar: true
+  http_connect_timeout: '10s'
+  http_enable_cors: true
+  http_enable_gzip: true
+  http_max_header_size: '8192'
+  http_read_timeout: '20s'
+  http_thread_pool_size: '12'
+  http_write_timeout: '20s'
+  index_ranges_cleanup_interval: '1h'
+  inputbuffer_processors: '2'
+  inputbuffer_ring_size: '65536'
+  inputbuffer_wait_strategy: 'blocking'
+  message_journal_dir: '{{ graylog_path }}/graylog/journal'
+  message_journal_enabled: true
+  message_journal_flush_age: '1m'
+  message_journal_flush_interval: '1000000'
+  message_journal_max_age: '12h'
+  message_journal_max_size: '10gb'
+  message_journal_segment_age: '1h'
+  message_journal_segment_size: '200mb'
+  mongod_max_connections: '1000'
+  output_batch_size: '500'
+  output_flush_interval: '1'
+  outputbuffer_processors: '2'
+  processbuffer_processors: '2'
+  processor_wait_strategy: 'blocking'
+  ring_size: '65536'
+  recvbuffer_sizes: '2097152'
+graylog_elastic_arg:
+  compression_enabled: true
+  connect_timeout: '10s'
+  disable_index_optimization: false
+  disable_version_check: true
+  discovery_enabled: false
+  discovery_filter: ''
+  discovery_frequency: '30s'
+  idle_timeout: '600s'
+  index_optimization_jobs: '20'
+  index_optimization_timeout: '1h'
+  max_docs_per_index: '20000000'
+  max_number_of_indices: '720'
+  max_retries: '3'
+  max_size_per_index: '1073741824'
+  max_time_per_index: '6h'
+  max_total_connections: '20'
+  max_total_connections_per_route: '3'
+  replicas: '0'
+  request_timeout: '1m'
+  retention_strategy: 'delete'
+  rotation_strategy: 'time'
+  shards: '1'
+  socket_timeout: '60s'
+graylog_inputs_arg:
+  - name: 'Syslog UDP'
+    type: 'org.graylog2.inputs.syslog.udp.SyslogUDPInput'
+    port: 1514
+  - name: 'CEF UDP Input'
+    type: 'org.graylog.plugins.cef.input.CEFUDPInput'
+    port: 5555
+graylog_content_packs_arg:
+  - name: 'NGinx'
+    port: '12302-12301'
+graylog_indexes_arg:
+  - refresh_interval: '30s'
+    translog:
+      sync_interval: '30s'
+      durability: 'async'
+environments: 'Development'
+tags:
+  subscription: 'default'
+  owner: 'nobody'
+  department: 'Infrastructure'
+  organization: 'The Company'
+  region: 'IDC01'
+exporter_is_install: false
+consul_public_register: false
+consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
+consul_public_http_prot: 'https'
+consul_public_http_port: '8500'
+consul_public_clients:
+  - '127.0.0.1'
 ```
 
 ## License
