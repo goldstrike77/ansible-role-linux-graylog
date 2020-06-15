@@ -45,8 +45,7 @@ Every SIEM(Security information and event management) solution should have a cle
 
 - Sound the alarm when necessary. The solution should recognize suspicious activity (for example, a huge number of unsuccessful login attempts from the same IP address) and notify your team through a dashboard, email, or even via text message.
 
-- Reporting
-All security information should be presented in easy-to-understand format. This visualization allows for easy data interpretation. Also, through reporting, you will gain access to compliance data and thus the compliance reports. These reports are crucial in existing security, governance, and auditing processes.
+- Reporting. All security information should be presented in easy-to-understand format. This visualization allows for easy data interpretation. Also, through reporting, you will gain access to compliance data and thus the compliance reports. These reports are crucial in existing security, governance, and auditing processes.
 
 ### Log Management Comparison
 Graylog server combined with MongoDB and Elasticsearch, is often compared to the ELK stack (Elasticsearch, Logstash, and Kibana). Though both solutions are pretty similar in terms of feature-set, there are a few differences to consider, Both the tools have their own pros and cons, Everyone has different specifications, selecting a tool is completely based on the system environment and its requirements, It is up to the users to decide which suits them better. Graylog is very powerful and its GUI is very user friendly whereas ELK stack is modularized and flexible. ELK stack and Graylog are both open-source tools to a certain extent for the users to get hands-on experience, continuous support and all the premium features are licensed. Be sure to keep cost in mind, as well as maintenance requirements.
