@@ -58,7 +58,6 @@ Graylog server combined with MongoDB and Elasticsearch, is often compared to the
 
 - Graylog is used in many security applications and it is centralized. Data in huge scales (Terabytes) can be analyzed from multiple log sources as well as multiple geographic locations as all the data is centralized and therefore it can be accessed anywhere. DevOps engineers and SREs mostly care about speed, reliability, and flexibility in queries and visualizations. For this, the ELK stack is a better choice. Additional elements to consider are alerting, proactivity, live tail, automatic insights and integration with their workflow.
 
-
 ## Requirements
 ### Operating systems
 This role will work on the following operating systems:
@@ -217,7 +216,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `environments`: Define the service environment.
 * `tags`: Define the service custom label.
 * `exporter_is_install`: Whether to install prometheus exporter.
-* `consul_public_register`: false Whether register a exporter service with public consul client.
+* `consul_public_register`: Whether register a exporter service with public consul client.
 * `consul_public_exporter_token`: Public Consul client ACL token.
 * `consul_public_http_prot`: The consul Hypertext Transfer Protocol.
 * `consul_public_clients`: List of public consul clients.
