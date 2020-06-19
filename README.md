@@ -29,7 +29,7 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-This Ansible role installs Graylog on linux operating system, including establishing a filesystem structure and server configuration with some common operational features. Graylog is a leading centralized log management solution built to open standards for capturing, storing, and enabling real-time analysis of terabytes of machine data. Graylog deliver a better user experience by making analysis ridiculously fast and efficient using a more cost-effective and flexible architecture. Many of IT professionals rely on Graylog’s scalability, comprehensive access to complete data, and exceptional user experience to solve security, compliance, operational, and DevOps issues every day. Purpose-built for modern log analytics, Graylog removes complexity from data exploration, compliance audits, and threat hunting so you can quickly and easily find meaning in data and take action faster.
+Graylog is a leading centralized log management solution built to open standards for capturing, storing, and enabling real-time analysis of terabytes of machine data. Graylog deliver a better user experience by making analysis ridiculously fast and efficient using a more cost-effective and flexible architecture. Many of IT professionals rely on Graylog’s scalability, comprehensive access to complete data, and exceptional user experience to solve security, compliance, operational, and DevOps issues every day. Purpose-built for modern log analytics, Graylog removes complexity from data exploration, compliance audits, and threat hunting so you can quickly and easily find meaning in data and take action faster.
 
 ### Architecture
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/graylog-arch.png" /></p>
@@ -60,7 +60,7 @@ Graylog server combined with MongoDB and Elasticsearch, is often compared to the
 
 ## Requirements
 ### Operating systems
-This role will work on the following operating systems:
+This Ansible role installs Graylog on linux operating system, including establishing a filesystem structure and server configuration with some common operational features, Will work on the following operating systems:
 
   * CentOS 7
 
@@ -116,6 +116,9 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### MongoDB connection parameters
 * `graylog_mongod_auth`: A boolean value, Enable or Disable MongoDB authentication.
+* `graylog_mongod_ssl`: A boolean value, whether Encrypting client and cluster communications.
+* `graylog_mongod_encryption`: A boolean value, whether enabled the WiredTiger storage Data at Rest Encryption.
+* `graylog_mongod_encryptionKey`: The encryptionKey character string.
 * `graylog_mongod_hosts`: Group of MongoDB hosts Graylog should connect to.
 * `graylog_mongod_node_role`: Member role for ReplicaSet.
 * `graylog_mongod_path`: Specify the MongoDB data directory.
@@ -126,6 +129,13 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `graylog_mongod_user`: MongoDB Graylog database authenticate username.
 * `graylog_mongod_pass`: MongoDB Graylog database authenticate password.
 * `graylog_mongod_version`: Specify the MongoDB version, minimum 34.
+* `graylog_mongod_backupset_arg.keep`: Backup retention cycle in days.
+* `graylog_mongod_backupset_arg.encryptkey`: BackupSet encryption key.
+* `graylog_mongod_backupset_arg.cloud_rsync`: Whether rsync for cloud storage.
+* `graylog_mongod_backupset_arg.cloud_drive`: Specify the cloud storage providers.
+* `graylog_mongod_backupset_arg.cloud_bwlimit`: Controls the bandwidth limit.
+* `graylog_mongod_backupset_arg.cloud_event`: Define transfer events.
+* `graylog_mongod_backupset_arg.cloud_config`: Specify the cloud storage configuration.
 
 ##### Listen port
 * `graylog_port_arg.api`: WEB / API network communication ports.
@@ -293,6 +303,9 @@ graylog_elastic_user: 'elastic'
 graylog_elastic_pass: 'changeme'
 graylog_elastic_version: '6.8.10'
 graylog_mongod_auth: false
+graylog_mongod_ssl: false
+graylog_mongod_encryption: false
+graylog_mongod_encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk='
 graylog_mongod_hosts: 'localhost'
 graylog_mongod_node_role: 'replica'
 graylog_mongod_path: '/data'
@@ -303,6 +316,17 @@ graylog_mongod_sa_pass: 'changeme'
 graylog_mongod_user: 'graylog'
 graylog_mongod_pass: 'changeme'
 graylog_mongod_version: '36'
+graylog_mongod_backupset_arg:
+  keep: '7'
+  encryptkey: 'Yf3ejyv4kjZf'
+  cloud_rsync: false
+  cloud_drive: 'azureblob'
+  cloud_bwlimit: '10M'
+  cloud_event: 'sync'
+  cloud_config:
+    account: 'blobuser'
+    key: 'base64encodedkey=='
+    endpoint: 'blob.core.chinacloudapi.cn'
 graylog_port_arg:
   api: '9099'
 graylog_mail_arg:

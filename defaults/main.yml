@@ -42,6 +42,9 @@ graylog_elastic_memory_lock: false # A boolean value, whether lock the process a
 
 # MongoDB parameters #
 graylog_mongod_auth: false # A boolean value, Enable or Disable MongoDB authentication.
+graylog_mongod_ssl: false # A boolean value, whether Encrypting client and cluster communications.
+graylog_mongod_encryption: false # A boolean value, whether enabled the WiredTiger storage Data at Rest Encryption.
+graylog_mongod_encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk=' # The encryptionKey character string [generator by openssl rand -base64 32].
 graylog_mongod_hosts: 'localhost' # Group of MongoDB hosts Graylog should connect to.
 graylog_mongod_node_role: 'replica' # Member role for ReplicaSet.
 graylog_mongod_path: '{{ graylog_path }}' # Specify the MongoDB data directory.
@@ -52,6 +55,17 @@ graylog_mongod_sa_user: 'sa' # MongoDB Superuser name.
 graylog_mongod_user: 'graylog' # MongoDB Graylog database authenticate username.
 graylog_mongod_pass: 'changeme' # MongoDB Graylog database authenticate password.
 graylog_mongod_version: '36' # Specify the MongoDB version, minimum 34.
+graylog_mongod_backupset_arg:
+  keep: '7' # Backup retention cycle in days.
+  encryptkey: 'Yf3ejyv4kjZf' # BackupSet encryption key, Decrypt by [openssl aes-256-cbc -d -k passwd -salt -in file.tar.gz | tar xzvfP -].
+  cloud_rsync: false # Whether rsync for cloud storage.
+  cloud_drive: 'azureblob' # Specify the cloud storage providers.
+  cloud_bwlimit: '10M' # Controls the bandwidth limit.
+  cloud_event: 'sync' # Define transfer events.
+  cloud_config: # Specify the cloud storage configuration.
+    account: 'blobuser' # Storage Account Name.
+    key: 'base64encodedkey==' # Storage Account Key.
+    endpoint: 'blob.core.chinacloudapi.cn' # Endpoint for the service.
 
 # Listen port #
 graylog_port_arg:

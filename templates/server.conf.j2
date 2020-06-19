@@ -527,7 +527,13 @@ alert_check_interval = {{ graylog_arg.alert_check_interval }}
 
 # MongoDB connection string
 # See https://docs.mongodb.com/manual/reference/connection-string/ for details
-mongodb_uri = mongodb://{% if graylog_mongod_auth %}{{ graylog_mongod_user }}:{{ graylog_mongod_pass | urlencode }}@{% endif %}{{ graylog_mongod_hosts | list | join(",") }}:{{ graylog_mongod_port }}/GRAYLOG{% if ( graylog_mongod_replset is defined ) and ( graylog_servers|length is not divisibleby 2 ) and ( graylog_servers|length > 2 ) %}?replicaSet={{ graylog_mongod_replset | default("GRAYLOG") | upper }}{% endif %}
+{% if graylog_mongod_ssl | bool and graylog_mongod_auth | bool %}
+mongodb_uri = mongodb://{{ graylog_mongod_user }}:{{ graylog_mongod_pass | urlencode }}@{{ graylog_mongod_hosts | list | join(",") }}:{{ graylog_mongod_port }}/GRAYLOG?ssl=true{% if ( graylog_mongod_replset is defined ) and ( graylog_servers|length is not divisibleby 2 ) and ( graylog_servers|length > 2 ) %}&replicaSet={{ graylog_mongod_replset | default("GRAYLOG") | upper }}{% endif %}
+{% elif not graylog_mongod_ssl | bool and graylog_mongod_auth | bool %}
+mongodb_uri = mongodb://{{ graylog_mongod_user }}:{{ graylog_mongod_pass | urlencode }}@{{ graylog_mongod_hosts | list | join(",") }}:{{ graylog_mongod_port }}/GRAYLOG{% if ( graylog_mongod_replset is defined ) and ( graylog_servers|length is not divisibleby 2 ) and ( graylog_servers|length > 2 ) %}?replicaSet={{ graylog_mongod_replset | default("GRAYLOG") | upper }}{% endif %}
+{% else %}
+mongodb_uri = mongodb://{{ graylog_mongod_hosts | list | join(",") }}:{{ graylog_mongod_port }}/GRAYLOG
+{% endif %}
 
 # Authenticate against the MongoDB server
 # '+'-signs in the username or password need to be replaced by '%2B'

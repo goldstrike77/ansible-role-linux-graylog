@@ -74,12 +74,16 @@ dependencies:
       mongod_version: '{{ graylog_mongod_version | default("36") }}'
       mongod_system_type: 'small'
       mongod_authorization: '{{ graylog_mongod_auth | bool }}'
+      mongod_ssl: '{{ graylog_mongod_ssl | bool }}'
+      mongod_encryption: '{{ graylog_mongod_encryption | bool }}'
+      mongod_encryptionKey: '{{ graylog_mongod_encryptionKey }}'
       mongod_node_role: '{{ graylog_mongod_node_role }}'
       mongod_path: '{{ graylog_mongod_path }}'
       mongod_port: '{{ graylog_mongod_port }}'
       mongod_replset: "{% if ( graylog_servers|length is not divisibleby 2 ) and ( graylog_servers|length > 2 ) %}{{ graylog_mongod_replset | default('GRAYLOG') }}{% else %}Non-ReplicaSet{% endif %}"
       mongod_sa_pass: '{{ graylog_mongod_sa_pass }}'
       mongod_sa_user: '{{ graylog_mongod_sa_user }}'
+      mongod_backupset_arg: '{{ graylog_mongod_backupset_arg }}'
       mongod_bu_dbs_arg:
         - user: '{{ graylog_mongod_user }}'
           pass: '{{ graylog_mongod_pass }}'
