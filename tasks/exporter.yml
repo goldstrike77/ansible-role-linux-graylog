@@ -1,5 +1,5 @@
 ---
-- name: Search Graylog prometheus exporter user if exists
+- name: Search Graylog prometheus exporter user if exists.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus'
     method: 'GET'
@@ -17,7 +17,7 @@
   failed_when: false
   register: graylog_exporter_user
 
-- name: Create Graylog prometheus exporter user
+- name: Create Graylog prometheus exporter user.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users'
     method: 'POST'
@@ -40,7 +40,7 @@
   when:
     - graylog_exporter_user.status == 404
 
-- name: Create Graylog prometheus exporter user token
+- name: Create Graylog prometheus exporter user token.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus/tokens/default'
     method: 'POST'

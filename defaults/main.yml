@@ -4,8 +4,8 @@ graylog_is_install: false # A boolean value, whether install the Graylog.
 graylog_cluster: 'syslog' # Cluster name of servers that implements distribution performance.
 graylog_heap_size: '1G' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_path: '/data' # This directory is used to store Graylog server state.
+graylog_https: true # A boolean value, whether Encrypting HTTP client communications.
 graylog_root_email: 'somebody@domain.com' # The email address of the root user.
-graylog_https: false # A boolean value, whether Encrypting HTTP client communications.
 graylog_root_user: 'admin' # The default root username.
 graylog_root_pass: 'changeme' # The password for root user.
 graylog_root_timezone: 'Asia/Shanghai' # The time zone setting of the root user.
@@ -28,8 +28,8 @@ graylog_ngx_ssl_protocols: 'modern' # intermediate or modern, defines SSL protoc
 graylog_ngx_version: 'standard' # extras or standard
 
 # Elastic parameters #
-graylog_elastic_auth: false # A boolean value, Enable or Disable Elasticsearch authentication.
-graylog_elastic_https: false # A boolean value, whether Encrypting HTTP client communications.
+graylog_elastic_auth: true # A boolean value, Enable or Disable Elasticsearch authentication.
+graylog_elastic_https: true # A boolean value, whether Encrypting HTTP client communications.
 graylog_elastic_cluster: '{{ graylog_cluster }}' # Specify name for your Elastic cluster name.
 graylog_elastic_hosts: 'localhost' # List of Elasticsearch hosts Graylog should connect to.
 graylog_elastic_pass: 'changeme' # Elasticsearch authenticated password.
@@ -41,8 +41,8 @@ graylog_elastic_heap_size: '2g' # Specify the maximum memory allocation pool for
 graylog_elastic_memory_lock: false # A boolean value, whether lock the process address space into memory on startup.
 
 # MongoDB parameters #
-graylog_mongod_auth: false # A boolean value, Enable or Disable MongoDB authentication.
-graylog_mongod_ssl: false # A boolean value, whether Encrypting client and cluster communications.
+graylog_mongod_auth: true # A boolean value, Enable or Disable MongoDB authentication.
+graylog_mongod_ssl: true # A boolean value, whether Encrypting client and cluster communications.
 graylog_mongod_encryption: false # A boolean value, whether enabled the WiredTiger storage Data at Rest Encryption.
 graylog_mongod_encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk=' # The encryptionKey character string [generator by openssl rand -base64 32].
 graylog_mongod_hosts: 'localhost' # Group of MongoDB hosts Graylog should connect to.

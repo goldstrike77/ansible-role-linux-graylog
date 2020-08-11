@@ -1,5 +1,5 @@
 ---
-- name: Waiting for Graylog master node ready
+- name: Waiting for Graylog master node ready.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus'
     method: 'GET'
@@ -16,7 +16,7 @@
   retries: 30
   delay: 10
 
-- name: Query Graylog exits Content Packs
+- name: Query Graylog exits Content Packs.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs'
     method: 'GET'
@@ -36,7 +36,7 @@
   delay: 3
   no_log: true
 
-- name: Create graylog Content Packs
+- name: Create graylog Content Packs.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs'
     method: 'POST'
@@ -60,7 +60,7 @@
   no_log: true
   when: item.name not in ( graylog_current_content_packs | json_query('json.content_packs[*].name') )
 
-- name: Installs Graylog Content Packs
+- name: Installs Graylog Content Packs.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/content_packs/{{ item }}/1/installations'
     method: 'POST'

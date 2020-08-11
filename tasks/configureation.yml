@@ -1,12 +1,12 @@
 ---
-- name: Generate root password
+- name: Generate root password.
   shell: "echo -n {{ graylog_root_pass }} | shasum -a 256|awk '{ print $0 }'|cut -d ' ' -f 1"
   register: graylog_root_pass_sha2
   changed_when: false
   failed_when: false
   no_log: true
 
-- name: Creating Graylog folder
+- name: Creating Graylog folder.
   file:
     dest: '{{ graylog_path }}/graylog'
     state: 'directory'
@@ -14,7 +14,7 @@
     group: 'graylog'
     mode: '0755'
 
-- name: Configure kernel parameters
+- name: Configure kernel parameters.
   sysctl:
     name: '{{ item.variable }}'
     value: '{{ item.value }}'
@@ -24,7 +24,7 @@
     sysctl_file: '/etc/sysctl.d/20-sysctl.conf'
   loop: "{{ graylog_kernel_parameters|flatten(levels=1) }}"
 
-- name: Graylog plugin file transfer
+- name: Graylog plugin file transfer.
   copy:
     src: 'plugin/'
     dest: '/usr/share/graylog-server/plugin'
@@ -34,7 +34,7 @@
   no_log: true
   register: plugin_update
 
-- name: Install SSO Authentication Plugin
+- name: Install SSO Authentication Plugin.
   get_url:
     url: 'http://github.com/Graylog2/graylog-plugin-auth-sso/releases/download/{{ graylog_version }}.0/graylog-plugin-auth-sso-{{ graylog_version }}.0.jar'
     dest: '/usr/share/graylog-server/plugin'
@@ -46,7 +46,7 @@
   retries: 3
   delay: 5
 
-- name: Graylog server configuration
+- name: Graylog server configuration.
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
@@ -58,7 +58,7 @@
   no_log: true
   register: conf_update
 
-- name: Graylog server LB status check script transfer
+- name: Graylog server LB status check script transfer.
   template:
     src: 'graylog_lbstatus.sh.j2'
     dest: '/usr/local/bin/graylog_lbstatus.sh'

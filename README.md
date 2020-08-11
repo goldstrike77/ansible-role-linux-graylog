@@ -279,7 +279,7 @@ graylog_root_email: 'somebody@domain.com'
 graylog_root_timezone: 'Asia/Shanghai'
 graylog_root_user: 'admin'
 graylog_root_pass: 'changeme'
-graylog_https: false
+graylog_https: true
 graylog_version: '3.1'
 graylog_ngx_dept: false
 graylog_elastic_dept: false
@@ -293,8 +293,8 @@ graylog_ngx_port_http: '80'
 graylog_ngx_port_https: '443'
 graylog_ngx_ssl_protocols: 'modern'
 graylog_ngx_version: 'extras'
-graylog_elastic_auth: false
-graylog_elastic_https: false
+graylog_elastic_auth: true
+graylog_elastic_https: true
 graylog_elastic_cluster: 'graylog'
 graylog_elastic_hosts: 'localhost'
 graylog_elastic_heap_size: '3g'
@@ -304,8 +304,8 @@ graylog_elastic_port_rest: '9200'
 graylog_elastic_user: 'elastic'
 graylog_elastic_pass: 'changeme'
 graylog_elastic_version: '6.8.10'
-graylog_mongod_auth: false
-graylog_mongod_ssl: false
+graylog_mongod_auth: true
+graylog_mongod_ssl: true
 graylog_mongod_encryption: false
 graylog_mongod_encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk='
 graylog_mongod_hosts: 'localhost'

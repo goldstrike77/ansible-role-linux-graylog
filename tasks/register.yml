@@ -1,5 +1,5 @@
 ---
-- name: Check local consul client are accessible from current host
+- name: Check local consul client are accessible from current host.
   uri:
     url: '{{ consul_public_http_prot }}://{{ ansible_default_ipv4.address }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'GET'
@@ -11,7 +11,7 @@
   failed_when: false
   register: check_consul_local
 
-- name: Register service with an http health check
+- name: Register service with an http health check.
   uri:
     url: '{{ consul_public_http_prot }}://{{ ansible_default_ipv4.address }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'PUT'
@@ -34,7 +34,7 @@
   changed_when: false
   failed_when: false
 
-- name: Waiting for other Graylog node ready
+- name: Waiting for other Graylog node ready.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lbstatus'
     method: 'GET'
@@ -52,7 +52,7 @@
   delay: 10
   when: graylog_servers[0] not in ansible_default_ipv4.address
 
-- name: Get Graylog prometheus exporter user token
+- name: Get Graylog prometheus exporter user token.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/users/prometheus/tokens'
     method: 'GET'
@@ -69,7 +69,7 @@
   register: graylog_exporter_user_token
   no_log: true
 
-- name: Check register client are accessible from current host
+- name: Check register client are accessible from current host.
   uri:
     url: '{{ consul_public_http_prot }}://{{ item }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'GET'
@@ -82,7 +82,7 @@
   failed_when: false
   register: check_consul_reg
 
-- name: Register exporter service with an http health check
+- name: Register exporter service with an http health check.
   uri:
     url: '{{ consul_public_http_prot }}://{{ item.client }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'PUT'

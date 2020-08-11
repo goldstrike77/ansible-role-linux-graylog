@@ -1,5 +1,5 @@
 ---
-- name: Query Graylog exists Lookup Table
+- name: Query Graylog exists Lookup Table.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/adapters'
     method: 'GET'
@@ -19,7 +19,7 @@
   delay: 10
   no_log: true
 
-- name: Geolocation database download
+- name: Geolocation database download.
   unarchive:
     src: "http://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=g0Am4t3Se4rpwSqg&suffix=tar.gz"
     dest: '/etc/graylog/server'
@@ -41,7 +41,7 @@
   failed_when: false
   when: "'geo-ip-data-adapter' not in ( graylog_current_lut_data_adapters | json_query('json.data_adapters[*].name') )"
 
-- name: Create a Geo IP Data Adapter and point it to the location
+- name: Create a Geo IP Data Adapter and point it to the location.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/adapters'
     method: 'POST'
@@ -67,7 +67,7 @@
     - "'geo-ip-data-adapter' not in ( graylog_current_lut_data_adapters | json_query('json.data_adapters[*].name') )"
   no_log: true
 
-- name: Create a Cache to make lookups faster
+- name: Create a Cache to make lookups faster.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/caches'
     method: 'POST'
@@ -93,7 +93,7 @@
     - "'geo-ip-data-adapter' not in ( graylog_current_lut_data_adapters | json_query('json.data_adapters[*].name') )"
   no_log: true
 
-- name: Create MaxMind City Lookup Table
+- name: Create MaxMind City Lookup Table.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/lookup/tables'
     method: 'POST'

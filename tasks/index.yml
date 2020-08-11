@@ -1,5 +1,5 @@
 ---
-- name: Apply the additional index mapping
+- name: Apply the additional index mapping.
   uri:
     url: '{% if graylog_elastic_auth | bool and graylog_elastic_https | bool %}https{% else %}http{% endif %}://{{ graylog_elastic_hosts[0] }}:{{ graylog_elastic_port_rest }}/_template/graylog-custom-mapping?pretty'
     method: 'PUT'
@@ -21,7 +21,7 @@
   delay: 2
   no_log: true
 
-- name: Manually rotating the active write index
+- name: Manually rotating the active write index.
   uri:
     url: '{% if graylog_https | bool %}https{% else %}http{% endif %}://{{ ansible_default_ipv4.address }}:{{ graylog_port_arg.api }}/api/system/deflector/cycle'
     method: 'POST'

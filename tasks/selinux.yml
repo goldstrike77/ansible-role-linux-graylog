@@ -1,27 +1,27 @@
 ---
-- name: 'Set graylog_selinux to false for default'
+- name: Set graylog_selinux to false for default.
   set_fact:
     graylog_selinux: '{{ false }}'
 
-- name: 'Get getenforce binary'
+- name: Get getenforce binary.
   stat:
     path: '/usr/sbin/getenforce'
   register: getenforce_bin
   become: yes
 
-- name: 'Collect getenforce output'
+- name: Collect getenforce output.
   command: getenforce
   register: sestatus
   when: 'getenforce_bin.stat.exists'
   changed_when: false
   become: yes
 
-- name: 'Set graylog_selinux to true if getenforce returns Enforcing or Permissive'
+- name: Set graylog_selinux to true if getenforce returns Enforcing or Permissive.
   set_fact:
     graylog_selinux: '{{ true }}'
   when: 'getenforce_bin.stat.exists and ("Enforcing" in sestatus.stdout or "Permissive" in sestatus.stdout)'
 
-- name: Allow Graylog to listen on service port
+- name: Allow Graylog to listen on service port.
   seport:
     ports: '{{ item.value }}'
     proto: 'tcp'
@@ -31,7 +31,7 @@
   when:
     - graylog_selinux | bool
 
-- name: Allow Graylog to listen on inputs port
+- name: Allow Graylog to listen on inputs port.
   seport:
     ports: '{{ item.port }}'
     proto: "{{ item.name.split(' ')[1] | lower }}"
@@ -42,7 +42,7 @@
     - graylog_selinux | bool
     - graylog_inputs_arg is defined
 
-- name: Allow Graylog to listen on Content Packs inputs port
+- name: Allow Graylog to listen on Content Packs inputs port.
   seport:
     ports: '{{ item.port }}'
     proto: "tcp"
@@ -53,7 +53,7 @@
     - graylog_selinux | bool
     - graylog_content_packs_arg is defined
 
-- name: Allow Graylog to listen on Content Packs inputs port
+- name: Allow Graylog to listen on Content Packs inputs port.
   seport:
     ports: '{{ item.port }}'
     proto: "udp"

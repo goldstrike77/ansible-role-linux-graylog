@@ -1,11 +1,11 @@
 ---
-- name: Gathering service facts
+- name: Gathering service facts.
   service_facts:
   register: services_state
 
-- name: Firewalld operation
+- name: Firewalld operation.
   block:
-    - name: Allow Graylog service port
+    - name: Allow Graylog service port.
       firewalld:
         port: '{{ item.value }}/tcp'
         zone: 'public'
@@ -13,7 +13,7 @@
         immediate: 'true'
         state: 'enabled'
       loop: '{{ graylog_port_arg | dict2items }}'
-    - name: Allow Graylog inputs port
+    - name: Allow Graylog inputs port.
       firewalld:
         port: "{{ item.port }}/{{ item.name.split(' ')[1] | lower }}"
         zone: 'public'
@@ -22,7 +22,7 @@
         state: 'enabled'
       loop: '{{ graylog_inputs_arg }}'
       when: graylog_inputs_arg is defined
-    - name: Allow Graylog Content Packs inputs port
+    - name: Allow Graylog Content Packs inputs port.
       firewalld:
         port: "{{ item.port }}/tcp"
         zone: 'public'
@@ -31,7 +31,7 @@
         state: 'enabled'
       loop: "{{ graylog_content_packs_arg }}"
       when: graylog_content_packs_arg is defined
-    - name: Allow Graylog Content Packs inputs port
+    - name: Allow Graylog Content Packs inputs port.
       firewalld:
         port: "{{ item.port }}/udp"
         zone: 'public'
@@ -40,4 +40,6 @@
         state: 'enabled'
       loop: "{{ graylog_content_packs_arg }}"
       when: graylog_content_packs_arg is defined
-  when: services_state.ansible_facts.services["firewalld.service"].state == 'running'
+  when:
+    - services_state.ansible_facts.services["firewalld.service"] is defined
+    - services_state.ansible_facts.services["firewalld.service"].state == 'running'
