@@ -250,10 +250,10 @@ There are some variables in vars/main.yml:
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    [syslog:vars]
-    graylog_cluster='syslog'
+    [siem:vars]
+    graylog_cluster='siem'
 
-    [syslog]
+    [siem]
     node01 ansible_host='192.168.1.10'
     node02 ansible_host='192.168.1.11'
     node03 ansible_host='192.168.1.12'
@@ -265,14 +265,14 @@ Including an example of how to use your role (for instance, with variables passe
 - hosts: all
   roles:
      - role: ansible-role-linux-graylog
-       graylog_cluster: 'syslog'
+       graylog_cluster: 'siem'
 ```
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`.
 
 ```yaml
-graylog_cluster: 'syslog'
+graylog_cluster: 'siem'
 graylog_heap_size: '1G'
 graylog_path: '/data'
 graylog_root_email: 'somebody@domain.com'
@@ -287,7 +287,7 @@ graylog_mongod_dept: false
 graylog_ngx_block_agents: false
 graylog_ngx_block_string: false
 graylog_ngx_compress: false
-graylog_ngx_domain: 'syslog.example.com'
+graylog_ngx_domain: 'siem.example.com'
 graylog_ngx_pagespeed: false
 graylog_ngx_port_http: '80'
 graylog_ngx_port_https: '443'
@@ -303,7 +303,7 @@ graylog_elastic_path: '/data'
 graylog_elastic_port_rest: '9200'
 graylog_elastic_user: 'elastic'
 graylog_elastic_pass: 'changeme'
-graylog_elastic_version: '6.8.10'
+graylog_elastic_version: '6.8.12'
 graylog_mongod_auth: true
 graylog_mongod_ssl: true
 graylog_mongod_encryption: false
@@ -340,7 +340,7 @@ graylog_mail_arg:
   transport_email_use_ssl: false
   transport_email_auth_username: 'somebody@example.com'
   transport_email_auth_password: 'changeme'
-  transport_email_subject_prefix: '[syslog]'
+  transport_email_subject_prefix: '[siem]'
   transport_email_from_email: 'do-not-reply@example.com'
   transport_email_web_interface_url: 'https://{{ graylog_ngx_domain }}'
 graylog_arg:

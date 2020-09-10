@@ -1,7 +1,7 @@
 ---
 # General parameters #
 graylog_is_install: false # A boolean value, whether install the Graylog.
-graylog_cluster: 'syslog' # Cluster name of servers that implements distribution performance.
+graylog_cluster: 'siem' # Cluster name of servers that implements distribution performance.
 graylog_heap_size: '1G' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_path: '/data' # This directory is used to store Graylog server state.
 graylog_https: true # A boolean value, whether Encrypting HTTP client communications.
@@ -12,15 +12,15 @@ graylog_root_timezone: 'Asia/Shanghai' # The time zone setting of the root user.
 graylog_version: '3.1' # Specify the Graylog version.
 
 # Role dependencies #
-graylog_elastic_dept: false # A boolean value, whether ElasticSearch use the same environment.
-graylog_mongod_dept: false # A boolean value, whether MongoDB database use the same environment.
-graylog_ngx_dept: false # A boolean value, whether proxy web interface and API traffic using NGinx.
+graylog_elastic_dept: true # A boolean value, whether ElasticSearch use the same environment.
+graylog_mongod_dept: true # A boolean value, whether MongoDB database use the same environment.
+graylog_ngx_dept: true # A boolean value, whether proxy web interface and API traffic using NGinx.
 
 # NGinx parameters #
 graylog_ngx_block_agents: true # Enables or disables block unsafe User Agents.
 graylog_ngx_block_string: true # Enables or disables block includes Exploits / File injections / Spam / SQL injections.
 graylog_ngx_compress: true # Enables or disables compression.
-#graylog_ngx_domain: 'syslog.example.com' # Defines domain name.
+#graylog_ngx_domain: 'siem.example.com' # Defines domain name.
 graylog_ngx_pagespeed: false # Enables or disables pagespeed modules.
 graylog_ngx_port_http: '80' # NGinx HTTP listen port.
 graylog_ngx_port_https: '443' # NGinx HTTPs listen port.
@@ -36,7 +36,7 @@ graylog_elastic_pass: 'changeme' # Elasticsearch authenticated password.
 graylog_elastic_path: '{{ graylog_path }}' # Specify the ElasticSearch data directory.
 graylog_elastic_port_rest: '9200' # Elasticsearch REST port.
 graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
-graylog_elastic_version: '6.8.10' # Specify the Elasticsearch version.
+graylog_elastic_version: '6.8.12' # Specify the Elasticsearch version.
 graylog_elastic_heap_size: '2g' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_elastic_memory_lock: false # A boolean value, whether lock the process address space into memory on startup.
 
@@ -59,13 +59,18 @@ graylog_mongod_backupset_arg:
   keep: '7' # Backup retention cycle in days.
   encryptkey: 'Yf3ejyv4kjZf' # BackupSet encryption key, Decrypt by [openssl aes-256-cbc -d -k passwd -salt -in file.tar.gz | tar xzvfP -].
   cloud_rsync: false # Whether rsync for cloud storage.
-  cloud_drive: 'azureblob' # Specify the cloud storage providers.
+  cloud_drive: 'azureblob' # Specify the cloud storage providers, azureblob / s3 for minio.
   cloud_bwlimit: '10M' # Controls the bandwidth limit.
   cloud_event: 'sync' # Define transfer events.
   cloud_config: # Specify the cloud storage configuration.
+# azureblob #
     account: 'blobuser' # Storage Account Name.
     key: 'base64encodedkey==' # Storage Account Key.
     endpoint: 'blob.core.chinacloudapi.cn' # Endpoint for the service.
+# s3 #
+#    access_key: 'JPTNJFUFB6UKLUXMRKZT'
+#    secret_key: 'h9KekbhETGC1UNMcbSrWZCOrBgopdgNJWIeAo28i'
+#    endpoint: 'https://storage-production-other-minio.service.dc01.local:9001'
 
 # Listen port #
 graylog_port_arg:
@@ -81,7 +86,7 @@ graylog_mail_arg:
   transport_email_use_ssl: false # Enable SMTP over SSL (SMTPS) for encrypted connections.
   transport_email_auth_username: 'somebody@example.com' # The SMTP clients AUTH username.
   transport_email_auth_password: 'changeme' # The SMTP clients AUTH password.
-  transport_email_subject_prefix: '[syslog]' # Email subject line.
+  transport_email_subject_prefix: '[siem]' # Email subject line.
   transport_email_from_email: 'do-not-reply@example.com' # Specifies the e-mail address of the sender.
   transport_email_web_interface_url: 'https://{% if graylog_ngx_domain is defined %}{{ graylog_ngx_domain }}{% else %}{{ ansible_default_ipv4.address }}{% endif %}' # Specify this if you want to include links in alert mails.
 
