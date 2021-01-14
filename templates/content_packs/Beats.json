@@ -2,8 +2,8 @@
   "v": 1,
   "id": "063bd2d0-df0b-459a-a07b-6e7689fe15f5",
   "rev": 1,
-  "name": "Auditbeat",
-  "summary": "Auditing user and process activity on your Linux servers.",
+  "name": "Beats",
+  "summary": "The Beats are lightweight data shippers",
   "description": "",
   "vendor": "Elasticsearch",
   "url": "",
@@ -19,7 +19,7 @@
       "data": {
         "title": {
           "@type": "string",
-          "@value": "Auditbeat"
+          "@value": "Beats"
         },
         "configuration": {
           "tls_key_file": {
@@ -105,7 +105,7 @@
         },
         "title": {
           "@type": "string",
-          "@value": "Auditbeat"
+          "@value": "Beats"
         },
         "stream_rules": [
           {
@@ -142,7 +142,7 @@
         },
         "description": {
           "@type": "string",
-          "@value": "Auditing user and process activity on your Linux servers."
+          "@value": "The Beats are lightweight data shippers."
         },
         "default_stream": {
           "@type": "boolean",

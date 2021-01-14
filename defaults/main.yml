@@ -19,13 +19,9 @@ graylog_ngx_dept: true # A boolean value, whether proxy web interface and API tr
 # NGinx parameters #
 graylog_ngx_block_agents: true # Enables or disables block unsafe User Agents.
 graylog_ngx_block_string: true # Enables or disables block includes Exploits / File injections / Spam / SQL injections.
-graylog_ngx_compress: true # Enables or disables compression.
 #graylog_ngx_domain: 'siem.example.com' # Defines domain name.
-graylog_ngx_pagespeed: false # Enables or disables pagespeed modules.
 graylog_ngx_port_http: '80' # NGinx HTTP listen port.
 graylog_ngx_port_https: '443' # NGinx HTTPs listen port.
-graylog_ngx_ssl_protocols: 'modern' # intermediate or modern, defines SSL protocol profile.
-graylog_ngx_version: 'standard' # extras or standard
 
 # Elastic parameters #
 graylog_elastic_auth: true # A boolean value, Enable or Disable Elasticsearch authentication.
@@ -36,7 +32,7 @@ graylog_elastic_pass: 'changeme' # Elasticsearch authenticated password.
 graylog_elastic_path: '{{ graylog_path }}' # Specify the ElasticSearch data directory.
 graylog_elastic_port_rest: '9200' # Elasticsearch REST port.
 graylog_elastic_user: 'elastic' # Elasticsearch authenticated user.
-graylog_elastic_version: '6.8.12' # Specify the Elasticsearch version.
+graylog_elastic_version: '6.8.13' # Specify the Elasticsearch version.
 graylog_elastic_heap_size: '2g' # Specify the maximum memory allocation pool for a Java virtual machine.
 graylog_elastic_memory_lock: false # A boolean value, whether lock the process address space into memory on startup.
 
@@ -114,7 +110,7 @@ graylog_arg:
   message_journal_flush_age: '1m' # Specify a time interval at which we will force an fsync of data written to the log.
   message_journal_flush_interval: '1000000' # Specify an interval at which we will force an fsync of data written to the log.
   message_journal_max_age: '24h' # The maximum hours for journal hold messages before they could be written.
-  message_journal_max_size: '30gb' # # The maximum size for journal hold messages before they could be written.
+  message_journal_max_size: '50gb' # # The maximum size for journal hold messages before they could be written.
   message_journal_segment_age: '1h' # Controls the period of time which Graylog will force the log to roll even
   message_journal_segment_size: '200mb' # The segment size of message journal.
   mongod_max_connections: '1000' # The maximum connections your MongoDB server can handle from a single client.
@@ -165,7 +161,7 @@ graylog_inputs_arg: # Define the global common inputs parameters.
 graylog_content_packs_arg: # Define the Content Packs parameters.
   - name: 'NGinx'
     port: '12301-12302'
-  - name: 'Auditbeat'
+  - name: 'Beats'
     port: '5044'
   - name: 'GELF_Collection'
     port: '12201'
@@ -178,9 +174,10 @@ graylog_indexes_arg: # Define the customer index parameters.
       durability: 'async'
 
 # Service Mesh #
-environments: 'Development' # Define the service environment.
+environments: 'prd' # Define the service environment.
 datacenter: 'dc01' # Define the DataCenter.
 domain: 'local' # Define the Domain.
+customer: 'demo' # Define the customer name.
 #tags: # Define the service custom label.
 #  subscription: 'default'
 #  owner: 'nobody'

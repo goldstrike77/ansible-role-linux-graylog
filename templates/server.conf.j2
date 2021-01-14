@@ -652,3 +652,6 @@ disable_sigar = {{ graylog_arg.disable_sigar | bool | to_json }}
 proxied_requests_thread_pool_size = 32
 
 versionchecks = {{ graylog_arg.versionchecks | bool | to_json }}
+{% if graylog_version.split('.')[0] == "4" %}
+elasticsearch_version = {{ graylog_elastic_version.split('.')[0] }}
+{% endif %}

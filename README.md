@@ -1,8 +1,8 @@
 ![](https://img.shields.io/badge/Ansible-graylog-green.svg?logo=angular&style=for-the-badge)
 
->__Please note that the original design goal of this role was more concerned with the initial installation and bootstrapping environment, which currently does not involve performing continuous maintenance, and therefore are only suitable for testing and development purposes,  should not be used in production environments.__
+>__Please note that the original design goal of this role was more concerned with the initial installation and bootstrapping environment, which currently does not involve performing continuous maintenance, and therefore are only suitable for testing and development purposes,  should not be used in production environments. The author does not guarantee the accuracy, completeness, reliability, and availability of the role content. Under no circumstances will the author be held responsible or liable in any way for any claims, damages, losses, expenses, costs or liabilities whatsoever, including, without limitation, any direct or indirect damages for loss of profits, business interruption or loss of information.__
 
->__请注意，此角色的最初设计目标更关注初始安装和引导环境，目前不涉及执行连续维护，因此仅适用于测试和开发目的，不应在生产环境中使用。__
+>__请注意，此角色的最初设计目标更关注初始安装和引导环境，目前不涉及执行连续维护，因此仅适用于测试和开发目的，不应在生产环境中使用。作者不对角色内容之准确性、完整性、可靠性、可用性做保证。在任何情况下，作者均不对任何索赔，损害，损失，费用，成本或负债承担任何责任，包括但不限于因利润损失，业务中断或信息丢失而造成的任何直接或间接损害。__
 ___
 
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/logo/logo_graylog.png" align="right" /></p>
@@ -15,7 +15,7 @@ __Table of Contents__
   * [Log Management Comparison](#log-management-comparison)
 - [Requirements](#requirements)
   * [Operating systems](#operating-systems)
-  * [Graylog Versions](#graylog-versions)
+  * [Versions](#versions)
 - [ Role variables](#Role-variables)
   * [Main Configuration](#Main-parameters)
   * [Other Configuration](#Other-parameters)
@@ -64,11 +64,11 @@ This Ansible role installs Graylog on linux operating system, including establis
 
   * CentOS 7
 
-### Graylog versions
+### Versions
 
 The following list of supported the graylog releases:
 
-  * Graylog 3.0+
+  * 3.x, 4.x
 
 ## Role variables
 ### Main parameters #
@@ -92,14 +92,10 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### NGinx parameters
 * `graylog_ngx_domain`: Defines domain name.
-* `graylog_ngx_version`: extras or standard.
 * `graylog_ngx_port_http`: NGinx HTTP listen port.
 * `graylog_ngx_port_https`: NGinx HTTPs listen port.
-* `graylog_ngx_compress`: Enables or disables compression.
-* `graylog_ngx_pagespeed`: Enables or disables pagespeed modules.
 * `graylog_ngx_block_agents`: Enables or disables block unsafe User Agents.
 * `graylog_ngx_block_string`: Enables or disables block includes Exploits / File injections / Spam / SQL injections.
-* `graylog_ngx_ssl_protocols`: intermediate or modern, defines SSL protocol profile.
 
 ##### Elasticseach connection parameters
 * `graylog_elastic_auth`: A boolean value, Enable or Disable Elasticsearch authentication.
@@ -226,6 +222,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `environments`: Define the service environment.
 * `datacenter`: Define the DataCenter.
 * `domain`: Define the Domain.
+* `customer`: Define the customer name.
 * `tags`: Define the service custom label.
 * `exporter_is_install`: Whether to install prometheus exporter.
 * `consul_public_register`: Whether register a exporter service with public consul client.
@@ -286,13 +283,9 @@ graylog_elastic_dept: false
 graylog_mongod_dept: false
 graylog_ngx_block_agents: false
 graylog_ngx_block_string: false
-graylog_ngx_compress: false
 graylog_ngx_domain: 'siem.example.com'
-graylog_ngx_pagespeed: false
 graylog_ngx_port_http: '80'
 graylog_ngx_port_https: '443'
-graylog_ngx_ssl_protocols: 'modern'
-graylog_ngx_version: 'extras'
 graylog_elastic_auth: true
 graylog_elastic_https: true
 graylog_elastic_cluster: 'graylog'
@@ -303,7 +296,7 @@ graylog_elastic_path: '/data'
 graylog_elastic_port_rest: '9200'
 graylog_elastic_user: 'elastic'
 graylog_elastic_pass: 'changeme'
-graylog_elastic_version: '6.8.12'
+graylog_elastic_version: '6.8.13'
 graylog_mongod_auth: true
 graylog_mongod_ssl: true
 graylog_mongod_encryption: false
@@ -416,9 +409,10 @@ graylog_indexes_arg:
     translog:
       sync_interval: '30s'
       durability: 'async'
-environments: 'Development'
+environments: 'prd'
 datacenter: 'dc01'
 domain: 'local'
+customer: 'demo'
 tags:
   subscription: 'default'
   owner: 'nobody'

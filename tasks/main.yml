@@ -2,14 +2,12 @@
 - name: Sets MongoDB node variables for Cluster.
   set_fact:
     graylog_mongod_hosts: '{{ mongod_servers }}'
-  when:
-    - graylog_mongod_dept | bool
+  when: graylog_mongod_dept | bool
 
 - name: Sets ElasticSearch node variables for Cluster.
   set_fact:
     graylog_elastic_hosts: '{{ elastic_servers }}'
-  when:
-    - graylog_elastic_dept | bool
+  when: graylog_elastic_dept | bool
 
 - name: Include tasks for specific OS.
   include: '{{ ansible_os_family }}.yml'

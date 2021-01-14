@@ -43,8 +43,10 @@
     mode: '0644'
   register: status
   until: status is succeeded
-  retries: 3
+  retries: 2
   delay: 5
+  changed_when: false
+  failed_when: false
 
 - name: Graylog server configuration.
   template:
