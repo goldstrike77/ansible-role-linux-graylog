@@ -23,7 +23,7 @@
     method: 'POST'
     user: '{{ graylog_root_user }}'
     password: '{{ graylog_root_pass }}'
-    body: '{"username":"prometheus","password":"password","email":"prometheus@domain.com","full_name":"prometheus","permissions":["users:read:prometheus","clusterconfigentry:read","indexercluster:read","messagecount:read","journal:read","messages:analyze","inputs:read","metrics:read","savedsearches:read","fieldnames:read","buffers:read","system:read","jvmstats:read","decorators:read","throughput:read","savedsearches:read","messages:read"],"timezone":"Asia/Shanghai","session_timeout_ms":3600000,"startpage":null,"roles":["Reader"]}'
+    body: '{"username":"prometheus","password":"tj@VH9ECytRF","email":"prometheus@domain.com","full_name":"prometheus","permissions":["users:read:prometheus","clusterconfigentry:read","indexercluster:read","messagecount:read","journal:read","messages:analyze","inputs:read","metrics:read","savedsearches:read","fieldnames:read","buffers:read","system:read","jvmstats:read","decorators:read","throughput:read","savedsearches:read","messages:read"],"timezone":"Asia/Shanghai","session_timeout_ms":3600000,"startpage":null,"roles":["Reader"]}'
     force_basic_auth: 'yes'
     status_code: '201'
     validate_certs: 'no'
