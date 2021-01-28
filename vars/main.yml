@@ -26,5 +26,5 @@ graylog_cert_path: '/etc/graylog/server/ssl'
 graylog_pypi_url: 'pypi.tuna.tsinghua.edu.cn'
 
 graylog_python_dependent_packages:
-  - 'pip'
+  - 'pip==20.3.4'
   - 'cryptography'
