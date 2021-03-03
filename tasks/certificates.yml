@@ -3,7 +3,7 @@
   pip:
     name: '{{ graylog_python_dependent_packages }}'
     state: 'forcereinstall'
-    extra_args: '--default-timeout=120 --ignore-installed -i https://{{ graylog_pypi_url }}/simple --trusted-host {{ graylog_pypi_url }}'
+    extra_args: '--default-timeout=120 -i https://{{ graylog_pypi_url }}/simple --trusted-host {{ graylog_pypi_url }}'
   register: graylog_python_status
   until: graylog_python_status is succeeded
   retries: 5
